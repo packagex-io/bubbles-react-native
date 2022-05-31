@@ -13,6 +13,8 @@
     "prestorybook": "rnstl"
   },
   "dependencies": {
+    "@callstack/react-theme-provider": "^3.0.7",
+    "color": "^4.2.3",
     "react": "17.0.2",
     "react-native": "0.68.2"
   },
