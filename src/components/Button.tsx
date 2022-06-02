@@ -10,32 +10,38 @@ import {
 import color from 'color';
 
 import ActivityIndicator from './ActivityIndicator';
-// import Surface from './Surface';
+// import Icon, { IconSource } from './Icon';
+import Surface from './Surface';
 import Text from './Text';
+import TouchableRipple from './TouchableRipple/TouchableRipple';
 import { black, white } from '../styles/colors';
 import { withTheme } from '../core/theming';
 
-type Props = {
+type Props = React.ComponentProps<typeof Surface> & {
   /**
-   * Whether the color is a dark color. A dark button will render light text and vice-versa.
+   * Mode of the button. You can change the mode to adjust the styling to give it desired emphasis.
+   * - `text` - flat button without background or outline (low emphasis)
+   * - `outlined` - button with an outline (medium emphasis)
+   * - `contained` - button with a background color and elevation shadow (high emphasis)
    */
-  dark?: boolean;
+  mode?: 'outlined' | 'contained';
+
   /**
    * Use a compact look, useful for `text` buttons in a row.
    */
   compact?: boolean;
   /**
-   * Use a compact look, useful for `text` buttons in a row.
-   */
-  wide?: boolean;
-  /**
-   * Pass true if you want the button to take the full width of it's parent container.
+   * Custom text color for flat button, or background color for contained button.
    */
   color?: string;
   /**
    * Whether to show a loading indicator.
    */
   loading?: boolean;
+  // /**
+  //  * Icon to display for the `Button`.
+  //  */
+  // icon?: IconSource;
   /**
    * Whether the button is disabled. A disabled button is greyed out and `onPress` is not called on touch.
    */
@@ -52,10 +58,6 @@ type Props = {
    * Accessibility hint for the button. This is read by the screen reader when the user taps the button.
    */
   accessibilityHint?: string;
-  /**
-   * The top margin in rem values.
-   */
-  mt?: number;
   /**
    * Function to execute on press.
    */
@@ -77,11 +79,15 @@ type Props = {
   /**
    * @optional
    */
-  theme: ProjectX.Theme;
+  theme: PackageX.Theme;
   /**
    * testID to be used on tests.
    */
   testID?: string;
+  /**
+   * The top margin in point values.
+   */
+  mt?: number;
 };
 
 /**
@@ -119,8 +125,9 @@ type Props = {
 const Button = ({
   disabled,
   compact,
-  dark,
+  mode = 'contained',
   loading,
+  // icon,
   color: buttonColor,
   children,
   accessibilityLabel,
@@ -132,12 +139,38 @@ const Button = ({
   contentStyle,
   labelStyle,
   testID,
-  wide,
+  accessible,
+  mt = 0,
   ...rest
 }: Props) => {
-  const handlePressIn = () => {};
+  const { current: elevation } = React.useRef<Animated.Value>(
+    new Animated.Value(disabled || mode !== 'contained' ? 0 : 2)
+  );
+  React.useEffect(() => {
+    elevation.setValue(disabled || mode !== 'contained' ? 0 : 2);
+  }, [mode, elevation, disabled]);
 
-  const handlePressOut = () => {};
+  const handlePressIn = () => {
+    if (mode === 'contained') {
+      const { scale } = theme.animation;
+      Animated.timing(elevation, {
+        toValue: 8,
+        duration: 200 * scale,
+        useNativeDriver: true,
+      }).start();
+    }
+  };
+
+  const handlePressOut = () => {
+    if (mode === 'contained') {
+      const { scale } = theme.animation;
+      Animated.timing(elevation, {
+        toValue: 2,
+        duration: 150 * scale,
+        useNativeDriver: true,
+      }).start();
+    }
+  };
 
   const { colors, roundness } = theme;
   const font = theme.fonts.medium;
@@ -147,45 +180,49 @@ const Button = ({
     textColor: string,
     borderWidth: number;
 
-  if (disabled) {
-    backgroundColor = color(theme.dark ? white : black)
-      .alpha(0.12)
-      .rgb()
-      .string();
-  } else if (buttonColor) {
-    backgroundColor = buttonColor;
-  } else {
-    backgroundColor = colors.primary;
-  }
-
-  borderColor = 'transparent';
-  borderWidth = 0;
-
-  if (disabled) {
-    textColor = color(theme.dark ? white : black)
-      .alpha(0.32)
-      .rgb()
-      .string();
-  } else {
-    let isDark;
-
-    if (typeof dark === 'boolean') {
-      isDark = dark;
+  if (mode === 'contained') {
+    if (disabled) {
+      backgroundColor = color(theme.dark ? white : black)
+        .alpha(0.12)
+        .rgb()
+        .string();
+    } else if (buttonColor) {
+      backgroundColor = buttonColor;
     } else {
-      isDark =
-        backgroundColor === 'transparent'
-          ? false
-          : !color(backgroundColor).isLight();
+      backgroundColor = theme.colors.primary;
     }
-
-    textColor = isDark ? white : black;
+  } else {
+    backgroundColor = 'transparent';
   }
 
+  if (mode === 'outlined') {
+    borderColor = buttonColor ? buttonColor : theme.colors.primary;
+    borderWidth = 3;
+  } else {
+    borderColor = 'transparent';
+    borderWidth = 0;
+  }
+
+  if (mode === 'contained') {
+    textColor = white;
+  } else if (buttonColor) {
+    textColor = buttonColor;
+  } else {
+    textColor = theme.colors.primary;
+  }
+
+  const rippleColor = color(textColor).alpha(0.32).rgb().string();
   const buttonStyle = {
     backgroundColor,
     borderColor,
     borderWidth,
     borderRadius: roundness,
+  };
+  const touchableStyle = {
+    borderRadius: style
+      ? ((StyleSheet.flatten(style) || {}) as ViewStyle).borderRadius ||
+        roundness
+      : roundness,
   };
 
   const { color: customLabelColor, fontSize: customLabelSize } =
@@ -198,41 +235,86 @@ const Button = ({
       : styles.icon;
 
   return (
-    <View
-      style={[wide && styles.wide, styles.content, contentStyle, buttonStyle]}
+    <Surface
+      {...rest}
+      style={[
+        styles.button,
+        compact && styles.compact,
+        { elevation },
+        buttonStyle,
+        style,
+        { marginTop: mt },
+      ]}
     >
-      {loading ? (
-        <ActivityIndicator
-          size={customLabelSize ?? 16}
-          color={
-            typeof customLabelColor === 'string' ? customLabelColor : textColor
-          }
-          style={iconStyle}
-        />
-      ) : null}
-      <Text
-        selectable={false}
-        numberOfLines={1}
-        style={[
-          styles.label,
-          compact && styles.compactLabel,
-          textStyle,
-          font,
-          labelStyle,
-        ]}
+      <TouchableRipple
+        borderless
+        delayPressIn={0}
+        onPress={onPress}
+        onLongPress={onLongPress}
+        onPressIn={handlePressIn}
+        onPressOut={handlePressOut}
+        accessibilityLabel={accessibilityLabel}
+        accessibilityHint={accessibilityHint}
+        // @ts-expect-error We keep old a11y props for backwards compat with old RN versions
+        accessibilityTraits={disabled ? ['button', 'disabled'] : 'button'}
+        accessibilityComponentType="button"
+        accessibilityRole="button"
+        accessibilityState={{ disabled }}
+        accessible={accessible}
+        disabled={disabled}
+        rippleColor={rippleColor}
+        style={touchableStyle}
+        testID={testID}
       >
-        {children}
-      </Text>
-    </View>
+        <View style={[styles.content, contentStyle]}>
+          {/* {icon && loading !== true ? (
+            <View style={iconStyle}>
+              <Icon
+                source={icon}
+                size={customLabelSize ?? 16}
+                color={
+                  typeof customLabelColor === 'string'
+                    ? customLabelColor
+                    : textColor
+                }
+              />
+            </View>
+          ) : null} */}
+          {loading ? (
+            <ActivityIndicator
+              size={customLabelSize ?? 16}
+              color={
+                typeof customLabelColor === 'string'
+                  ? customLabelColor
+                  : textColor
+              }
+              style={iconStyle}
+            />
+          ) : null}
+          <Text
+            selectable={false}
+            numberOfLines={1}
+            style={[
+              styles.label,
+              compact && styles.compactLabel,
+              textStyle,
+              font,
+              labelStyle,
+            ]}
+          >
+            {children}
+          </Text>
+        </View>
+      </TouchableRipple>
+    </Surface>
   );
 };
 
 const styles = StyleSheet.create({
   button: {
-    minWidth: 64,
+    // minWidth: 64,
     borderStyle: 'solid',
   },
-  wide: { width: '100%' },
   compact: {
     minWidth: 'auto',
   },
@@ -252,8 +334,8 @@ const styles = StyleSheet.create({
   label: {
     textAlign: 'center',
     letterSpacing: 1,
-    marginVertical: 9,
-    marginHorizontal: 16,
+    marginVertical: 16,
+    marginHorizontal: 24,
   },
   compactLabel: {
     marginHorizontal: 8,

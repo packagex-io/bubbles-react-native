@@ -31,6 +31,7 @@
     "@storybook/react-native": "^5.3.25",
     "@storybook/react-native-server": "^5.3.23",
     "@types/jest": "^26.0.23",
+    "@types/react-dom": "^18.0.5",
     "@types/react-native": "^0.67.3",
     "@types/react-test-renderer": "^17.0.1",
     "@typescript-eslint/eslint-plugin": "^5.17.0",
@@ -59,5 +60,14 @@
       "json",
       "node"
     ]
+  },
+  "config": {
+    "react-native-storybook-loader": {
+      "searchDir": [
+        "./storybook/stories"
+      ],
+      "pattern": "**/*.stories.js",
+      "outputFile": "./storybook/storyLoader.js"
+    }
   }
 }

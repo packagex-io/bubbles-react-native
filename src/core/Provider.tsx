@@ -15,7 +15,7 @@ import { addEventListener } from '../utils/addEventListener';
 
 type Props = {
   children: React.ReactNode;
-  theme?: ProjectX.Theme;
+  theme?: PackageX.Theme;
   settings?: Settings;
 };
 
@@ -78,7 +78,7 @@ const Provider = ({ ...props }: Props) => {
     } else {
       const theme = (
         colorScheme === 'dark' ? DarkTheme : DefaultTheme
-      ) as ProjectX.Theme;
+      ) as PackageX.Theme;
 
       return {
         ...theme,

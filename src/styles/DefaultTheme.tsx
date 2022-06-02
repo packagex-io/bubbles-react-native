@@ -5,13 +5,20 @@ import type { Theme } from '../types';
 
 const DefaultTheme: Theme = {
   dark: false,
-  roundness: 4,
+  roundness: 16,
   colors: {
-    primary: '#6200ee',
+    primary: '#6C5DD3',
+    secondary: '#FF98E5',
+    error: '#FF6628',
+    warning: '#FF9F38',
+    success: '#4FBF67',
+    info: '#355DFF',
+    gray: '#808191',
+    dark: '#1B1D21',
+
     accent: '#03dac4',
     background: '#f6f6f6',
     surface: white,
-    error: '#B00020',
     text: black,
     onSurface: '#000000',
     disabled: color(black).alpha(0.26).rgb().string(),

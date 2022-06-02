@@ -1,13 +1,14 @@
 import * as React from 'react';
 import {
-  Text as NativeText,
+  Animated,
   TextStyle,
+  I18nManager,
   StyleProp,
   StyleSheet,
 } from 'react-native';
-import { withTheme } from '../core/theming';
+import { withTheme } from '../../core/theming';
 
-type Props = React.ComponentProps<typeof NativeText> & {
+type Props = React.ComponentPropsWithRef<typeof Animated.Text> & {
   style?: StyleProp<TextStyle>;
   /**
    * @optional
@@ -15,38 +16,29 @@ type Props = React.ComponentProps<typeof NativeText> & {
   theme: PackageX.Theme;
 };
 
-// @component-group Typography
-
 /**
  * Text component which follows styles from the theme.
  *
  * @extends Text props https://reactnative.dev/docs/text#props
  */
-const Text: React.RefForwardingComponent<{}, Props> = (
-  { style, theme, ...rest }: Props,
-  ref
-) => {
-  const root = React.useRef<NativeText | null>(null);
-
-  React.useImperativeHandle(ref, () => ({
-    setNativeProps: (args: Object) => root.current?.setNativeProps(args),
-  }));
+function AnimatedText({ style, theme, ...rest }: Props) {
+  const writingDirection = I18nManager.isRTL ? 'rtl' : 'ltr';
 
   return (
-    <NativeText
+    <Animated.Text
       {...rest}
-      ref={root}
       style={[
+        styles.text,
         {
           ...theme.fonts.regular,
           color: theme.colors.text,
+          writingDirection,
         },
-        styles.text,
         style,
       ]}
     />
   );
-};
+}
 
 const styles = StyleSheet.create({
   text: {
@@ -54,4 +46,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withTheme(React.forwardRef(Text));
+export default withTheme(AnimatedText);

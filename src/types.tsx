@@ -31,10 +31,17 @@ export type Theme = {
   roundness: number;
   colors: {
     primary: string;
+    secondary: string;
+    error: string;
+    warning: string;
+    success: string;
+    info: string;
+    gray: string;
+    dark: string;
+
     background: string;
     surface: string;
     accent: string;
-    error: string;
     text: string;
     onSurface: string;
     disabled: string;
@@ -57,7 +64,7 @@ export type $RemoveChildren<T extends React.ComponentType<any>> = $Omit<
 export type EllipsizeProp = 'head' | 'middle' | 'tail' | 'clip';
 
 declare global {
-  namespace ProjectX {
+  namespace PackageX {
     interface ThemeFont {
       fontFamily: string;
       fontWeight?:
