@@ -5,7 +5,7 @@ import AnimatedText from '../../Typography/AnimatedText';
 import type { InputLabelProps } from '../types';
 
 const InputLabel = (props: InputLabelProps) => {
-  const { parentState, labelBackground } = props;
+  const { parentState } = props;
 
   const {
     label,
@@ -91,12 +91,6 @@ const InputLabel = (props: InputLabelProps) => {
         labelTranslationX,
       ]}
     >
-      {labelBackground?.({
-        parentState,
-        labelStyle,
-        labelProps: props.labelProps,
-        maxFontSizeMultiplier: maxFontSizeMultiplier,
-      })}
       <AnimatedText
         onLayout={onLayoutAnimatedText}
         style={[
@@ -105,6 +99,7 @@ const InputLabel = (props: InputLabelProps) => {
             top: topPosition,
           },
           labelStyle,
+          {textTransform:'uppercase'},
           paddingOffset || {},
           {
             color: activeColor,
@@ -125,7 +120,7 @@ const InputLabel = (props: InputLabelProps) => {
           {
             top: topPosition,
           },
-          labelStyle,
+          labelStyle,{textTransform:'uppercase'},
           paddingOffset,
           {
             color: error && errorColor ? errorColor : placeholderColor,

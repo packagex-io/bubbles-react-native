@@ -11,7 +11,6 @@ import {
 import color from 'color';
 
 import InputLabel from './Label/InputLabel';
-import LabelBackground from './Label/LabelBackground';
 import type { RenderProps, ChildTextInputProps } from './types';
 
 import {
@@ -34,9 +33,9 @@ import {
 
 const OUTLINE_MINIMIZED_LABEL_Y_OFFSET = -6;
 const LABEL_PADDING_TOP = 8;
-const MIN_HEIGHT = 64;
+const MIN_HEIGHT = 80;
 const MIN_DENSE_HEIGHT = 48;
-const INPUT_PADDING_HORIZONTAL = 14;
+const INPUT_PADDING_HORIZONTAL = 22;
 
 const TextInputOutlined = ({
   disabled = false,
@@ -75,7 +74,7 @@ const TextInputOutlined = ({
     fontWeight,
     lineHeight,
     height,
-    backgroundColor = colors.background,
+    backgroundColor = colors.surface,
     textAlign,
     ...viewStyle
   } = (StyleSheet.flatten(style) || {}) as TextStyle;
@@ -219,7 +218,7 @@ const TextInputOutlined = ({
             parentState={parentState}
             labelProps={labelProps}
             maxFontSizeMultiplier={rest.maxFontSizeMultiplier}
-            labelBackground={LabelBackground}
+          
           />
           {render?.({
             testID: 'text-input-outlined',
@@ -255,7 +254,6 @@ const TextInputOutlined = ({
                   ? 'right'
                   : 'left',
               },
-              Platform.OS === 'web' && { outline: 'none' },
             ],
           } as RenderProps)}
         </View>

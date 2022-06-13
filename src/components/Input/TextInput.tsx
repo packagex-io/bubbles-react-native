@@ -9,6 +9,7 @@ import {
 import TextInputOutlined from './TextInputOutlined';
 import { withTheme } from '../../core/theming';
 import type { RenderProps, TextInputLabelProp } from './types';
+import color from 'color';
 
 const BLUR_ANIMATION_DURATION = 180;
 const FOCUS_ANIMATION_DURATION = 150;
@@ -375,6 +376,7 @@ const TextInput = React.forwardRef<TextInputHandles, TextInputProps>(
 
     return (
       <TextInputOutlined
+      outlineColor={color("#000").alpha(0).rgb().string()}
         dense={dense}
         disabled={disabled}
         error={errorProp}
