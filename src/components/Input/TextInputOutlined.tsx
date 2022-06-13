@@ -152,7 +152,7 @@ const TextInputOutlined = ({
   const paddingOut = adjustPaddingOut({ ...paddingSettings, pad });
 
   const baseLabelTranslateY =
-    -labelHalfHeight - (topPosition + OUTLINE_MINIMIZED_LABEL_Y_OFFSET);
+    -labelHalfHeight - (topPosition + OUTLINE_MINIMIZED_LABEL_Y_OFFSET)+24;
 
   const placeholderOpacity = hasActiveOutline
     ? interpolatePlaceholder(parentState.labeled, hasActiveOutline)
@@ -244,7 +244,8 @@ const TextInputOutlined = ({
               paddingOut,
               {
                 ...font,
-                fontSize,
+                fontSize:14,
+                top:2,
                 fontWeight,
                 color: inputTextColor,
                 textAlignVertical: multiline ? 'top' : 'center',
