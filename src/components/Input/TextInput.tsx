@@ -376,7 +376,7 @@ const TextInput = React.forwardRef<TextInputHandles, TextInputProps>(
 
     return (
       <TextInputOutlined
-      outlineColor={color("#000").alpha(0).rgb().string()}
+        outlineColor={color('#000').alpha(0).rgb().string()}
         dense={dense}
         disabled={disabled}
         error={errorProp}
@@ -406,6 +406,7 @@ const TextInput = React.forwardRef<TextInputHandles, TextInputProps>(
         onLeftAffixLayoutChange={onLeftAffixLayoutChange}
         onRightAffixLayoutChange={onRightAffixLayoutChange}
         maxFontSizeMultiplier={maxFontSizeMultiplier}
+        style={{ fontWeight: '600' }}
       />
     );
   }

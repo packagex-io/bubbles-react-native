@@ -22,7 +22,7 @@ const fontConfig = {
   },
   ios: {
     regular: {
-      fontFamily: 'System',
+      fontFamily: 'Inter, System',
       fontWeight: '400' as '400',
     },
     medium: {
@@ -40,11 +40,15 @@ const fontConfig = {
   },
   default: {
     regular: {
-      fontFamily: 'sans-serif',
+      fontFamily: 'Inter',
       fontWeight: 'normal' as 'normal',
     },
     medium: {
       fontFamily: 'sans-serif-medium',
+      fontWeight: 'normal' as 'normal',
+    },
+    semiBold: {
+      fontFamily: 'Inter-SemiBold',
       fontWeight: 'normal' as 'normal',
     },
     light: {

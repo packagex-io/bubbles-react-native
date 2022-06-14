@@ -37,6 +37,7 @@ class Welcome extends React.Component {
           style={{
             ...this.styles.header,
             color: this.props.theme.colors.primary,
+            fontFamily: 'Inter-SemiBold',
           }}
         >
           Welcome to React Native Storybook

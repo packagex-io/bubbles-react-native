@@ -82,6 +82,7 @@ declare global {
     }
     interface ThemeFonts {
       regular: ThemeFont;
+      semiBold: ThemeFont;
       medium: ThemeFont;
       light: ThemeFont;
       thin: ThemeFont;
