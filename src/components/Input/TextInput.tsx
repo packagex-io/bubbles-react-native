@@ -10,6 +10,8 @@ import TextInputOutlined from './TextInputOutlined';
 import { withTheme } from '../../core/theming';
 import type { RenderProps, TextInputLabelProp } from './types';
 import color from 'color';
+import TextInputCard from './TextInputCard';
+import { LABEL_PADDING_HORIZONTAL } from './constants';
 
 const BLUR_ANIMATION_DURATION = 180;
 const FOCUS_ANIMATION_DURATION = 150;
@@ -23,6 +25,10 @@ export type TextInputProps = React.ComponentPropsWithRef<
    * If true, user won't be able to interact with the component.
    */
   disabled?: boolean;
+  /**
+   * Specifies what input will be rendered from one of the choices.
+   */
+  type?: 'text' | 'textarea' | 'stripe-card';
   /**
    * The text or component to use for the floating label.
    */
@@ -120,11 +126,6 @@ export type TextInputProps = React.ComponentPropsWithRef<
   theme: PackageX.Theme;
 };
 
-interface CompoundedComponent
-  extends React.ForwardRefExoticComponent<
-    TextInputProps & React.RefAttributes<TextInputHandles>
-  > {}
-
 type TextInputHandles = Pick<
   NativeTextInput,
   'focus' | 'clear' | 'blur' | 'isFocused' | 'setNativeProps'
@@ -184,6 +185,7 @@ const TextInput = React.forwardRef<TextInputHandles, TextInputProps>(
       multiline = false,
       editable = true,
       render = (props: RenderProps) => <NativeTextInput {...props} />,
+      type = 'text',
       ...rest
     }: TextInputProps,
     ref
@@ -375,6 +377,41 @@ const TextInput = React.forwardRef<TextInputHandles, TextInputProps>(
 
     const { maxFontSizeMultiplier = 1.5 } = rest;
 
+    if (type === 'stripe-card') {
+      return (
+        <TextInputCard
+          outlineColor={color('#000').alpha(0).rgb().string()}
+          dense={dense}
+          disabled={disabled}
+          error={errorProp}
+          editable={editable}
+          {...rest}
+          value={value}
+          parentState={{
+            labeled,
+            error,
+            focused,
+            placeholder,
+            value,
+            labelLayout,
+            leftLayout,
+            rightLayout,
+          }}
+          innerRef={(ref) => {
+            root.current = ref;
+          }}
+          onFocus={handleFocus}
+          forceFocus={forceFocus}
+          onBlur={handleBlur}
+          onChangeText={handleChangeText}
+          onLayoutAnimatedText={handleLayoutAnimatedText}
+          onLeftAffixLayoutChange={onLeftAffixLayoutChange}
+          onRightAffixLayoutChange={onRightAffixLayoutChange}
+          maxFontSizeMultiplier={maxFontSizeMultiplier}
+        />
+      );
+    }
+
     return (
       <TextInputOutlined
         outlineColor={color('#000').alpha(0).rgb().string()}
@@ -411,6 +448,6 @@ const TextInput = React.forwardRef<TextInputHandles, TextInputProps>(
       />
     );
   }
-) as CompoundedComponent;
+);
 
 export default withTheme(TextInput);

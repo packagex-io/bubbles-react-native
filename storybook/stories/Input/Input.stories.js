@@ -2,7 +2,7 @@ import { action } from '@storybook/addon-actions';
 import { text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react-native';
 import React from 'react';
-import { Text, View } from 'react-native';
+import { KeyboardAvoidingView, Text, View } from 'react-native';
 import TextInput from '../../../src/components/Input/TextInput';
 import CenterView from '../CenterView';
 
@@ -13,7 +13,10 @@ const MyComponent = () => {
   );
 
   return (
-    <View style={{ width: '100%', padding: 16 }}>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{ width: '100%', padding: 16, flex: 1 }}
+    >
       <TextInput
         label="Full Name"
         value={text}
@@ -26,7 +29,8 @@ const MyComponent = () => {
         multiline
         numberOfLines={7}
       />
-    </View>
+      <TextInput label="Credit Card details" type="stripe-card" />
+    </KeyboardAvoidingView>
   );
 };
 
