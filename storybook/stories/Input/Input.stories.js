@@ -8,6 +8,9 @@ import CenterView from '../CenterView';
 
 const MyComponent = () => {
   const [text, setText] = React.useState('');
+  const [textArea, settextArea] = React.useState(
+    'Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor rhoncus dolor purus non enim'
+  );
 
   return (
     <View style={{ width: '100%', padding: 16 }}>
@@ -15,6 +18,13 @@ const MyComponent = () => {
         label="Full Name"
         value={text}
         onChangeText={(text) => setText(text)}
+      />
+      <TextInput
+        label="Textarea Input"
+        value={textArea}
+        onChangeText={(text) => settextArea(text)}
+        multiline
+        numberOfLines={7}
       />
     </View>
   );

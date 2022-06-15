@@ -297,6 +297,7 @@ const TextInput = React.forwardRef<TextInputHandles, TextInputProps>(
       // In minimized mode, the label moves up and becomes small
       // workaround for animated regression for react native > 0.61
       // https://github.com/callstack/react-native-paper/pull/1440
+      if (multiline) return;
       if (value || focused) {
         // minimize label
         Animated.timing(labeled, {

@@ -66,7 +66,7 @@ const TextInputOutlined = ({
   ...rest
 }: ChildTextInputProps) => {
   const { colors, fonts } = theme;
-  const font = fonts.regular;
+  const font = fonts.semiBold;
   const hasActiveOutline = parentState.focused || error;
 
   const {
@@ -119,11 +119,9 @@ const TextInputOutlined = ({
 
   const inputHeight = calculateInputHeight(labelHeight, height, minInputHeight);
 
-  const topPosition = calculateLabelTopPosition(
-    labelHeight,
-    inputHeight,
-    LABEL_PADDING_TOP
-  );
+  const topPosition = multiline
+    ? 24
+    : calculateLabelTopPosition(labelHeight, inputHeight, LABEL_PADDING_TOP);
 
   if (height && typeof height !== 'number') {
     // eslint-disable-next-line
@@ -241,10 +239,10 @@ const TextInputOutlined = ({
                 ? { height: inputHeight }
                 : {},
               paddingOut,
+              multiline ? { ...fonts.regular } : { ...font },
               {
-                ...font,
                 fontSize: 14,
-                top: 8,
+                top: multiline ? 28 : 8,
                 fontWeight,
                 color: inputTextColor,
                 textAlignVertical: multiline ? 'top' : 'center',
@@ -318,6 +316,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: INPUT_PADDING_HORIZONTAL,
     margin: 0,
     zIndex: 1,
+    lineHeight: 22,
   },
   inputOutlined: {
     paddingTop: 8,
