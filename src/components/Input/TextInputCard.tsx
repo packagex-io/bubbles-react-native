@@ -84,6 +84,14 @@ const TextInputCard = ({
     mask: Masks.CREDIT_CARD,
   });
 
+  const [cardCVC, setCardCVC] = React.useState('');
+  const CVCMask = [/\d/, /\d/, /\d/];
+  const maskedCardCVCInputProps = useMaskedInputProps({
+    value: cardCVC,
+    onChangeText: setCardCVC,
+    mask: CVCMask,
+  });
+
   const {
     fontSize: fontSizeStyle,
     fontWeight,
@@ -174,26 +182,34 @@ const TextInputCard = ({
     ],
   } as RenderProps;
 
-  const onChangeExpiration = (text: string) => {
-    console.log(text);
-    setcardExpiration(text);
-  };
   const CardNumber = {
     ...InputProps,
-    style: [...InputProps.style, { flexGrow: 2 }],
+    style: [...InputProps.style, { width: '60%' }],
     ...maskedCardNumberInputProps,
     placeholder: 'Card Number',
   };
   const CardExpiration = {
     ...InputProps,
-    style: [...InputProps.style, { flexGrow: 2, paddingRight: 0 }],
+    style: [
+      ...InputProps.style,
+      { paddingLeft: 0, paddingRight: 0, borderRadius: 0, width: '50%' },
+    ],
     ...maskedCardExpirationInputProps,
     placeholder: 'MM/YY',
   };
   const CardCVC = {
     ...InputProps,
+    ...maskedCardCVCInputProps,
     placeholder: 'CVC',
-    style: [...InputProps.style, { flexGrow: 1 }],
+    style: [
+      ...InputProps.style,
+      {
+        paddingLeft: 0,
+        paddingRight: 0,
+        borderRadius: 0,
+        width: '50%',
+      },
+    ],
   };
 
   return (
@@ -222,9 +238,9 @@ const TextInputCard = ({
 
         <View
           style={{
-            flexGrow: 0.1,
             flexDirection: 'row',
             justifyContent: 'flex-end',
+            width: '35%',
           }}
         >
           <NativeTextInput {...CardExpiration} />
@@ -238,7 +254,12 @@ const TextInputCard = ({
 export default TextInputCard;
 
 const styles = StyleSheet.create({
-  row: { flexDirection: 'row', justifyContent: 'space-between' },
+  row: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
   placeholder: {
     position: 'absolute',
     left: 0,
