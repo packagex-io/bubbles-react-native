@@ -6,12 +6,14 @@
 function loadStories() {
   require('./stories/Button/Button.stories');
   require('./stories/Input/Input.stories');
+  require('./stories/Select/Select.stories');
   require('./stories/Welcome/Welcome.stories');
 }
 
 const stories = [
   './stories/Button/Button.stories',
   './stories/Input/Input.stories',
+  './stories/Select/Select.stories',
   './stories/Welcome/Welcome.stories',
 ];
 
