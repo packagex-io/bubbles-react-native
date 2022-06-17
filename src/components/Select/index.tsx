@@ -8,13 +8,34 @@ import {
   View,
 } from 'react-native';
 import { withTheme } from '../../core/theming';
-import { black } from '../../styles/colors';
+import { black, transparent } from '../../styles/colors';
 import Surface from '../Surface';
 
 type Props = React.ComponentProps<typeof Surface> & {
+  /**
+   * The text to use for the floating label.
+   */
   label: string;
-  data: Array<{ label: string; value: string }>;
-  onSelect: (item: { label: string; value: string }) => void;
+  /**
+   * If true, user won't be able to interact with the component.
+   */
+  disabled?: boolean;
+  /**
+   * Whether to style the Select component with error style.
+   */
+  error?: boolean;
+  /**
+   * The options that are shown when the select menu is open
+   */
+  data: Array<{ label: string; value?: string; description?: string }>;
+  /**
+   * Callback when an option is selected by the user. The selected item is an object passed as an argument to the callback handler.
+   */
+  onSelect: (item: {
+    label: string;
+    value?: string;
+    description?: string;
+  }) => void;
   /**
    * @optional
    */
@@ -27,6 +48,7 @@ const Select: FC<Props> = ({ label, theme, onSelect, data }: Props) => {
 
   const DropdownButton = React.useRef();
   const [dropdownTop, setDropdownTop] = useState(0);
+  const [dropdownWidth, setDropdownWidth] = useState(0);
 
   const font = theme.fonts.semiBold;
 
@@ -37,6 +59,7 @@ const Select: FC<Props> = ({ label, theme, onSelect, data }: Props) => {
   const openDropdown = (): void => {
     DropdownButton.current.measure((_fx, _fy, _w, h, _px, py) => {
       setDropdownTop(py + h + 8);
+      setDropdownWidth(_w);
     });
     setVisible(true);
   };
@@ -49,17 +72,24 @@ const Select: FC<Props> = ({ label, theme, onSelect, data }: Props) => {
   };
 
   const renderItem = ({ item, index }) => (
-    <TouchableOpacity
-      style={
-        index == data.length - 1
-          ? { ...styles.item, borderBottomWidth: 0 }
-          : styles.item
-      }
-      onPress={() => onItemPress(item)}
-    >
-      <Text style={{ ...font, color: black }}>{item.label}</Text>
-      {item.description && <Text>{item.description}</Text>}
-    </TouchableOpacity>
+    <>
+      <TouchableOpacity style={[styles.item]} onPress={() => onItemPress(item)}>
+        <Text
+          style={[
+            { ...font },
+            selected?.label === item.label
+              ? { color: theme.colors.primary }
+              : { color: black },
+          ]}
+        >
+          {item.label}
+        </Text>
+        {item.description && <Text>{item.description}</Text>}
+      </TouchableOpacity>
+      {index !== data.length - 1 && (
+        <View pointerEvents="none" style={styles.divider} />
+      )}
+    </>
   );
 
   const renderDropdown = () => {
@@ -69,20 +99,30 @@ const Select: FC<Props> = ({ label, theme, onSelect, data }: Props) => {
           style={styles.overlay}
           onPress={() => setVisible(false)}
         >
-          <View style={[styles.dropdown, { top: dropdownTop }]}>
+          <Surface
+            style={[
+              styles.dropdown,
+              { top: dropdownTop, width: dropdownWidth },
+            ]}
+          >
             <FlatList
               data={data}
               renderItem={renderItem}
               keyExtractor={(item, index) => index.toString()}
             />
-          </View>
+          </Surface>
         </TouchableOpacity>
       </Modal>
     );
   };
 
   return (
-    <Surface style={{ width: '100%', borderRadius: 16 }}>
+    <Surface
+      style={[
+        { width: '100%', borderRadius: 16, ...styles.outline },
+        visible ? { borderColor: theme.colors.primary } : {},
+      ]}
+    >
       <TouchableOpacity
         style={styles.button}
         onPress={toggleDropdown}
@@ -102,27 +142,36 @@ const Select: FC<Props> = ({ label, theme, onSelect, data }: Props) => {
 };
 
 const styles = StyleSheet.create({
+  outline: {
+    borderWidth: 2,
+    borderColor: 'transparent',
+  },
   button: {
     flexDirection: 'row',
     alignItems: 'center',
     height: 80,
-    width: '90%',
+    width: '100%',
     paddingHorizontal: 22,
     zIndex: 1,
     borderRadius: 16,
+    position: 'relative',
   },
-  item: {
-    paddingHorizontal: 19,
-    marginVertical: 10,
+  divider: {
     borderBottomWidth: 1,
     borderStyle: 'solid',
     borderColor: '#CCCDD3',
-    height: 80,
+  },
+  item: {
+    paddingHorizontal: 19,
+
+    flex: 1,
+    height: 100,
     justifyContent: 'center',
   },
   overlay: {
     width: '100%',
     height: '100%',
+    alignItems: 'center',
   },
   label: {
     // flex: 1,
@@ -139,6 +188,8 @@ const styles = StyleSheet.create({
     height: 256,
     paddingVertical: 16,
     borderRadius: 16,
+    elevation: 24,
+    shadowColor: 'rgba(48, 49, 51, 0.4)',
   },
 });
 

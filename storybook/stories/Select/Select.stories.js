@@ -6,13 +6,13 @@ import {
   DarkTheme,
   DefaultTheme,
 } from '../../../src/index';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import Select from '../../../src/components/Select';
 import CenterView from '../CenterView';
 
 const data = [
   { label: 'One', value: '1', description: 'This is some description' },
-  { label: 'Two', value: '2' },
+  { label: 'Two', value: '2', description: 'More description' },
   { label: 'Three', value: '3' },
   { label: 'Four', value: '4' },
   { label: 'Five', value: '5' },
@@ -23,12 +23,21 @@ const SelectComponent = () => {
 
   return (
     <ThemeProvider>
-      <Select
-        data={data}
-        label={'Select Item'}
-        onSelect={setSelected}
-        selected={selected}
-      />
+      <View
+        style={{
+          flex: 1,
+          width: '90%',
+          alignItems: 'center',
+          paddingVertical: 16,
+        }}
+      >
+        <Select
+          data={data}
+          label={'Select Item'}
+          onSelect={setSelected}
+          selected={selected}
+        />
+      </View>
     </ThemeProvider>
   );
 };
