@@ -65,7 +65,6 @@ const Select: FC<Props> = ({ label, theme, onSelect, data }: Props) => {
   };
 
   const onItemPress = (item): void => {
-    console.log(item);
     setSelected(item);
     onSelect(item);
     setVisible(false);
