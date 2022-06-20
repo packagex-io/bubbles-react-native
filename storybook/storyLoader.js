@@ -10,6 +10,7 @@ function loadStories() {
   require('./stories/Radio/Radio.stories');
   require('./stories/Select/Select.stories');
   require('./stories/Welcome/Welcome.stories');
+  require('./stories/Divider/Divider.stories');
 }
 
 const stories = [
@@ -19,6 +20,7 @@ const stories = [
   './stories/Radio/Radio.stories',
   './stories/Select/Select.stories',
   './stories/Welcome/Welcome.stories',
+  './stories/Divider/Divider.stories',
 ];
 
 module.exports = {

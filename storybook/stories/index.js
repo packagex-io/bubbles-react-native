@@ -4,3 +4,4 @@ import './Input/Input.stories';
 import './Select/Select.stories';
 import './Checkbox/Checkbox.stories';
 import './Radio/Radio.stories';
+import './Divider/Divider.stories';
