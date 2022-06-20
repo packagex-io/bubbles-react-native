@@ -51,6 +51,10 @@ const fontConfig = {
       fontFamily: 'Inter-SemiBold',
       fontWeight: 'normal' as 'normal',
     },
+    bold: {
+      fontFamily: 'Inter-Bold',
+      fontWeight: 'normal' as 'normal',
+    },
     light: {
       fontFamily: 'sans-serif-light',
       fontWeight: 'normal' as 'normal',

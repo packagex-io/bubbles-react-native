@@ -5,3 +5,4 @@ import './Select/Select.stories';
 import './Checkbox/Checkbox.stories';
 import './Radio/Radio.stories';
 import './Divider/Divider.stories';
+import './Chip/Chip.stories';

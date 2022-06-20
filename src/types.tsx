@@ -21,6 +21,8 @@ export type Fonts = {
   medium: Font;
   light: Font;
   thin: Font;
+  bold: Font;
+  semiBold: Font;
 };
 
 type Mode = 'adaptive' | 'exact';
@@ -86,6 +88,7 @@ declare global {
       medium: ThemeFont;
       light: ThemeFont;
       thin: ThemeFont;
+      bold: ThemeFont;
     }
     interface ThemeColors {
       primary: string;
