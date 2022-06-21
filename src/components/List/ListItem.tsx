@@ -247,6 +247,8 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: 'row',
+    alignItems: 'center',
+    paddingRight: 24,
   },
   label: {
     fontSize: 10,

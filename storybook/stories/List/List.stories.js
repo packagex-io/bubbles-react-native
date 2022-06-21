@@ -5,6 +5,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import List from '../../../src/components/List';
 import CenterView from '../CenterView';
+import Icon from 'react-native-vector-icons/Feather';
 
 storiesOf('List', module)
   .addDecorator((getStory) => (
@@ -21,17 +22,15 @@ storiesOf('List', module)
   ))
   .add('default', () => (
     <>
-      <List.Item
-        label="Label"
-        text="John Smith"
-        // left={(props) => <List.Icon {...props} icon="folder" />}
-      />
+      <List.Item label="Label" text="John Smith" />
+      <View style={{ marginTop: 8, width: '100%' }}>
+        <List.Item label="Label" text="Some link" href="#" />
+      </View>
       <View style={{ marginTop: 8, width: '100%' }}>
         <List.Item
           label="Label"
           text="Some link"
-          href="#"
-          // left={(props) => <List.Icon {...props} icon="folder" />}
+          right={(props) => <Icon size={18} {...props} name="trash-2" />}
         />
       </View>
     </>
