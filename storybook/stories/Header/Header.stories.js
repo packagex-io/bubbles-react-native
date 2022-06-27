@@ -6,6 +6,8 @@ import { Text, View } from 'react-native';
 import CenterView from '../CenterView';
 import Icon from 'react-native-vector-icons/Feather';
 import Header from '../../../src/components/Header/Header';
+import HeaderBackIcon from '../../../src/components/Header/BackIcon';
+import HeaderCloseIcon from '../../../src/components/Header/CloseIcon';
 
 storiesOf('Header', module)
   .addDecorator((getStory) => (
@@ -22,6 +24,9 @@ storiesOf('Header', module)
   ))
   .add('default', () => (
     <>
-      <Header title="Title" />
+      <Header title="Title">
+        <HeaderBackIcon size={18} />
+        <HeaderCloseIcon size={18} />
+      </Header>
     </>
   ));

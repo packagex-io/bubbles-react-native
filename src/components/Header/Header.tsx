@@ -7,14 +7,15 @@ import { withTheme } from '../../core/theming';
 import { black, white } from '../../styles/colors';
 import overlay from '../../styles/overlay';
 import Text from '../Typography/Text';
-
+import HeaderBackIcon from './BackIcon';
+import HeaderCloseIcon from './CloseIcon';
 type Props = Partial<React.ComponentPropsWithRef<typeof View>> & {
   /**
    * Whether the background color is a dark color. A dark appbar will render light text and vice-versa.
    */
   dark?: boolean;
   /**
-   * Content of the `Appbar`.
+   * Icons of the `Appbar`.
    */
   children: React.ReactNode;
   /**
@@ -30,6 +31,10 @@ type Props = Partial<React.ComponentPropsWithRef<typeof View>> & {
    * Custom color for the text.
    */
   color?: string;
+  /**
+   * Center title text in the Header
+   */
+  centerText?: boolean;
 };
 
 export const DEFAULT_APPBAR_HEIGHT = 56;
@@ -40,6 +45,7 @@ const Header = ({
   style,
   theme,
   color: titleColor = black,
+  centerText = false,
   title,
   ...rest
 }: Props) => {
@@ -74,22 +80,36 @@ const Header = ({
       {...rest}
     >
       <View style={[styles.container, style]} {...rest}>
+        {React.Children.toArray(children)
+          .filter((child) => child != null && typeof child !== 'boolean')
+          .filter((child) => [HeaderBackIcon].includes(child.type))
+          .map((child, i) => {
+            return child;
+          })}
+
         <Text
           style={[
             {
               color: titleColor,
               ...fonts.bold,
+              marginLeft: 8,
+              textAlign: centerText ? 'center' : 'left',
             },
             styles.title,
           ]}
           numberOfLines={1}
           accessible
           accessibilityTraits="header"
-          // @ts-expect-error React Native doesn't accept 'heading' as it's web-only
-          accessibilityRole={Platform.OS === 'web' ? 'heading' : 'header'}
+          accessibilityRole={'header'}
         >
           {title}
         </Text>
+        {React.Children.toArray(children)
+          .filter((child) => child != null && typeof child !== 'boolean')
+          .filter((child) => [HeaderCloseIcon].includes(child.type))
+          .map((child, i) => {
+            return child;
+          })}
       </View>
     </Surface>
   );
@@ -111,9 +131,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   title: {
     fontSize: 16,
+    flex: 1,
   },
 });
 
