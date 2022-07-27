@@ -17,6 +17,7 @@ storiesOf('Header', module)
         justifyContent: 'center',
         alignItems: 'center',
         padding: 16,
+        backgroundColor: '#E5E5E5',
       }}
     >
       {getStory()}

@@ -4,7 +4,7 @@ import color from 'color';
 
 import Surface from '../Surface';
 import { withTheme } from '../../core/theming';
-import { black, white } from '../../styles/colors';
+import { colors as Colors } from '../../styles/tokens';
 import overlay from '../../styles/overlay';
 import Text from '../Typography/Text';
 import HeaderBackIcon from './BackIcon';
@@ -44,7 +44,7 @@ const Header = ({
   dark,
   style,
   theme,
-  color: titleColor = black,
+  color: titleColor = Colors.black,
   centerText = false,
   title,
   ...rest

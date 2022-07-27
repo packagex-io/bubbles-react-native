@@ -12,6 +12,7 @@ function loadStories() {
   require('./stories/List/List.stories');
   require('./stories/Radio/Radio.stories');
   require('./stories/Select/Select.stories');
+  require('./stories/Spinner/Spinner.stories');
   require('./stories/Welcome/Welcome.stories');
 }
 
@@ -24,6 +25,7 @@ const stories = [
   './stories/List/List.stories',
   './stories/Radio/Radio.stories',
   './stories/Select/Select.stories',
+  './stories/Spinner/Spinner.stories',
   './stories/Welcome/Welcome.stories',
 ];
 

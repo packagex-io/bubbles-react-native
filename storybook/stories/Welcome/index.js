@@ -36,7 +36,7 @@ class Welcome extends React.Component {
         <Text
           style={{
             ...this.styles.header,
-            color: this.props.theme.colors.primary,
+            color: this.props.theme.colors.primary.default,
             fontFamily: 'Inter-SemiBold',
           }}
         >

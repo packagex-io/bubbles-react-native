@@ -16,6 +16,100 @@ export type Font = {
     | '900';
 };
 
+export enum HeadlinesType {
+  Colossus = 'Colossus',
+  Uber = 'Uber',
+  Hero = 'Hero',
+  Display = 'Display',
+  Headline1 = 'Headline1',
+  Headline2 = 'Headline2',
+  Headline3 = 'Headline3',
+  Headline4 = 'Headline4',
+  Headline5 = 'Headline5',
+}
+
+export enum BodyType {
+  Lead = 'Lead',
+  Body = 'Body',
+  Small = 'Small',
+  Caption = 'Caption',
+  XSmall = 'XSmall',
+  Tiny = 'Tiny',
+  'Input/Large' = 'Input/Large',
+  'Input/Normal' = 'Input/Normal',
+  'Input/Label' = 'Input/Label',
+  'Button/XLarge' = 'Button/XLarge',
+  'Button/Large' = 'Button/Large',
+  'Button/Normal' = 'Button/Normal',
+}
+
+export type TextType = {
+  fontFamily: string;
+  letterSpacing: number | string;
+  fontWeight: Font['fontWeight'];
+  lineHeight: number | string;
+  fontSize: number;
+  textTransform?: string;
+  color?: string;
+};
+
+export type TextTypescale = {
+  [key in HeadlinesType]: TextType;
+} & { [key in BodyType]: TextType };
+
+enum fontSizeType {
+  xxs = 'xxs',
+  xs = 'xs',
+  sm = 'sm',
+  lg = 'lg',
+  xl = 'xl',
+  '2xl' = '2xl',
+  '3xl' = '3xl',
+  '4xl' = '4xl',
+  '5xl' = '5xl',
+  '6xl' = '6xl',
+  '7xl' = '7xl',
+  '8xl' = '8xl',
+  '9xl' = '9xl',
+  '10xl' = '10xl',
+}
+
+export type fontSize = { base: number; scale: number } & {
+  [key in fontSizeType]: number;
+};
+
+export type tokens = {
+  sys: {
+    typescale: TextTypescale;
+  };
+  ref: {
+    fontFamilies: { headlines: string; body: string };
+    fontWeights: {
+      headlines: { bold: string; regular: string };
+      body: { bold: string; regular: string };
+    };
+    fontSize: fontSize;
+    letterSpacing: {
+      body: string | number;
+      headlines: string | number;
+      button: string | number;
+      captions: string | number;
+    };
+    lineHeight: {
+      headlines: {
+        xl: string | number;
+        lg: string | number;
+        default: string | number;
+        sm: string | number;
+      };
+      body: {
+        relaxed: string | number;
+        default: string | number;
+      };
+    };
+  };
+};
+
 export type Fonts = {
   regular: Font;
   medium: Font;
@@ -25,6 +119,14 @@ export type Fonts = {
   semiBold: Font;
 };
 
+export type SemanticColor = {
+  default: string;
+  emphasis: string;
+  muted: string;
+  subtle: string;
+  disabled: string;
+};
+
 type Mode = 'adaptive' | 'exact';
 
 export type Theme = {
@@ -32,12 +134,12 @@ export type Theme = {
   mode?: Mode;
   roundness: number;
   colors: {
-    primary: string;
-    secondary: string;
-    error: string;
-    warning: string;
-    success: string;
-    info: string;
+    primary: string | SemanticColor; // REMINDER - remove string type after refactoring components (allowing string here so nothing breaks for now)
+    secondary: string | SemanticColor;
+    warning: string | SemanticColor;
+    error: string | SemanticColor;
+    info: string | SemanticColor;
+    success: string | SemanticColor;
     gray: string;
     dark: string;
 
@@ -50,6 +152,31 @@ export type Theme = {
     placeholder: string;
     backdrop: string;
     notification: string;
+
+    fg: {
+      default: string;
+      muted: string;
+      subtle: string;
+      ['on-accent']: string;
+      ['on-disabled']: string;
+      disabled: string;
+    };
+    bg: {
+      surface: string;
+      muted: string;
+      subtle: string;
+      canvas: string;
+    };
+
+    input: {
+      background: string;
+      text: string;
+      placeholder: string;
+      border: { default: string; disabled: string };
+      fg: { disabled: string };
+    };
+    overlay: string;
+    border: string;
   };
   fonts: Fonts;
   animation: {
@@ -91,11 +218,40 @@ declare global {
       bold: ThemeFont;
     }
     interface ThemeColors {
-      primary: string;
+      primary: SemanticColor;
+      secondary: SemanticColor;
+      warning: SemanticColor;
+      error: SemanticColor;
+      info: SemanticColor;
+      success: SemanticColor;
+      fg: {
+        default: string;
+        muted: string;
+        subtle: string;
+        ['on-accent']: string;
+        ['on-disabled']: string;
+        disabled: string;
+      };
+      bg: {
+        surface: string;
+        muted: string;
+        subtle: string;
+        canvas: string;
+      };
+
+      input: {
+        background: string;
+        text: string;
+        placeholder: string;
+        border: { default: string; disabled: string };
+        fg: { disabled: string };
+      };
+      overlay: string;
+      border: string;
+
       background: string;
       surface: string;
       accent: string;
-      error: string;
       text: string;
       onSurface: string;
       disabled: string;

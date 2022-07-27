@@ -1,4 +1,4 @@
-import * as Colors from './styles/colors';
+import * as Colors from './styles/tokens';
 
 export { Colors };
 

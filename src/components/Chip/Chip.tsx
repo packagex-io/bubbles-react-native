@@ -15,7 +15,7 @@ import Surface from '../Surface';
 import Text from '../Typography/Text';
 import TouchableRipple from '../TouchableRipple/TouchableRipple.native';
 import { withTheme } from '../../core/theming';
-import { black, white } from '../../styles/colors';
+import { colors as Colors } from '../../styles/tokens';
 import type { EllipsizeProp } from '../../types';
 
 type Props = React.ComponentProps<typeof Surface> & {
@@ -122,7 +122,7 @@ const Chip = ({
     ? colors.disabled
     : mode === 'outlined'
     ? chipColor || colors.primary
-    : white;
+    : Colors.white;
 
   const backgroundColorString =
     typeof backgroundColor === 'string'

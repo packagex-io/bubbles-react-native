@@ -2,24 +2,6 @@ import { Platform, PlatformOSType } from 'react-native';
 import type { Fonts } from '../types';
 
 const fontConfig = {
-  web: {
-    regular: {
-      fontFamily: 'Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif',
-      fontWeight: '400' as '400',
-    },
-    medium: {
-      fontFamily: 'Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif',
-      fontWeight: '500' as '500',
-    },
-    light: {
-      fontFamily: 'Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif',
-      fontWeight: '300' as '300',
-    },
-    thin: {
-      fontFamily: 'Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif',
-      fontWeight: '100' as '100',
-    },
-  },
   ios: {
     regular: {
       fontFamily: 'Inter, System',

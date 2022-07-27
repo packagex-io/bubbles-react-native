@@ -14,7 +14,7 @@ import TouchableRipple from '../TouchableRipple/TouchableRipple.native';
 import Text from '../Typography/Text';
 import { withTheme } from '../../core/theming';
 import type { $RemoveChildren, EllipsizeProp } from '../../types';
-import { black } from '../../styles/colors';
+import { colors as Colors } from '../../styles/tokens';
 
 type Label =
   | React.ReactNode
@@ -218,7 +218,7 @@ const ListItem = ({
         <View style={[styles.item, styles.content]}>
           {renderTitle()}
 
-          {itemText ? renderDescription(black, itemText) : null}
+          {itemText ? renderDescription(Colors.black, itemText) : null}
         </View>
         {right
           ? right({

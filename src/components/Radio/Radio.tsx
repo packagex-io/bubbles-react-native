@@ -4,9 +4,9 @@ import { withTheme } from '../../core/theming';
 import { Animated, View, StyleSheet } from 'react-native';
 import color from 'color';
 import { RadioButtonContext, RadioButtonContextType } from './RadioButtonGroup';
-import TouchableRipple from '../TouchableRipple/TouchableRipple';
+import TouchableRipple from '../TouchableRipple/TouchableRipple.native';
 import type { $RemoveChildren } from '../../types';
-import { white } from '../../styles/colors';
+import { colors as Colors } from '../../styles/tokens';
 
 export const handlePress = ({
   onPress,
@@ -125,7 +125,7 @@ const RadioButton = ({
     }
   }, [status, borderAnim, radioAnim, scale]);
 
-  const checkedColor = rest.color || theme.colors.primary;
+  const checkedColor = rest.color || theme.colors.primary.default;
   const uncheckedColor = rest.uncheckedColor || '#CCCDD3';
 
   let rippleColor: string, radioColor: string;
@@ -191,7 +191,7 @@ const RadioButton = ({
                     style={[
                       styles.dot,
                       {
-                        backgroundColor: white,
+                        backgroundColor: Colors.white,
                         transform: [{ scale: radioAnim }],
                       },
                     ]}

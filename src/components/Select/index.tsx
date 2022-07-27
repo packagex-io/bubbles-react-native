@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import { withTheme } from '../../core/theming';
-import { black, transparent } from '../../styles/colors';
+import { colors as Colors } from '../../styles/tokens';
 import Surface from '../Surface';
 
 type Props = React.ComponentProps<typeof Surface> & {
@@ -77,8 +77,8 @@ const Select: FC<Props> = ({ label, theme, onSelect, data }: Props) => {
           style={[
             { ...font },
             selected?.label === item.label
-              ? { color: theme.colors.primary }
-              : { color: black },
+              ? { color: theme.colors.primary.default }
+              : { color: Colors.black },
           ]}
         >
           {item.label}
@@ -119,7 +119,7 @@ const Select: FC<Props> = ({ label, theme, onSelect, data }: Props) => {
     <Surface
       style={[
         { width: '100%', borderRadius: 16, ...styles.outline },
-        visible ? { borderColor: theme.colors.primary } : {},
+        visible ? { borderColor: theme.colors.primary.default } : {},
       ]}
     >
       <TouchableOpacity
@@ -130,7 +130,7 @@ const Select: FC<Props> = ({ label, theme, onSelect, data }: Props) => {
         {renderDropdown()}
         <View style={{ flexDirection: 'column' }}>
           <Text style={[styles.label, { ...font, flex: 1 }]}>{label}</Text>
-          <Text style={{ flex: 1, color: black, ...font }}>
+          <Text style={{ flex: 1, color: Colors.black, ...font }}>
             {selected?.label || 'None'}
           </Text>
         </View>

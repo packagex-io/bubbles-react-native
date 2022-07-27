@@ -1,6 +1,6 @@
 import color from 'color';
 import DefaultTheme from './DefaultTheme';
-import { black, white, pinkA100 } from './colors';
+import { colors } from './tokens';
 import type { Theme } from '../types';
 
 const DarkTheme: Theme = {
@@ -15,11 +15,11 @@ const DarkTheme: Theme = {
     surface: '#121212',
     error: '#CF6679',
     onSurface: '#FFFFFF',
-    text: white,
-    disabled: color(white).alpha(0.38).rgb().string(),
-    placeholder: color(white).alpha(0.54).rgb().string(),
-    backdrop: color(black).alpha(0.5).rgb().string(),
-    notification: pinkA100,
+    text: colors.white,
+    disabled: color(colors.white).alpha(0.38).rgb().string(),
+    placeholder: color(colors.white).alpha(0.54).rgb().string(),
+    backdrop: color(colors.black).alpha(0.5).rgb().string(),
+    notification: colors.pink100,
   },
 };
 

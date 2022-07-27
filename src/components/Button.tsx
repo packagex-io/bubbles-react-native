@@ -13,8 +13,8 @@ import ActivityIndicator from './ActivityIndicator';
 // import Icon, { IconSource } from './Icon';
 import Surface from './Surface';
 import Text from './Text';
-import TouchableRipple from './TouchableRipple/TouchableRipple';
-import { black, white } from '../styles/colors';
+import TouchableRipple from './TouchableRipple/TouchableRipple.native';
+import { colors as Colors } from '../styles/tokens';
 import { withTheme } from '../core/theming';
 
 type Props = React.ComponentProps<typeof Surface> & {
@@ -182,21 +182,21 @@ const Button = ({
 
   if (mode === 'contained') {
     if (disabled) {
-      backgroundColor = color(theme.dark ? white : black)
+      backgroundColor = color(theme.dark ? Colors.white : Colors.black)
         .alpha(0.12)
         .rgb()
         .string();
     } else if (buttonColor) {
       backgroundColor = buttonColor;
     } else {
-      backgroundColor = theme.colors.primary;
+      backgroundColor = theme.colors.primary.default;
     }
   } else {
     backgroundColor = 'transparent';
   }
 
   if (mode === 'outlined') {
-    borderColor = buttonColor ? buttonColor : theme.colors.primary;
+    borderColor = buttonColor ? buttonColor : theme.colors.primary.default;
     borderWidth = 3;
   } else {
     borderColor = 'transparent';
@@ -204,11 +204,11 @@ const Button = ({
   }
 
   if (mode === 'contained') {
-    textColor = white;
+    textColor = Colors.white;
   } else if (buttonColor) {
     textColor = buttonColor;
   } else {
-    textColor = theme.colors.primary;
+    textColor = theme.colors.primary.default;
   }
 
   const rippleColor = color(textColor).alpha(0.32).rgb().string();
