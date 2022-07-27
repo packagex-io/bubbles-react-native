@@ -1,4 +1,4 @@
-import { fontSize, TextTypescale } from '../types';
+import { fontSize, TextTypescale, tokensType } from '../types';
 
 export const colors = {
   transparent: 'rgba(255, 255, 255, 0)',
@@ -108,16 +108,21 @@ fontSizes['9xl'] = Math.round(fontSizes['8xl'] * fontSizes.scale);
 fontSizes['10xl'] = Math.round(fontSizes['9xl'] * fontSizes.scale);
 
 const ref = {
+  fontFamilies: { headlines: 'Inter', body: 'Inter' },
   fontSize: fontSizes,
   letterSpacing: {
     body: '0%',
     headlines: '-1%',
-    buttons: '3%',
+    button: '3%',
     captions: '0%',
   },
   lineHeight: {
     headlines: { xl: '110%', lg: '110%', default: '110%', sm: '130%' },
     body: { relaxed: '175%', default: '150%' },
+  },
+  fontWeights: {
+    headlines: { bold: 'bold', regular: 'regular' },
+    body: { bold: 'bold', regular: 'regular' },
   },
 };
 
@@ -183,4 +188,9 @@ export const typescale: TextTypescale = {
   'Button/XLarge': { ...regularBodyType, fontSize: fontSizes.xl },
   'Button/Large': { ...regularBodyType, fontSize: 16 },
   'Button/Normal': { ...regularBodyType, fontSize: fontSizes.sm },
+};
+
+export const tokens: tokensType = {
+  sys: { typescale },
+  ref,
 };

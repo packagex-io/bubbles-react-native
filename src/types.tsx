@@ -78,7 +78,7 @@ export type fontSize = { base: number; scale: number } & {
   [key in fontSizeType]: number;
 };
 
-export type tokens = {
+export type tokensType = {
   sys: {
     typescale: TextTypescale;
   };
