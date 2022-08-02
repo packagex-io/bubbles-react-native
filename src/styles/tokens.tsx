@@ -87,7 +87,7 @@ export const colors = {
   gray900: '#1A1A1D',
   gray950: '#0D0D0E',
 
-  black: '#000000',
+  black: '#171717',
   white: '#ffffff',
 };
 
@@ -117,8 +117,8 @@ const ref = {
     captions: '0%',
   },
   lineHeight: {
-    headlines: { xl: '110%', lg: '110%', default: '110%', sm: '130%' },
-    body: { relaxed: '175%', default: '150%' },
+    headlines: { xl: 1.1, lg: 1.1, default: 1.1, sm: 1.3 },
+    body: { relaxed: 1.75, default: 1.5 },
   },
   fontWeights: {
     headlines: { bold: 'bold', regular: 'regular' },
@@ -128,66 +128,127 @@ const ref = {
 
 const regularHeadingType = {
   fontFamily: 'Inter',
-  letterSpacing: ref.letterSpacing.headlines,
   fontWeight: 'normal' as 'normal',
-  lineHeight: ref.lineHeight.headlines.default,
-  color: '#171717',
+  color: colors.black,
+  letterSpacing: -1,
 };
 
 const regularBodyType = {
   fontFamily: 'Inter',
-  letterSpacing: ref.letterSpacing.body,
   fontWeight: 'normal' as 'normal',
-  lineHeight: ref.lineHeight.body.default,
   color: '#171717',
+  letterSpacing: -1,
 };
 
 export const typescale: TextTypescale = {
   Colossus: {
     ...regularHeadingType,
     fontSize: ref.fontSize['10xl'],
+    lineHeight: ref.fontSize['10xl'] * ref.lineHeight.headlines.default,
   },
   Uber: {
     ...regularHeadingType,
     fontSize: fontSizes['9xl'],
+    lineHeight: ref.fontSize['9xl'] * ref.lineHeight.headlines.default,
   },
   Hero: {
     ...regularHeadingType,
     fontSize: fontSizes['8xl'],
+    lineHeight: ref.fontSize['8xl'] * ref.lineHeight.headlines.default,
   },
   Display: {
     ...regularHeadingType,
     fontSize: fontSizes['7xl'],
+    lineHeight: ref.fontSize['7xl'] * ref.lineHeight.headlines.default,
   },
   Headline1: {
     ...regularHeadingType,
     fontSize: fontSizes['6xl'],
+    lineHeight: ref.fontSize['6xl'] * ref.lineHeight.headlines.default,
   },
-  Headline2: { ...regularHeadingType, fontSize: fontSizes['5xl'] },
-  Headline3: { ...regularHeadingType, fontSize: fontSizes['4xl'] },
-  Headline4: { ...regularHeadingType, fontSize: fontSizes['3xl'] },
-  Headline5: { ...regularHeadingType, fontSize: fontSizes['xl'] },
+  Headline2: {
+    ...regularHeadingType,
+    fontSize: fontSizes['5xl'],
+    lineHeight: ref.fontSize['5xl'] * ref.lineHeight.headlines.default,
+  },
+  Headline3: {
+    ...regularHeadingType,
+    fontSize: fontSizes['4xl'],
+    lineHeight: ref.fontSize['4xl'] * ref.lineHeight.headlines.default,
+  },
+  Headline4: {
+    ...regularHeadingType,
+    fontSize: fontSizes['3xl'],
+    lineHeight: ref.fontSize['3xl'] * ref.lineHeight.headlines.default,
+  },
+  Headline5: {
+    ...regularHeadingType,
+    fontSize: fontSizes['xl'],
+    lineHeight: ref.fontSize['xl'] * ref.lineHeight.headlines.default,
+  },
   Lead: {
     ...regularBodyType,
     fontSize: fontSizes['2xl'],
+    lineHeight: ref.fontSize['2xl'] * ref.lineHeight.body.default,
   },
-  Body: { ...regularBodyType, fontSize: fontSizes.lg },
-  Small: { ...regularBodyType, fontSize: 16 },
-  Caption: { ...regularBodyType, fontSize: fontSizes.sm },
-  XSmall: { ...regularBodyType, fontSize: fontSizes.xs },
-  Tiny: { ...regularBodyType, fontSize: fontSizes.xxs },
-  'Input/Large': { ...regularBodyType, fontSize: fontSizes.lg },
-  'Input/Normal': { ...regularBodyType, fontSize: 16 },
+  Body: {
+    ...regularBodyType,
+    fontSize: fontSizes.lg,
+    lineHeight: ref.fontSize['lg'] * ref.lineHeight.body.default,
+  },
+  Small: {
+    ...regularBodyType,
+    fontSize: 16,
+    lineHeight: 16 * ref.lineHeight.body.default,
+  },
+  Caption: {
+    ...regularBodyType,
+    fontSize: fontSizes.sm,
+    lineHeight: ref.fontSize['sm'] * ref.lineHeight.body.default,
+  },
+  XSmall: {
+    ...regularBodyType,
+    fontSize: fontSizes.xs,
+    lineHeight: ref.fontSize['xs'] * ref.lineHeight.body.default,
+  },
+  Tiny: {
+    ...regularBodyType,
+    fontSize: fontSizes.xxs,
+    lineHeight: ref.fontSize['xxs'] * ref.lineHeight.body.default,
+  },
+  'Input/Large': {
+    ...regularBodyType,
+    fontSize: fontSizes.lg,
+    lineHeight: ref.fontSize['lg'] * ref.lineHeight.body.default,
+  },
+  'Input/Normal': {
+    ...regularBodyType,
+    fontSize: 16,
+    lineHeight: 16 * ref.lineHeight.body.default,
+  },
   'Input/Label': {
     ...regularBodyType,
     fontSize: fontSizes.xxs,
     textTransform: 'uppercase',
     letterSpacing: '0.9px',
     color: '#808191',
+    lineHeight: ref.fontSize['xxs'] * ref.lineHeight.body.default,
   },
-  'Button/XLarge': { ...regularBodyType, fontSize: fontSizes.xl },
-  'Button/Large': { ...regularBodyType, fontSize: 16 },
-  'Button/Normal': { ...regularBodyType, fontSize: fontSizes.sm },
+  'Button/XLarge': {
+    ...regularBodyType,
+    fontSize: fontSizes.xl,
+    lineHeight: ref.fontSize['xl'] * ref.lineHeight.body.default,
+  },
+  'Button/Large': {
+    ...regularBodyType,
+    fontSize: 16,
+    lineHeight: 16 * ref.lineHeight.body.default,
+  },
+  'Button/Normal': {
+    ...regularBodyType,
+    fontSize: fontSizes.sm,
+    lineHeight: ref.fontSize.sm * ref.lineHeight.body.default,
+  },
 };
 
 export const tokens: tokensType = {

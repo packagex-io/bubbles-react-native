@@ -47,7 +47,7 @@ export type TextType = {
   fontFamily: string;
   letterSpacing: number | string;
   fontWeight: Font['fontWeight'];
-  lineHeight: number | string;
+  lineHeight: number;
   fontSize: number;
   textTransform?: string;
   color?: string;
@@ -97,14 +97,14 @@ export type tokensType = {
     };
     lineHeight: {
       headlines: {
-        xl: string | number;
-        lg: string | number;
-        default: string | number;
-        sm: string | number;
+        xl: number;
+        lg: number;
+        default: number;
+        sm: number;
       };
       body: {
-        relaxed: string | number;
-        default: string | number;
+        relaxed: number;
+        default: number;
       };
     };
   };
@@ -140,8 +140,6 @@ export type Theme = {
     error: string | SemanticColor;
     info: string | SemanticColor;
     success: string | SemanticColor;
-    gray: string;
-    dark: string;
 
     background: string;
     surface: string;
@@ -181,6 +179,31 @@ export type Theme = {
   fonts: Fonts;
   animation: {
     scale: number;
+  };
+  typescale: TextTypescale;
+  fontFamilies: { headlines: string; body: string };
+  fontWeights: {
+    headlines: { bold: string; regular: string };
+    body: { bold: string; regular: string };
+  };
+  fontSize: fontSize;
+  letterSpacing: {
+    body: string | number;
+    headlines: string | number;
+    button: string | number;
+    captions: string | number;
+  };
+  lineHeight: {
+    headlines: {
+      xl: number;
+      lg: number;
+      default: number;
+      sm: number;
+    };
+    body: {
+      relaxed: number;
+      default: number;
+    };
   };
 };
 

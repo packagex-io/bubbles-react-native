@@ -1,7 +1,7 @@
 import color from 'color';
 import configureFonts from './fonts';
 import type { Theme } from '../types';
-import { colors } from './tokens';
+import { colors, tokens, typescale } from './tokens';
 
 const DefaultTheme: Theme = {
   dark: false,
@@ -73,9 +73,6 @@ const DefaultTheme: Theme = {
     overlay: colors.black,
     border: colors.gray200,
 
-    gray: '#808191',
-    dark: '#1B1D21',
-
     accent: '#03dac4',
     background: '#f6f6f6',
     surface: colors.white,
@@ -90,6 +87,8 @@ const DefaultTheme: Theme = {
   animation: {
     scale: 1.0,
   },
+  typescale: typescale,
+  ...tokens.ref,
 };
 
 export default DefaultTheme;

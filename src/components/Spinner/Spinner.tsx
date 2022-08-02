@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import type { Theme } from '../../types';
 import { withTheme } from '../../core/theming';
+import color from 'color';
 
 type Props = React.ComponentPropsWithRef<typeof View> & {
   /**
@@ -112,7 +113,7 @@ const ActivityIndicator = ({
     }
   }, [animating, fade, hidesWhenStopped, startRotation, scale, timer]);
 
-  const color = indicatorColor || theme.colors?.primary;
+  const spinnerColor = indicatorColor || theme.colors?.primary.default;
   const size =
     typeof indicatorSize === 'string'
       ? indicatorSize === 'small'
@@ -148,6 +149,7 @@ const ActivityIndicator = ({
             new Array(frames),
             (_, frameIndex) => frameIndex / (frames - 1)
           );
+
           const outputRange = Array.from(new Array(frames), (_, frameIndex) => {
             let progress = (2 * frameIndex) / (frames - 1);
             const rotation = index ? +(360 - 15) : -(180 - 15);
@@ -158,7 +160,7 @@ const ActivityIndicator = ({
 
             const direction = index ? -1 : +1;
 
-            return `${direction * (180 - 30) * easing(progress) + rotation}deg`;
+            return `${direction * (150 - 30) + rotation}deg`;
           });
 
           const layerStyle = {
@@ -168,7 +170,7 @@ const ActivityIndicator = ({
               {
                 rotate: timer.interpolate({
                   inputRange: [0, 1],
-                  outputRange: [`${0}deg`, `${2 * 360}deg`],
+                  outputRange: [`${0 + 30 + 15}deg`, `${2 * 360 + 30 + 15}deg`],
                 }),
               },
             ],
@@ -177,15 +179,13 @@ const ActivityIndicator = ({
           const viewportStyle = {
             width: size,
             height: size,
+
             transform: [
               {
                 translateY: index ? -size / 2 : 0,
               },
               {
-                rotate: timer.interpolate({
-                  inputRange: [0, 1],
-                  outputRange: [`${0}deg`, `${2 * 360}deg`],
-                }),
+                rotate: timer.interpolate({ inputRange, outputRange }),
               },
             ],
           };
@@ -195,11 +195,21 @@ const ActivityIndicator = ({
           const lineStyle = {
             width: size,
             height: size,
-            borderColor: color,
+            borderColor: spinnerColor,
             borderWidth: size / 10,
             borderRadius: size / 2,
           };
-
+          const lineStyle2 = {
+            width: size,
+            height: size,
+            borderColor:
+              color(indicatorColor).alpha(0.24).rgb().string() ||
+              theme.colors?.primary.subtle,
+            borderWidth: size / 10,
+            borderRadius: size / 2,
+            position: 'absolute',
+            zIndex: -1,
+          };
           return (
             <Animated.View key={index} style={[styles.layer]}>
               <Animated.View style={layerStyle}>
@@ -211,6 +221,7 @@ const ActivityIndicator = ({
                     <Animated.View style={containerStyle} collapsable={false}>
                       <Animated.View style={lineStyle} />
                     </Animated.View>
+                    <Animated.View style={lineStyle2} />
                   </Animated.View>
                 </Animated.View>
               </Animated.View>

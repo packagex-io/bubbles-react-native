@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
 import { withTheme } from '../../../src/index';
+import Text from '../../../src/components/Typography/Text';
 
 class Welcome extends React.Component {
   styles = {
