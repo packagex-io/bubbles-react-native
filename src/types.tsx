@@ -134,12 +134,12 @@ export type Theme = {
   mode?: Mode;
   roundness: number;
   colors: {
-    primary: string | SemanticColor; // REMINDER - remove string type after refactoring components (allowing string here so nothing breaks for now)
-    secondary: string | SemanticColor;
-    warning: string | SemanticColor;
-    error: string | SemanticColor;
-    info: string | SemanticColor;
-    success: string | SemanticColor;
+    primary: SemanticColor; // REMINDER - remove string type after refactoring components (allowing string here so nothing breaks for now)
+    secondary: SemanticColor;
+    warning: SemanticColor;
+    error: SemanticColor;
+    info: SemanticColor;
+    success: SemanticColor;
 
     background: string;
     surface: string;

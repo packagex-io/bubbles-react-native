@@ -25,8 +25,8 @@ storiesOf('Header', module)
   ))
   .add('default', () => (
     <>
-      <Header title="Title">
-        <HeaderBackIcon size={18} />
+      <Header title="Header">
+        <HeaderBackIcon size={24} />
         <HeaderCloseIcon size={18} />
       </Header>
     </>

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import { withTheme } from '../../../src/index';
 import Text from '../../../src/components/Typography/Text';
+import Breadcrumbs from '../../../src/components/Breadcrumbs/Breadcrumbs';
 
 class Welcome extends React.Component {
   styles = {
@@ -34,6 +35,7 @@ class Welcome extends React.Component {
   render() {
     return (
       <View style={this.styles.wrapper}>
+        <Breadcrumbs />
         <Text
           style={{
             ...this.styles.header,
@@ -51,9 +53,9 @@ class Welcome extends React.Component {
           visual test case.
         </Text>
         <Text style={this.styles.content}>
-          We have added some stories inside the "storybook/stories" directory
-          for examples. Try editing the "storybook/stories/Welcome.js" file to
-          edit this message.
+          There are already some stories inside the "storybook/stories"
+          directory. Try editing the "storybook/stories/Welcome.js" file to edit
+          this message.
         </Text>
       </View>
     );

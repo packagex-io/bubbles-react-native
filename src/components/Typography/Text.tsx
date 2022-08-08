@@ -8,6 +8,7 @@ import {
   Platform,
 } from 'react-native';
 import { useTheme } from '../../core/theming';
+import { colors } from '../../styles/tokens';
 import { BodyType, Font, HeadlinesType, Theme } from '../../types';
 
 type Props = React.ComponentProps<typeof NativeText> & {
@@ -50,7 +51,7 @@ const Text: React.ForwardRefRenderFunction<{}, Props> = (
             fontWeight,
             lineHeight,
             letterSpacing,
-            color: theme.colors.onSurface,
+            color: colors.black,
           },
         };
       },

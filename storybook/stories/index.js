@@ -9,3 +9,4 @@ import './Chip/Chip.stories';
 import './List/List.stories';
 import './Header/Header.stories';
 import './Spinner/Spinner.stories';
+import './Switch/Switch.stories';

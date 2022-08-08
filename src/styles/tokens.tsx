@@ -205,6 +205,7 @@ export const typescale: TextTypescale = {
     ...regularBodyType,
     fontSize: fontSizes.sm,
     lineHeight: ref.fontSize['sm'] * ref.lineHeight.body.default,
+    letterSpacing: 0,
   },
   XSmall: {
     ...regularBodyType,
