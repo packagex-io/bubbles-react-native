@@ -106,7 +106,11 @@ const Chip = ({
 
   const { dark, colors } = theme;
   const defaultBackgroundColor =
-    mode === 'outlined' ? 'transparent' : dark ? '#383838' : colors.primary;
+    mode === 'outlined'
+      ? 'transparent'
+      : dark
+      ? '#383838'
+      : theme.colors.primary.default;
 
   const { backgroundColor = defaultBackgroundColor, borderRadius = 8 } =
     (StyleSheet.flatten(style) || {}) as ViewStyle;
@@ -115,13 +119,13 @@ const Chip = ({
     mode === 'outlined'
       ? chipColor
         ? chipColor
-        : colors.primary
+        : theme.colors.primary.default
       : backgroundColor;
   //   TODO - chipColor here should be a string like "primary" - need it to be put into the theme object to return a color string. Shouldn't directly put in chipColor like this
   const textColor = disabled
     ? colors.disabled
     : mode === 'outlined'
-    ? chipColor || colors.primary
+    ? chipColor || theme.colors.primary.default
     : Colors.white;
 
   const backgroundColorString =

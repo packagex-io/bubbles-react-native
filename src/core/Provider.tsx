@@ -8,7 +8,7 @@ import {
 import { ThemeProvider } from './theming';
 import { Provider as SettingsProvider, Settings } from './settings';
 // import MaterialCommunityIcon from '../components/MaterialCommunityIcon';
-// import PortalHost from '../components/Portal/PortalHost';
+import PortalHost from '../components/Portal/PortalHost';
 import DefaultTheme from '../styles/DefaultTheme';
 import DarkTheme from '../styles/DarkTheme';
 import { addEventListener } from '../utils/addEventListener';
@@ -92,12 +92,12 @@ const Provider = ({ ...props }: Props) => {
 
   const { children, settings } = props;
   return (
-    // <PortalHost>
-    // add to settings provider later - || { icon: MaterialCommunityIcon }
-    <SettingsProvider value={settings}>
-      <ThemeProvider theme={getTheme()}>{children}</ThemeProvider>
-    </SettingsProvider>
-    // </PortalHost>
+    <PortalHost>
+      {/* // add to settings provider later - || { icon: MaterialCommunityIcon } */}
+      <SettingsProvider value={settings || {}}>
+        <ThemeProvider theme={getTheme()}>{children}</ThemeProvider>
+      </SettingsProvider>
+    </PortalHost>
   );
 };
 

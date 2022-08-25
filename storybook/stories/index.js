@@ -10,3 +10,6 @@ import './List/List.stories';
 import './Header/Header.stories';
 import './Spinner/Spinner.stories';
 import './Switch/Switch.stories';
+import './Pagination/Pagination.stories';
+import './Toast/Toast.stories';
+import './Modal/Modal.stories';

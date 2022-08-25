@@ -196,7 +196,7 @@ const ActivityIndicator = ({
             width: size,
             height: size,
             borderColor: spinnerColor,
-            borderWidth: size / 10,
+            borderWidth: 2,
             borderRadius: size / 2,
           };
           const lineStyle2 = {
@@ -205,7 +205,7 @@ const ActivityIndicator = ({
             borderColor:
               color(indicatorColor).alpha(0.24).rgb().string() ||
               theme.colors?.primary.subtle,
-            borderWidth: size / 10,
+            borderWidth: 2,
             borderRadius: size / 2,
             position: 'absolute',
             zIndex: -1,

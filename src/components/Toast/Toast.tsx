@@ -15,6 +15,7 @@ import Text from '../Typography/Text';
 import { withTheme } from '../../core/theming';
 import type { Theme } from '../../types';
 import { colors } from '../../styles/tokens';
+import IconButton from '../IconButton/IconButton';
 
 export type ToastProps = React.ComponentProps<typeof Surface> & {
   /**
@@ -159,12 +160,18 @@ const Toast = ({
         <Text style={[styles.content, { marginRight, color: colors.white }]}>
           {children}
         </Text>
+        <IconButton
+          icon="close"
+          iconColor={colors.black}
+          size={20}
+          onPress={() => console.log('Pressed')}
+        />
         {typeof onPressAction === 'function' ? (
           <Button
-            onPress={() => {
-              onPressAction?.();
-              onDismiss();
-            }}
+            // onPress={() => {
+            //   onPressAction?.();
+            //   onDismiss();
+            // }}
             style={[styles.button]}
             textColor={textColor}
             compact

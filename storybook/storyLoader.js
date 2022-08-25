@@ -10,10 +10,13 @@ function loadStories() {
   require('./stories/Header/Header.stories');
   require('./stories/Input/Input.stories');
   require('./stories/List/List.stories');
+  require('./stories/Modal/Modal.stories');
+  require('./stories/Pagination/Pagination.stories');
   require('./stories/Radio/Radio.stories');
   require('./stories/Select/Select.stories');
   require('./stories/Spinner/Spinner.stories');
   require('./stories/Switch/Switch.stories');
+  require('./stories/Toast/Toast.stories');
   require('./stories/Welcome/Welcome.stories');
 }
 
@@ -24,10 +27,13 @@ const stories = [
   './stories/Header/Header.stories',
   './stories/Input/Input.stories',
   './stories/List/List.stories',
+  './stories/Modal/Modal.stories',
+  './stories/Pagination/Pagination.stories',
   './stories/Radio/Radio.stories',
   './stories/Select/Select.stories',
   './stories/Spinner/Spinner.stories',
   './stories/Switch/Switch.stories',
+  './stories/Toast/Toast.stories',
   './stories/Welcome/Welcome.stories',
 ];
 

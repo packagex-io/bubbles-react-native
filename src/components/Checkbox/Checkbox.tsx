@@ -6,6 +6,7 @@ import color from 'color';
 import type { $RemoveChildren } from '../../types';
 import TouchableRippleNative from '../TouchableRipple/TouchableRipple.native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { colors } from '../../styles/tokens';
 
 type Props = {
   /**
@@ -101,7 +102,7 @@ const Checkbox = ({
 
   const checked = status === 'checked';
   const indeterminate = status === 'indeterminate';
-  const checkedColor = rest.color || theme.colors.primary;
+  const checkedColor = rest.color || theme.colors.primary.default;
   const uncheckedColor =
     rest.uncheckedColor ||
     color(theme.colors.text)
@@ -112,7 +113,7 @@ const Checkbox = ({
   let rippleColor, checkboxColor;
 
   if (disabled) {
-    rippleColor = color(theme.colors.text).alpha(0.16).rgb().string();
+    rippleColor = color(colors.black).alpha(0.16).rgb().string();
     checkboxColor = theme.colors.disabled;
   } else {
     rippleColor = color(checkedColor).fade(0.32).rgb().string();

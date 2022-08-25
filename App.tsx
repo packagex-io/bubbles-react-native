@@ -8,13 +8,12 @@
  * @format
  */
 
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import {
   SafeAreaView,
   ScrollView,
   StatusBar,
   StyleSheet,
-  Text,
   useColorScheme,
   View,
 } from 'react-native';
@@ -28,31 +27,154 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import { Provider as ThemeProvider, useTheme, withTheme } from './src';
+import Text from './src/components/Typography/Text';
+import Portal from './src/components/Portal/Portal';
+import MessageModal from './src/components/Modal/MessageModal';
+import Modal from './src/components/Modal/Modal';
+import Button from './src/components/Button';
+import Menu from './src/components/Menu/Menu';
+import SegmentedController from './src/components/SegmentedController/SegmentedController';
+import Pagination from './src/components/Pagination/Pagination';
 
-const Section: React.FC<{
-  title: string;
-}> = ({children, title}) => {
-  const isDarkMode = useColorScheme() === 'dark';
+const ModalExample = ({}: {}) => {
+  const theme = useTheme();
+  const [visible, setVisible] = React.useState(false);
+  const showModal = () => setVisible(true);
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
+    <>
+      <Portal>
+        <Modal
+          onDismiss={() => {
+            setVisible(false);
+          }}
+          visible={visible}
+          contentContainerStyle={{
+            backgroundColor: 'red',
+            padding: 20,
+            minHeight: 24,
+          }}
+        >
+          <Text variant="XSmall">This is a simple example</Text>
+        </Modal>
+      </Portal>
+      <View
+        style={{
+          backgroundColor: 'transparent',
+          justifyContent: 'center',
+          flex: 1,
+          alignItems: 'center',
+        }}
+      >
+        <Button style={{ marginTop: 30 }} onPress={showModal}>
+          Show
+        </Button>
+      </View>
+    </>
+  );
+};
+
+const numberOfItemsPerPageList = [1, 2, 3, 4];
+
+const items = [
+  {
+    key: 1,
+    name: 'Page 1',
+  },
+  {
+    key: 2,
+    name: 'Page 2',
+  },
+  {
+    key: 3,
+    name: 'Page 3',
+  },
+  {
+    key: 4,
+    name: 'Page 4',
+  },
+  {
+    key: 5,
+    name: 'Page 5',
+  },
+];
+
+const PaginationExample = () => {
+  const [page, setPage] = React.useState(0);
+  const [numberOfItemsPerPage, onItemsPerPageChange] = React.useState(
+    numberOfItemsPerPageList[0]
+  );
+  const from = page * numberOfItemsPerPage;
+  const to = Math.min((page + 1) * numberOfItemsPerPage, items.length);
+
+  React.useEffect(() => {
+    setPage(0);
+  }, [numberOfItemsPerPage]);
+
+  return (
+    <View style={{ flex: 1 }}>
+      <Pagination
+        page={page}
+        numberOfPages={Math.ceil(items.length / numberOfItemsPerPage)}
+        onPageChange={(page) => setPage(page)}
+        label={`${from + 1}-${to} of ${items.length}`}
+        showFastPaginationControls
+        numberOfItemsPerPageList={numberOfItemsPerPageList}
+        numberOfItemsPerPage={numberOfItemsPerPage}
+        onItemsPerPageChange={onItemsPerPageChange}
+        selectPageDropdownLabel={'Rows per page'}
+      />
+    </View>
+  );
+};
+
+const MenuExample = () => {
+  const [visible, setVisible] = React.useState(false);
+
+  const openMenu = () => setVisible(true);
+
+  const closeMenu = () => setVisible(false);
+
+  return (
+    <Menu
+      visible={visible}
+      onDismiss={closeMenu}
+      anchor={<Button onPress={openMenu}>Show menu</Button>}
+    >
+      <Menu.Item onPress={() => {}} title="Item 1" />
+      <Menu.Item onPress={() => {}} title="Item 2" />
+
+      <Menu.Item onPress={() => {}} title="Item 3" />
+    </Menu>
+  );
+};
+
+const SegmentedControllerExample = () => {
+  return (
+    <View style={{ flex: 1, backgroundColor: 'white', padding: 8 }}>
+      <SegmentedController
+        // mode="line"
+        segments={[
           {
-            color: isDarkMode ? Colors.white : Colors.black,
+            label: 'Segment1',
+            onPress: () => {
+              console.log('pressed');
+            },
           },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
           {
-            color: isDarkMode ? Colors.light : Colors.dark,
+            label: 'Segment2',
+            onPress: () => {
+              console.log('pressed 2');
+            },
           },
-        ]}>
-        {children}
-      </Text>
+          {
+            label: 'Segment3',
+            onPress: () => {
+              console.log('pressed 3');
+            },
+          },
+        ]}
+      />
     </View>
   );
 };
@@ -62,36 +184,13 @@ const App = () => {
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
+    flex: 1,
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.tsx</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+    <ThemeProvider>
+      <PaginationExample />
+    </ThemeProvider>
   );
 };
 

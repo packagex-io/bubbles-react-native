@@ -200,6 +200,7 @@ export const typescale: TextTypescale = {
     ...regularBodyType,
     fontSize: 16,
     lineHeight: 16 * ref.lineHeight.body.default,
+    letterSpacing: 0,
   },
   Caption: {
     ...regularBodyType,
@@ -211,11 +212,13 @@ export const typescale: TextTypescale = {
     ...regularBodyType,
     fontSize: fontSizes.xs,
     lineHeight: ref.fontSize['xs'] * ref.lineHeight.body.default,
+    letterSpacing: 0,
   },
   Tiny: {
     ...regularBodyType,
     fontSize: fontSizes.xxs,
     lineHeight: ref.fontSize['xxs'] * ref.lineHeight.body.default,
+    letterSpacing: 0,
   },
   'Input/Large': {
     ...regularBodyType,
