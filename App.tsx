@@ -44,19 +44,15 @@ const ModalExample = ({}: {}) => {
   return (
     <>
       <Portal>
-        <Modal
+        <MessageModal
+          title="Message modal"
           onDismiss={() => {
             setVisible(false);
           }}
           visible={visible}
-          contentContainerStyle={{
-            backgroundColor: 'red',
-            padding: 20,
-            minHeight: 24,
-          }}
         >
           <Text variant="XSmall">This is a simple example</Text>
-        </Modal>
+        </MessageModal>
       </Portal>
       <View
         style={{
@@ -223,7 +219,7 @@ const App = () => {
 
   return (
     <ThemeProvider>
-      <ButtonExample />
+      <ModalExample />
     </ThemeProvider>
   );
 };

@@ -5,6 +5,9 @@ import Text from '../Typography/Text';
 import type { Theme } from '../../types';
 import Modal from './Modal';
 import { colors } from '../../styles/tokens';
+import { withTheme } from '../../core/theming';
+import IconButton from '../IconButton/IconButton';
+import Button from '../Button';
 
 type Props = React.ComponentPropsWithRef<typeof View> & {
   /**
@@ -25,6 +28,10 @@ type Props = React.ComponentPropsWithRef<typeof View> & {
    */
   visible: boolean;
   /**
+   * The title of the modal
+   */
+  title: string;
+  /**
    * @optional
    */
   theme: Theme;
@@ -36,6 +43,7 @@ const MessageModal = ({
   onDismiss,
   visible = false,
   style,
+  title,
   theme,
 }: Props) => (
   <Modal
@@ -52,10 +60,21 @@ const MessageModal = ({
     ]}
   >
     <View style={{ flexDirection: 'column' }}>
-      <Text style={{ ...DefaultTheme.fonts.bold }} variant="Body">
-        Message Modal
-      </Text>
+      <View style={[styles.modalHeader]}>
+        <Text style={[{ ...theme.fonts.bold }]} variant="Body">
+          {title}
+        </Text>
+        <IconButton
+          icon="close"
+          iconColor={colors.black}
+          size={20}
+          onPress={() => console.log('Pressed')}
+        />
+      </View>
       <View style={[styles.innerContainer, style]}>{children}</View>
+      <View style={[styles.footer]}>
+        <Button onPress={() => {}}> Close modal</Button>
+      </View>
     </View>
   </Modal>
 );
@@ -73,11 +92,18 @@ const styles = StyleSheet.create({
     marginHorizontal: 26,
     elevation: 24,
     justifyContent: 'flex-start',
+    padding: 24,
   },
-  innerContainer: {
-    paddingBottom: 24,
-    paddingHorizontal: 24,
+  innerContainer: {},
+  modalHeader: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+
+    paddingVertical: 16,
   },
+  footer: { paddingVertical: 16 },
 });
 
-export default MessageModal;
+export default withTheme(MessageModal);
