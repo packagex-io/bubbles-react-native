@@ -23,11 +23,9 @@ export const fetchPageNumbers = (
   const currentPage = page + 1;
 
   /**
-   * totalNumbers: the total page numbers to show on the control
-   * totalBlocks: totalNumbers + 2 to cover for the left(<) and right(>) controls
+   * totalNumbers: the total page numbers to show on the control. Page itself + neighbouring pages
    */
   const totalNumbers = pageNeighbours * 2 + 1;
-  const totalBlocks = totalNumbers;
 
   const startPage = Math.max(1, currentPage - pageNeighbours);
   const endPage = Math.min(totalPages, currentPage + pageNeighbours);
@@ -42,7 +40,6 @@ export const fetchPageNumbers = (
       pages = [numberOfPages - 2, ...pages];
     }
   }
-  console.log(pages, startPage, endPage, currentPage);
 
   return [...pages];
 };

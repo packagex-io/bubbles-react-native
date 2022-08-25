@@ -179,6 +179,40 @@ const SegmentedControllerExample = () => {
   );
 };
 
+const ButtonExample = () => {
+  const theme = useTheme();
+  return (
+    <View
+      style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'row',
+      }}
+    >
+      <View style={{ padding: 8 }}>
+        <Button
+          onPress={() => {
+            console.log('pressed');
+          }}
+        >
+          Button text
+        </Button>
+      </View>
+      <View>
+        <Button
+          mode="outlined"
+          onPress={() => {
+            console.log('pressed');
+          }}
+        >
+          Button text
+        </Button>
+      </View>
+    </View>
+  );
+};
+
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
@@ -189,7 +223,7 @@ const App = () => {
 
   return (
     <ThemeProvider>
-      <PaginationExample />
+      <ButtonExample />
     </ThemeProvider>
   );
 };

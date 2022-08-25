@@ -103,7 +103,7 @@ const PaginationControls = ({
         <IconButton
           icon={({ size, color }) => (
             <MaterialCommunityIcon
-              name="page-first"
+              name="chevron-double-left"
               color={color}
               size={size}
               style={[
@@ -188,7 +188,7 @@ const PaginationControls = ({
         <IconButton
           icon={({ size, color }) => (
             <MaterialCommunityIcon
-              name="page-last"
+              name="chevron-double-right"
               color={color}
               size={size}
               style={[

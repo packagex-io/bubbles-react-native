@@ -38,10 +38,6 @@ type Props = React.ComponentProps<typeof Surface> & {
    * Whether to show a loading indicator.
    */
   loading?: boolean;
-  // /**
-  //  * Icon to display for the `Button`.
-  //  */
-  // icon?: IconSource;
   /**
    * Whether the button is disabled. A disabled button is greyed out and `onPress` is not called on touch.
    */
@@ -92,10 +88,8 @@ type Props = React.ComponentProps<typeof Surface> & {
 
 const Button = ({
   disabled,
-  compact,
   mode = 'contained',
   loading,
-  // icon,
   color: buttonColor,
   children,
   accessibilityLabel,
@@ -117,6 +111,10 @@ const Button = ({
   React.useEffect(() => {
     elevation.setValue(disabled || mode !== 'contained' ? 0 : 2);
   }, [mode, elevation, disabled]);
+
+  const baseButtonColor = buttonColor
+    ? buttonColor
+    : theme.colors.primary.default;
 
   const handlePressIn = () => {
     if (mode === 'contained') {
@@ -150,7 +148,7 @@ const Button = ({
 
   if (mode === 'contained') {
     if (disabled) {
-      backgroundColor = color(theme.dark ? Colors.white : Colors.black)
+      backgroundColor = color(theme.dark ? Colors.white : baseButtonColor)
         .alpha(0.12)
         .rgb()
         .string();
@@ -164,19 +162,22 @@ const Button = ({
   }
 
   if (mode === 'outlined') {
-    borderColor = buttonColor ? buttonColor : theme.colors.primary.default;
+    if (disabled) {
+      borderColor = color(baseButtonColor).alpha(0.12).rgb().string();
+    } else {
+      borderColor = baseButtonColor;
+    }
     borderWidth = 3;
   } else {
     borderColor = 'transparent';
     borderWidth = 0;
   }
-
-  if (mode === 'contained') {
+  if (disabled) {
+    textColor = color(baseButtonColor).alpha(0.32).rgb().string();
+  } else if (mode === 'contained') {
     textColor = Colors.white;
-  } else if (buttonColor) {
-    textColor = buttonColor;
   } else {
-    textColor = theme.colors.primary.default;
+    textColor = baseButtonColor;
   }
 
   const rippleColor = color(textColor).alpha(0.32).rgb().string();
@@ -207,7 +208,7 @@ const Button = ({
       {...rest}
       style={[
         styles.button,
-        compact && styles.compact,
+
         { elevation },
         buttonStyle,
         style,
@@ -223,7 +224,6 @@ const Button = ({
         onPressOut={handlePressOut}
         accessibilityLabel={accessibilityLabel}
         accessibilityHint={accessibilityHint}
-        // @ts-expect-error We keep old a11y props for backwards compat with old RN versions
         accessibilityTraits={disabled ? ['button', 'disabled'] : 'button'}
         accessibilityComponentType="button"
         accessibilityRole="button"
@@ -262,13 +262,7 @@ const Button = ({
           <Text
             selectable={false}
             numberOfLines={1}
-            style={[
-              styles.label,
-              compact && styles.compactLabel,
-              textStyle,
-              font,
-              labelStyle,
-            ]}
+            style={[styles.label, textStyle, font, labelStyle]}
           >
             {children}
           </Text>
@@ -283,17 +277,15 @@ const styles = StyleSheet.create({
     // minWidth: 64,
     borderStyle: 'solid',
   },
-  compact: {
-    minWidth: 'auto',
-  },
+
   content: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
   icon: {
-    marginLeft: 12,
-    marginRight: -4,
+    marginLeft: 18,
+    marginRight: -16,
   },
   iconReverse: {
     marginRight: 12,
@@ -304,9 +296,6 @@ const styles = StyleSheet.create({
     letterSpacing: 1,
     marginVertical: 16,
     marginHorizontal: 24,
-  },
-  compactLabel: {
-    marginHorizontal: 8,
   },
 });
 
