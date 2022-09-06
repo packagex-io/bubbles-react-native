@@ -13,3 +13,5 @@ import './Switch/Switch.stories';
 import './Pagination/Pagination.stories';
 import './Toast/Toast.stories';
 import './Modal/Modal.stories';
+import './Breadcrumbs/Breadcrumbs.stories';
+import './SegmentedController/SegmentedController.stories';

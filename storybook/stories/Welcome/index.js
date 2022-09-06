@@ -35,7 +35,6 @@ class Welcome extends React.Component {
   render() {
     return (
       <View style={this.styles.wrapper}>
-        <Breadcrumbs />
         <Text
           style={{
             ...this.styles.header,

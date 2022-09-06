@@ -5,9 +5,9 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import CenterView from '../CenterView';
 import Icon from 'react-native-vector-icons/Feather';
-// import Pagination from '../../../src/components/Pagination/Pagination';
+import Pagination from '../../../src/components/Pagination/Pagination';
 
-const numberOfItemsPerPageList = [2, 3, 4];
+const numberOfItemsPerPageList = [1, 2, 3, 4];
 
 const items = [
   {
@@ -22,9 +22,17 @@ const items = [
     key: 3,
     name: 'Page 3',
   },
+  {
+    key: 4,
+    name: 'Page 4',
+  },
+  {
+    key: 5,
+    name: 'Page 5',
+  },
 ];
 
-const PaginationComponent = () => {
+const PaginationExample = () => {
   const [page, setPage] = React.useState(0);
   const [numberOfItemsPerPage, onItemsPerPageChange] = React.useState(
     numberOfItemsPerPageList[0]
@@ -37,19 +45,19 @@ const PaginationComponent = () => {
   }, [numberOfItemsPerPage]);
 
   return (
-    <>
-      {/* // <Pagination
-    //   page={page}
-    //   numberOfPages={Math.ceil(items.length / numberOfItemsPerPage)}
-    //   onPageChange={(page) => setPage(page)}
-    //   label={`${from + 1}-${to} of ${items.length}`}
-    //   showFastPaginationControls
-    //   numberOfItemsPerPageList={numberOfItemsPerPageList}
-    //   numberOfItemsPerPage={numberOfItemsPerPage}
-    //   onItemsPerPageChange={onItemsPerPageChange}
-    //   selectPageDropdownLabel={'Rows per page'}
-    // />  */}
-    </>
+    <View style={{ flex: 1 }}>
+      <Pagination
+        page={page}
+        numberOfPages={Math.ceil(items.length / numberOfItemsPerPage)}
+        onPageChange={(page) => setPage(page)}
+        label={`${from + 1}-${to} of ${items.length}`}
+        showFastPaginationControls
+        numberOfItemsPerPageList={numberOfItemsPerPageList}
+        numberOfItemsPerPage={numberOfItemsPerPage}
+        onItemsPerPageChange={onItemsPerPageChange}
+        selectPageDropdownLabel={'Rows per page'}
+      />
+    </View>
   );
 };
 
@@ -68,6 +76,6 @@ storiesOf('Pagination', module)
   ))
   .add('default', () => (
     <>
-      <PaginationComponent />
+      <PaginationExample />
     </>
   ));

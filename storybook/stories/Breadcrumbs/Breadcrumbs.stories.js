@@ -3,18 +3,14 @@ import { text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react-native';
 import React from 'react';
 import { Text, View } from 'react-native';
-import Divider from '../../../src/components/Divider/Divider';
+import Breadcrumbs from '../../../src/components/Breadcrumbs/Breadcrumbs';
+import Button from '../../../src/components/Button';
 import CenterView from '../CenterView';
 
-storiesOf('Divider', module)
+storiesOf('Breadcrumbs', module)
   .addDecorator((getStory) => <CenterView>{getStory()}</CenterView>)
   .add('default', () => (
-    <View style={{ width: '90%', backgroundColor: 'white' }}>
-      <Divider />
-    </View>
-  ))
-  .add('with text', () => (
-    <View style={{ width: '90%' }}>
-      <Divider label="text in the middle" />
-    </View>
+    <>
+      <Breadcrumbs />
+    </>
   ));

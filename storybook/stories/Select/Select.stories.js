@@ -26,9 +26,11 @@ const SelectComponent = () => {
       <View
         style={{
           flex: 1,
-          width: '90%',
+          width: '100%',
           alignItems: 'center',
           paddingVertical: 16,
+          justifyContent: 'center',
+          paddingHorizontal: 16,
         }}
       >
         <Select
@@ -43,5 +45,5 @@ const SelectComponent = () => {
 };
 
 storiesOf('Select', module)
-  .addDecorator((getStory) => <CenterView>{getStory()}</CenterView>)
+  .addDecorator((getStory) => <>{getStory()}</>)
   .add('default', () => <SelectComponent />);

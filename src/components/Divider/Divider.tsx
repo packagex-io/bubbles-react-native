@@ -23,7 +23,9 @@ const Divider = ({ style, theme, label, ...rest }: Props) => {
       {label ? (
         <View style={{ flexDirection: 'row' }}>
           <View style={[styles.divider, { flex: 1, alignSelf: 'center' }]} />
-          <Text style={[styles.label]}>{label}</Text>
+          <Text style={[styles.label, { color: theme.colors.bg.muted }]}>
+            {label}
+          </Text>
           <View style={[styles.divider, { flex: 1, alignSelf: 'center' }]} />
         </View>
       ) : (
@@ -36,7 +38,7 @@ const Divider = ({ style, theme, label, ...rest }: Props) => {
 const styles = StyleSheet.create({
   divider: {
     backgroundColor: '#CCCDD3',
-    height: StyleSheet.hairlineWidth,
+    height: StyleSheet.hairlineWidth * 2,
     width: '100%',
   },
   label: {
@@ -44,7 +46,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     paddingHorizontal: 24,
     textTransform: 'uppercase',
-    color: '#0D0D0E',
   },
 });
 
