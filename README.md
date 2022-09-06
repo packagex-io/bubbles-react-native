@@ -5,7 +5,7 @@ A React Native UI Kit
 ## Getting Started
 
 This projecty was developed on Windows and tested on Android.
-Prerequisite are to have React Native installed and an emulator setup.
+Prerequisites are to have React Native installed and an emulator setup.
 
 - Run `npm i` to install all the dependencies
 - To preview all the components using Storybook, run storybook with `npm run storybook`
