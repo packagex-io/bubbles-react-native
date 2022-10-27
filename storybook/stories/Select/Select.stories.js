@@ -31,6 +31,7 @@ const SelectComponent = () => {
           paddingVertical: 16,
           justifyContent: 'center',
           paddingHorizontal: 16,
+          position: 'relative',
         }}
       >
         <Select
