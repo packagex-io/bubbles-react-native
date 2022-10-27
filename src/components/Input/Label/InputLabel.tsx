@@ -1,11 +1,11 @@
 import React from 'react';
-import { Animated, StyleSheet } from 'react-native';
+import {Animated, StyleSheet} from 'react-native';
 import AnimatedText from '../../Typography/AnimatedText';
 
-import type { InputLabelProps } from '../types';
+import type {InputLabelProps} from '../types';
 
 const InputLabel = (props: InputLabelProps) => {
-  const { parentState } = props;
+  const {parentState} = props;
 
   const {
     label,
@@ -99,7 +99,7 @@ const InputLabel = (props: InputLabelProps) => {
             top: topPosition,
           },
           labelStyle,
-          {textTransform:'uppercase'},
+          {textTransform: 'uppercase', fontFamily: 'Inter'},
           paddingOffset || {},
           {
             color: activeColor,
@@ -120,7 +120,8 @@ const InputLabel = (props: InputLabelProps) => {
           {
             top: topPosition,
           },
-          labelStyle,{textTransform:'uppercase'},
+          labelStyle,
+          {textTransform: 'uppercase', fontFamily: 'Inter'},
           paddingOffset,
           {
             color: error && errorColor ? errorColor : placeholderColor,

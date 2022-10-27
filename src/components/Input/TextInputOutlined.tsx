@@ -11,7 +11,7 @@ import {
 import color from 'color';
 
 import InputLabel from './Label/InputLabel';
-import type { RenderProps, ChildTextInputProps } from './types';
+import type {RenderProps, ChildTextInputProps} from './types';
 
 import {
   MAXIMIZED_LABEL_FONT_SIZE,
@@ -65,7 +65,7 @@ const TextInputOutlined = ({
   placeholderTextColor,
   ...rest
 }: ChildTextInputProps) => {
-  const { colors, fonts } = theme;
+  const {colors, fonts} = theme;
   const font = fonts.semiBold;
   const hasActiveOutline = parentState.focused || error;
 
@@ -92,7 +92,9 @@ const TextInputOutlined = ({
     outlineColor = isTransparent ? customOutlineColor : colors.disabled;
   } else {
     inputTextColor = colors.text;
-    activeColor = error ? colors.error : activeOutlineColor || colors.primary;
+    activeColor = error
+      ? colors.error
+      : activeOutlineColor || colors.primary.default;
     placeholderColor = colors.placeholder;
     outlineColor = customOutlineColor || colors.placeholder;
     errorColor = colors.error;
@@ -141,13 +143,13 @@ const TextInputOutlined = ({
     scale: fontScale,
     isAndroid: Platform.OS === 'android',
     styles: StyleSheet.flatten(
-      dense ? styles.inputOutlinedDense : styles.inputOutlined
+      dense ? styles.inputOutlinedDense : styles.inputOutlined,
     ) as Padding,
   };
 
   const pad = calculatePadding(paddingSettings);
 
-  const paddingOut = adjustPaddingOut({ ...paddingSettings, pad });
+  const paddingOut = adjustPaddingOut({...paddingSettings, pad});
 
   const baseLabelTranslateY =
     -labelHalfHeight - (topPosition + OUTLINE_MINIMIZED_LABEL_Y_OFFSET) + 24;
@@ -185,7 +187,7 @@ const TextInputOutlined = ({
   const minHeight = (height ||
     (dense ? MIN_DENSE_HEIGHT : MIN_HEIGHT)) as number;
 
-  const { leftLayout, rightLayout } = parentState;
+  const {leftLayout, rightLayout} = parentState;
 
   return (
     <View style={viewStyle}>
@@ -235,15 +237,15 @@ const TextInputOutlined = ({
             multiline,
             style: [
               styles.input,
-              !multiline || (multiline && height)
-                ? { height: inputHeight }
-                : {},
+              !multiline || (multiline && height) ? {height: inputHeight} : {},
               paddingOut,
-              multiline ? { ...fonts.regular } : { ...font },
+              multiline ? {...fonts.regular} : {...font},
               {
                 fontSize: 14,
                 top: multiline ? 28 : 8,
+
                 fontWeight,
+                fontFamily: 'Inter',
                 color: inputTextColor,
                 textAlignVertical: multiline ? 'top' : 'center',
                 textAlign: textAlign
@@ -251,6 +253,10 @@ const TextInputOutlined = ({
                   : I18nManager.isRTL
                   ? 'right'
                   : 'left',
+              },
+              Platform.OS === 'web' && {
+                outline: 'none',
+                paddingTop: multiline ? 28 : 4,
               },
             ],
           } as RenderProps)}

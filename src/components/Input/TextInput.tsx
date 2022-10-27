@@ -7,11 +7,11 @@ import {
   TextStyle,
 } from 'react-native';
 import TextInputOutlined from './TextInputOutlined';
-import { withTheme } from '../../core/theming';
-import type { RenderProps, TextInputLabelProp } from './types';
+import {withTheme} from '../../core/theming';
+import type {RenderProps, TextInputLabelProp} from './types';
 import color from 'color';
 import TextInputCard from './TextInputCard';
-import { LABEL_PADDING_HORIZONTAL } from './constants';
+import {LABEL_PADDING_HORIZONTAL} from './constants';
 
 const BLUR_ANIMATION_DURATION = 180;
 const FOCUS_ANIMATION_DURATION = 150;
@@ -134,24 +134,6 @@ type TextInputHandles = Pick<
 /**
  * A component to allow users to input text.
  *
- * <div class="screenshots">
- *   <figure>
- *     <img class="medium" src="screenshots/textinput-flat.focused.png" />
- *     <figcaption>Flat (focused)</figcaption>
- *   </figure>
- *   <figure>
- *     <img class="medium" src="screenshots/textinput-flat.disabled.png" />
- *     <figcaption>Flat (disabled)</figcaption>
- *   </figure>
- *   <figure>
- *     <img class="medium" src="screenshots/textinput-outlined.focused.png" />
- *     <figcaption>Outlined (focused)</figcaption>
- *   </figure>
- *   <figure>
- *     <img class="medium" src="screenshots/textinput-outlined.disabled.png" />
- *     <figcaption>Outlined (disabled)</figcaption>
- *   </figure>
- * </div>
  *
  * ## Usage
  * ```js
@@ -188,24 +170,22 @@ const TextInput = React.forwardRef<TextInputHandles, TextInputProps>(
       type = 'text',
       ...rest
     }: TextInputProps,
-    ref
+    ref,
   ) => {
     const isControlled = rest.value !== undefined;
     const validInputValue = isControlled ? rest.value : rest.defaultValue;
 
-    const { current: labeled } = React.useRef<Animated.Value>(
-      new Animated.Value(validInputValue ? 0 : 1)
+    const {current: labeled} = React.useRef<Animated.Value>(
+      new Animated.Value(validInputValue ? 0 : 1),
     );
-    const { current: error } = React.useRef<Animated.Value>(
-      new Animated.Value(errorProp ? 1 : 0)
+    const {current: error} = React.useRef<Animated.Value>(
+      new Animated.Value(errorProp ? 1 : 0),
     );
     const [focused, setFocused] = React.useState<boolean>(false);
-    const [placeholder, setPlaceholder] = React.useState<string | undefined>(
-      ''
-    );
-    const [uncontrolledValue, setUncontrolledValue] = React.useState<
-      string | undefined
-    >(validInputValue);
+    const [placeholder, setPlaceholder] =
+      React.useState<string | undefined>('');
+    const [uncontrolledValue, setUncontrolledValue] =
+      React.useState<string | undefined>(validInputValue);
     // Use value from props instead of local state when input is controlled
     const value = isControlled ? rest.value : uncontrolledValue;
 
@@ -237,7 +217,7 @@ const TextInput = React.forwardRef<TextInputHandles, TextInputProps>(
 
     const root = React.useRef<NativeTextInput | undefined | null>();
 
-    const { scale } = rest.theme.animation;
+    const {scale} = rest.theme.animation;
 
     React.useImperativeHandle(ref, () => ({
       focus: () => root.current?.focus(),
@@ -280,7 +260,7 @@ const TextInput = React.forwardRef<TextInputHandles, TextInputProps>(
         // If we show it immediately, they'll overlap and look ugly
         timer.current = setTimeout(
           () => setPlaceholder(rest.placeholder),
-          50
+          50,
         ) as unknown as NodeJS.Timeout;
       } else {
         // hidePlaceholder
@@ -375,7 +355,7 @@ const TextInput = React.forwardRef<TextInputHandles, TextInputProps>(
     };
     const forceFocus = () => root.current?.focus();
 
-    const { maxFontSizeMultiplier = 1.5 } = rest;
+    const {maxFontSizeMultiplier = 1.5} = rest;
 
     if (type === 'stripe-card') {
       return (
@@ -397,7 +377,7 @@ const TextInput = React.forwardRef<TextInputHandles, TextInputProps>(
             leftLayout,
             rightLayout,
           }}
-          innerRef={(ref) => {
+          innerRef={ref => {
             root.current = ref;
           }}
           onFocus={handleFocus}
@@ -433,7 +413,7 @@ const TextInput = React.forwardRef<TextInputHandles, TextInputProps>(
           leftLayout,
           rightLayout,
         }}
-        innerRef={(ref) => {
+        innerRef={ref => {
           root.current = ref;
         }}
         onFocus={handleFocus}
@@ -444,10 +424,10 @@ const TextInput = React.forwardRef<TextInputHandles, TextInputProps>(
         onLeftAffixLayoutChange={onLeftAffixLayoutChange}
         onRightAffixLayoutChange={onRightAffixLayoutChange}
         maxFontSizeMultiplier={maxFontSizeMultiplier}
-        style={{ fontWeight: '600' }}
+        style={{fontWeight: '600'}}
       />
     );
-  }
+  },
 );
 
 export default withTheme(TextInput);

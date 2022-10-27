@@ -6,6 +6,7 @@ import {
   StyleSheet,
   StyleProp,
   TextStyle,
+  Platform,
 } from 'react-native';
 import color from 'color';
 
@@ -119,27 +120,27 @@ const Button = ({
   const handlePressIn = () => {
     if (mode === 'contained') {
       const { scale } = theme.animation;
-      Animated.timing(elevation, {
-        toValue: 8,
-        duration: 200 * scale,
-        useNativeDriver: true,
-      }).start();
+      // Animated.timing(elevation, {
+      //   toValue: 8,
+      //   duration: 200 * scale,
+      //   useNativeDriver: true,
+      // }).start();
     }
   };
 
   const handlePressOut = () => {
     if (mode === 'contained') {
       const { scale } = theme.animation;
-      Animated.timing(elevation, {
-        toValue: 2,
-        duration: 150 * scale,
-        useNativeDriver: true,
-      }).start();
+      // Animated.timing(elevation, {
+      //   toValue: 2,
+      //   duration: 150 * scale,
+      //   useNativeDriver: true,
+      // }).start();
     }
   };
 
   const { colors, roundness } = theme;
-  const font = theme.fonts.medium;
+  const font = theme.fonts.bold;
 
   let backgroundColor: string,
     borderColor: string,
@@ -208,7 +209,6 @@ const Button = ({
       {...rest}
       style={[
         styles.button,
-
         { elevation },
         buttonStyle,
         style,

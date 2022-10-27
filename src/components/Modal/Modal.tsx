@@ -16,10 +16,10 @@ import color from 'color';
 //   getBottomSpace,
 // } from 'react-native-iphone-x-helper';
 import Surface from '../Surface';
-import { useTheme } from '../../core/theming';
+import {useTheme} from '../../core/theming';
 import useAnimatedValue from '../../utils/useAnimatedValue';
-import { addEventListener } from '../../utils/addEventListener';
-import { colors } from '../../styles/tokens';
+import {addEventListener} from '../../utils/addEventListener';
+import {colors} from '../../styles/tokens';
 
 type Props = {
   /**
@@ -74,7 +74,7 @@ export default function Modal({
 
   const theme = useTheme();
 
-  const { scale } = theme.animation;
+  const {scale} = theme.animation;
 
   const opacity = useAnimatedValue(visible ? 1 : 0);
 
@@ -91,16 +91,15 @@ export default function Modal({
     return true;
   };
 
-  const subscription = React.useRef<NativeEventSubscription | undefined>(
-    undefined
-  );
+  const subscription =
+    React.useRef<NativeEventSubscription | undefined>(undefined);
 
   const showModal = () => {
     subscription.current?.remove();
     subscription.current = addEventListener(
       BackHandler,
       'hardwareBackPress',
-      handleBack
+      handleBack,
     );
 
     Animated.timing(opacity, {
@@ -128,7 +127,7 @@ export default function Modal({
       duration: scale * DEFAULT_DURATION,
       easing: Easing.out(Easing.cubic),
       useNativeDriver: true,
-    }).start(({ finished }) => {
+    }).start(({finished}) => {
       if (!finished) {
         return;
       }
@@ -200,7 +199,7 @@ export default function Modal({
         <Surface
           style={
             [
-              { opacity },
+              {opacity},
               styles.content,
               contentContainerStyle,
             ] as StyleProp<ViewStyle>
@@ -220,6 +219,7 @@ const styles = StyleSheet.create({
   wrapper: {
     ...StyleSheet.absoluteFillObject,
     justifyContent: 'center',
+    alignItems: 'center',
   },
   content: {
     backgroundColor: 'transparent',

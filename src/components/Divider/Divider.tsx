@@ -1,9 +1,9 @@
 import * as React from 'react';
 import color from 'color';
-import { StyleSheet, View, ViewStyle, StyleProp, Text } from 'react-native';
-import { withTheme } from '../../core/theming';
-import { colors as Colors } from '../../styles/tokens';
-import type { $RemoveChildren } from '../../types';
+import {StyleSheet, View, ViewStyle, StyleProp, Text} from 'react-native';
+import {withTheme} from '../../core/theming';
+import {colors as Colors} from '../../styles/tokens';
+import type {$RemoveChildren} from '../../types';
 
 type Props = $RemoveChildren<typeof View> & {
   style?: StyleProp<ViewStyle>;
@@ -17,16 +17,16 @@ type Props = $RemoveChildren<typeof View> & {
   label?: string;
 };
 
-const Divider = ({ style, theme, label, ...rest }: Props) => {
+const Divider = ({style, theme, label, ...rest}: Props) => {
   return (
     <>
       {label ? (
-        <View style={{ flexDirection: 'row' }}>
-          <View style={[styles.divider, { flex: 1, alignSelf: 'center' }]} />
-          <Text style={[styles.label, { color: theme.colors.bg.muted }]}>
+        <View style={{flexDirection: 'row'}}>
+          <View style={[styles.divider, {flex: 1, alignSelf: 'center'}]} />
+          <Text style={[styles.label, {color: theme.colors.bg.muted}]}>
             {label}
           </Text>
-          <View style={[styles.divider, { flex: 1, alignSelf: 'center' }]} />
+          <View style={[styles.divider, {flex: 1, alignSelf: 'center'}]} />
         </View>
       ) : (
         <View {...rest} style={[styles.divider, style]} />
@@ -38,7 +38,7 @@ const Divider = ({ style, theme, label, ...rest }: Props) => {
 const styles = StyleSheet.create({
   divider: {
     backgroundColor: '#CCCDD3',
-    height: StyleSheet.hairlineWidth * 2,
+    height: StyleSheet.hairlineWidth * 1,
     width: '100%',
   },
   label: {

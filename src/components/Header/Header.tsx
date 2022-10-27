@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { View, ViewStyle, Platform, StyleSheet, StyleProp } from 'react-native';
+import {View, ViewStyle, Platform, StyleSheet, StyleProp} from 'react-native';
 import color from 'color';
 
 import Surface from '../Surface';
-import { withTheme } from '../../core/theming';
-import { colors as Colors } from '../../styles/tokens';
+import {withTheme} from '../../core/theming';
+import {colors as Colors} from '../../styles/tokens';
 import overlay from '../../styles/overlay';
 import Text from '../Typography/Text';
 import HeaderBackIcon from './BackIcon';
@@ -53,7 +53,7 @@ const Header = ({
   breadcrumb_labels,
   ...rest
 }: Props) => {
-  const { colors, dark: isDarkTheme, mode, fonts } = theme;
+  const {colors, dark: isDarkTheme, mode, fonts} = theme;
   const {
     backgroundColor: customBackground,
     elevation = 0,
@@ -79,15 +79,15 @@ const Header = ({
   }
 
   return (
-    <View style={{ width: '100%' }}>
+    <View style={{width: '100%'}}>
       <Surface
-        style={[{ backgroundColor }, styles.appbar, { elevation }, restStyle]}
+        style={[{backgroundColor}, styles.appbar, {elevation}, restStyle]}
         {...rest}
       >
         <View style={[styles.container, style]} {...rest}>
           {React.Children.toArray(children)
-            .filter((child) => child != null && typeof child !== 'boolean')
-            .filter((child) => [HeaderBackIcon].includes(child.type))
+            .filter(child => child != null && typeof child !== 'boolean')
+            .filter(child => [HeaderBackIcon].includes(child.type))
             .map((child, i) => {
               return child;
             })}
@@ -98,10 +98,11 @@ const Header = ({
               {
                 color: titleColor,
                 ...fonts.bold,
-                marginLeft: 8,
+                marginLeft: 32,
                 textAlign: centerText ? 'center' : 'left',
               },
               styles.title,
+              Platform.OS === 'web' && {fontFamily: 'Inter', fontWeight: 700},
             ]}
             numberOfLines={1}
             accessible
@@ -111,14 +112,14 @@ const Header = ({
             {title}
           </Text>
           {React.Children.toArray(children)
-            .filter((child) => child != null && typeof child !== 'boolean')
-            .filter((child) => [HeaderCloseIcon].includes(child.type))
+            .filter(child => child != null && typeof child !== 'boolean')
+            .filter(child => [HeaderCloseIcon].includes(child.type))
             .map((child, i) => {
               return child;
             })}
         </View>
       </Surface>
-      <View style={{ paddingLeft: 54 }}>
+      <View style={{paddingLeft: 78}}>
         <Breadcrumbs
           breadcrumbs={breadcrumbs}
           breadcrumb_labels={breadcrumb_labels}
@@ -132,7 +133,7 @@ const styles = StyleSheet.create({
   appbar: {
     height: DEFAULT_APPBAR_HEIGHT,
     flexDirection: 'column',
-    alignItems: 'center',
+    justifyContent: 'center',
     paddingHorizontal: 4,
     elevation: 0,
     // borderBottomWidth: StyleSheet.hairlineWidth,
@@ -157,4 +158,4 @@ export default withTheme(Header);
 // @component-docs ignore-next-line
 const HeaderWithTheme = withTheme(Header);
 // @component-docs ignore-next-line
-export { HeaderWithTheme as Header };
+export {HeaderWithTheme as Header};

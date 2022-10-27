@@ -7,9 +7,9 @@ import {
   I18nManager,
   Platform,
 } from 'react-native';
-import { useTheme } from '../../core/theming';
-import { colors } from '../../styles/tokens';
-import { BodyType, Font, HeadlinesType, Theme } from '../../types';
+import {useTheme} from '../../core/theming';
+import {colors} from '../../styles/tokens';
+import {BodyType, Font, HeadlinesType, Theme} from '../../types';
 
 type Props = React.ComponentProps<typeof NativeText> & {
   /**
@@ -23,8 +23,8 @@ type Props = React.ComponentProps<typeof NativeText> & {
 };
 
 const Text: React.ForwardRefRenderFunction<{}, Props> = (
-  { style, variant, theme: initialTheme, ...rest }: Props,
-  ref
+  {style, variant, theme: initialTheme, ...rest}: Props,
+  ref,
 ) => {
   const root = React.useRef<NativeText | null>(null);
   // FIXME: destructure it in TS 4.6+
@@ -37,16 +37,16 @@ const Text: React.ForwardRefRenderFunction<{}, Props> = (
 
   if (variant) {
     const stylesByVariant = Object.keys(
-      Object.assign({}, HeadlinesType, BodyType)
+      Object.assign({}, HeadlinesType, BodyType),
     ).reduce(
       (acc, key) => {
-        const { fontSize, fontWeight, lineHeight, letterSpacing, fontFamily } =
+        const {fontSize, fontWeight, lineHeight, letterSpacing, fontFamily} =
           theme.typescale[key as keyof typeof HeadlinesType | BodyType];
 
         return {
           ...acc,
           [key]: {
-            ...(Platform.OS === 'android' && { fontFamily }),
+            ...(Platform.OS === 'android' && {fontFamily}),
             fontSize,
             fontWeight,
             lineHeight,
@@ -62,7 +62,7 @@ const Text: React.ForwardRefRenderFunction<{}, Props> = (
           lineHeight: number;
           letterSpacing: number;
         };
-      }
+      },
     );
 
     const styleForVariant = stylesByVariant[variant];
@@ -70,7 +70,7 @@ const Text: React.ForwardRefRenderFunction<{}, Props> = (
     return (
       <NativeText
         ref={root}
-        style={[styleForVariant, styles.text, { writingDirection }, style]}
+        style={[styleForVariant, styles.text, {writingDirection}, style]}
         {...rest}
       />
     );
@@ -86,6 +86,7 @@ const Text: React.ForwardRefRenderFunction<{}, Props> = (
           },
           styles.text,
           style,
+          Platform.OS === 'web' && {fontFamily: 'Inter'},
         ]}
       />
     );

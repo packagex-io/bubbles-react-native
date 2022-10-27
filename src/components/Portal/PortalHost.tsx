@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { View, StyleSheet } from 'react-native';
+
 import PortalManager from './PortalManager';
 
-type Props = {
+export type Props = {
   children: React.ReactNode;
 };
 
@@ -19,6 +20,28 @@ export type PortalMethods = {
 
 export const PortalContext = React.createContext<PortalMethods>(null as any);
 
+/**
+ * Portal host renders all of its children `Portal` elements.
+ * For example, you can wrap a screen in `Portal.Host` to render items above the screen.
+ * If you're using the `Provider` component, it already includes `Portal.Host`.
+ *
+ * ## Usage
+ * ```js
+ * import * as React from 'react';
+ * import { Text } from 'react-native';
+ * import { Portal } from 'react-native-paper';
+ *
+ * const MyComponent = () => (
+ *   <Portal.Host>
+ *     <Text>Content of the app</Text>
+ *   </Portal.Host>
+ * );
+ *
+ * export default MyComponent;
+ * ```
+ *
+ * Here any `Portal` elements under `<App />` are rendered alongside `<App />` and will appear above `<App />` like a `Modal`.
+ */
 export default class PortalHost extends React.Component<Props> {
   static displayName = 'Portal.Host';
 

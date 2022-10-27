@@ -1,14 +1,23 @@
 import * as React from 'react';
 import {
+  Animated,
+  Easing,
   NativeModules,
   Platform,
   StyleProp,
   Switch as NativeSwitch,
+  TouchableHighlight,
+  TouchableNativeFeedback,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
   ViewStyle,
 } from 'react-native';
-import { withTheme } from '../../core/theming';
-import type { Theme } from '../../types';
-import { getSwitchColor } from './utils';
+import {withTheme} from '../../core/theming';
+import type {Theme} from '../../types';
+import useAnimatedValue from '../../utils/useAnimatedValue';
+import TouchableRippleNative from '../TouchableRipple/TouchableRipple.native';
+import {getSwitchColor} from './utils';
 
 const version = NativeModules.PlatformConstants
   ? NativeModules.PlatformConstants.reactNativeVersion
@@ -38,6 +47,8 @@ type Props = React.ComponentPropsWithRef<typeof NativeSwitch> & {
   theme: Theme;
 };
 
+const KNOB_OFFSET = 36;
+
 const Switch = ({
   value,
   disabled,
@@ -46,41 +57,60 @@ const Switch = ({
   theme,
   ...rest
 }: Props) => {
-  const { checkedColor, onTintColor, thumbTintColor } = getSwitchColor({
-    theme,
-    disabled,
-    value,
-    color,
-  });
+  const xPosiiton = useAnimatedValue(value ? KNOB_OFFSET : 0);
 
-  const props =
-    version && version.major === 0 && version.minor <= 56
-      ? {
-          onTintColor,
-          thumbTintColor,
-        }
-      : Platform.OS === 'web'
-      ? {
-          activeTrackColor: onTintColor,
-          thumbColor: thumbTintColor,
-          activeThumbColor: checkedColor,
-        }
-      : {
-          thumbColor: thumbTintColor,
-          trackColor: {
-            true: onTintColor,
-            false: onTintColor,
-          },
-        };
+  React.useEffect(() => {
+    Animated.timing(xPosiiton, {
+      toValue: value ? KNOB_OFFSET : 0,
+      easing: Easing.elastic(0.7),
+      duration: 100,
+      useNativeDriver: true,
+    }).start();
+    return () => {};
+  }, [value]);
 
   return (
-    <NativeSwitch
-      value={value}
-      disabled={disabled}
-      onValueChange={disabled ? undefined : onValueChange}
-      {...props}
-      {...rest}
-    />
+    <View>
+      <TouchableHighlight
+        underlayColor={theme.colors.bg.subtle}
+        style={{
+          width: 64,
+          height: 24,
+          borderRadius: KNOB_OFFSET,
+          padding: 4,
+          backgroundColor: theme.colors.bg.subtle,
+          justifyContent: 'center',
+        }}
+        onPress={disabled ? undefined : onValueChange}
+      >
+        <Animated.View
+          style={{
+            width: 20,
+            height: 20,
+            borderRadius: 32,
+            backgroundColor: 'white',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transform: [
+              {
+                translateX: xPosiiton,
+              },
+            ],
+          }}
+        >
+          <View
+            style={{
+              width: 12,
+              height: 12,
+              backgroundColor: value
+                ? theme.colors.primary.default
+                : theme.colors.fg.subtle,
+              borderRadius: 16,
+            }}
+          />
+        </Animated.View>
+      </TouchableHighlight>
+    </View>
   );
 };
 

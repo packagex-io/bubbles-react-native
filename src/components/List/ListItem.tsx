@@ -3,6 +3,7 @@ import * as React from 'react';
 import {
   Alert,
   Linking,
+  Platform,
   StyleProp,
   StyleSheet,
   TextStyle,
@@ -12,9 +13,9 @@ import {
 
 import TouchableRipple from '../TouchableRipple/TouchableRipple.native';
 import Text from '../Typography/Text';
-import { withTheme } from '../../core/theming';
-import type { $RemoveChildren, EllipsizeProp } from '../../types';
-import { colors as Colors } from '../../styles/tokens';
+import {withTheme} from '../../core/theming';
+import type {$RemoveChildren, EllipsizeProp} from '../../types';
+import {colors as Colors} from '../../styles/tokens';
 
 type Label =
   | React.ReactNode
@@ -153,7 +154,7 @@ const ListItem = ({
       <TouchableRipple
         rippleColor="#355DFF"
         onPress={handlePress}
-        style={{ marginRight: 24 }}
+        style={{marginRight: 24}}
       >
         <Text
           selectable={false}
@@ -161,8 +162,9 @@ const ListItem = ({
           ellipsizeMode={descriptionEllipsizeMode}
           style={[
             styles.description,
-            { color: '#355DFF', ...theme.fonts.semiBold },
+            {color: '#355DFF', ...theme.fonts.semiBold},
             descriptionStyle,
+            Platform.OS === 'web' && {fontFamily: 'Inter', fontWeight: 700},
           ]}
         >
           {description}
@@ -175,8 +177,9 @@ const ListItem = ({
         ellipsizeMode={descriptionEllipsizeMode}
         style={[
           styles.description,
-          { color: textColor, ...theme.fonts.semiBold },
+          {color: textColor, ...theme.fonts.semiBold},
           descriptionStyle,
+          Platform.OS === 'web' && {fontFamily: 'Inter', fontWeight: 700},
         ]}
       >
         {description}
@@ -199,7 +202,12 @@ const ListItem = ({
         selectable={false}
         ellipsizeMode={titleEllipsizeMode}
         numberOfLines={titleNumberOfLines}
-        style={[styles.label, { ...theme.fonts.semiBold }, labelStyle]}
+        style={[
+          styles.label,
+          {...theme.fonts.semiBold},
+          labelStyle,
+          Platform.OS === 'web' && {fontFamily: 'Inter'},
+        ]}
       >
         {label}
       </Text>
@@ -240,7 +248,7 @@ ListItem.displayName = 'List.Item';
 
 const styles = StyleSheet.create({
   container: {
-    borderWidth: StyleSheet.hairlineWidth * 5,
+    borderWidth: StyleSheet.hairlineWidth * 2,
     width: '100%',
     borderRadius: 16,
     borderColor: '#CCCDD3',
@@ -259,8 +267,8 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 14,
   },
-  marginVerticalNone: { marginVertical: 0 },
-  iconMarginRight: { marginRight: 0 },
+  marginVerticalNone: {marginVertical: 0},
+  iconMarginRight: {marginRight: 0},
   item: {
     marginVertical: 16,
     paddingLeft: 24,

@@ -14,9 +14,9 @@ import color from 'color';
 import Surface from '../Surface';
 import Text from '../Typography/Text';
 import TouchableRipple from '../TouchableRipple/TouchableRipple.native';
-import { withTheme } from '../../core/theming';
-import { colors as Colors } from '../../styles/tokens';
-import type { EllipsizeProp } from '../../types';
+import {withTheme} from '../../core/theming';
+import {colors as Colors} from '../../styles/tokens';
+import type {EllipsizeProp} from '../../types';
 
 type Props = React.ComponentProps<typeof Surface> & {
   /**
@@ -100,11 +100,11 @@ const Chip = ({
   color: chipColor,
   ...rest
 }: Props) => {
-  const { current: elevation } = React.useRef<Animated.Value>(
-    new Animated.Value(0)
+  const {current: elevation} = React.useRef<Animated.Value>(
+    new Animated.Value(0),
   );
 
-  const { dark, colors } = theme;
+  const {dark, colors} = theme;
   const defaultBackgroundColor =
     mode === 'outlined'
       ? 'transparent'
@@ -112,7 +112,7 @@ const Chip = ({
       ? '#383838'
       : theme.colors.primary.default;
 
-  const { backgroundColor = defaultBackgroundColor, borderRadius = 8 } =
+  const {backgroundColor = defaultBackgroundColor, borderRadius = 8} =
     (StyleSheet.flatten(style) || {}) as ViewStyle;
 
   const borderColor =
@@ -179,7 +179,7 @@ const Chip = ({
       <TouchableRipple
         borderless
         delayPressIn={0}
-        style={[{ borderRadius }, styles.touchable]}
+        style={[{borderRadius}, styles.touchable]}
         underlayColor={underlayColor}
         disabled={disabled}
         accessibilityLabel={accessibilityLabel}
@@ -216,7 +216,7 @@ const Chip = ({
 
 const styles = StyleSheet.create({
   container: {
-    borderWidth: StyleSheet.hairlineWidth * 5,
+    borderWidth: StyleSheet.hairlineWidth * 2,
     borderStyle: 'solid',
     flexDirection: 'column',
   },
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
     // lineHeight: 24,
     textAlignVertical: 'center',
     marginVertical: 4,
-    textTransform: 'uppercase',
+    // textTransform: 'uppercase',
     fontSize: 12,
   },
   touchable: {},

@@ -11,9 +11,9 @@ import {
   Text,
 } from 'react-native';
 import color from 'color';
-import { Masks, useMaskedInputProps } from 'react-native-mask-input';
+import {Masks, useMaskedInputProps} from 'react-native-mask-input';
 import InputLabel from './Label/InputLabel';
-import type { RenderProps, ChildTextInputProps } from './types';
+import type {RenderProps, ChildTextInputProps} from './types';
 
 import {
   MAXIMIZED_LABEL_FONT_SIZE,
@@ -65,7 +65,7 @@ const TextInputCard = ({
   placeholderTextColor,
   ...rest
 }: ChildTextInputProps) => {
-  const { colors, fonts } = theme;
+  const {colors, fonts} = theme;
   const font = fonts.semiBold;
   const hasActiveOutline = parentState.focused || error;
 
@@ -144,13 +144,13 @@ const TextInputCard = ({
     isAndroid: Platform.OS === 'android',
     multiline: null,
     styles: StyleSheet.flatten(
-      dense ? styles.inputOutlinedDense : styles.inputOutlined
+      dense ? styles.inputOutlinedDense : styles.inputOutlined,
     ) as Padding,
   };
 
   const pad = calculatePadding(paddingSettings);
 
-  const paddingOut = adjustPaddingOut({ ...paddingSettings, pad });
+  const paddingOut = adjustPaddingOut({...paddingSettings, pad});
 
   const InputProps = {
     ...rest,
@@ -168,7 +168,7 @@ const TextInputCard = ({
     style: [
       styles.input,
 
-      { height: inputHeight },
+      {height: inputHeight},
       paddingOut,
       {
         ...font,
@@ -184,7 +184,11 @@ const TextInputCard = ({
 
   const CardNumber = {
     ...InputProps,
-    style: [...InputProps.style, { width: '60%' }],
+    style: [
+      ...InputProps.style,
+      {width: '60%'},
+      Platform.OS === 'web' && {outline: 'none', fontFamily: 'Inter'},
+    ],
     ...maskedCardNumberInputProps,
     placeholder: 'Card Number',
   };
@@ -192,7 +196,8 @@ const TextInputCard = ({
     ...InputProps,
     style: [
       ...InputProps.style,
-      { paddingLeft: 0, paddingRight: 0, borderRadius: 0, width: '50%' },
+      Platform.OS === 'web' && {outline: 'none', fontFamily: 'Inter'},
+      {paddingLeft: 0, paddingRight: 0, borderRadius: 0, width: '50%'},
     ],
     ...maskedCardExpirationInputProps,
     placeholder: 'MM/YY',
@@ -203,6 +208,7 @@ const TextInputCard = ({
     placeholder: 'CVC',
     style: [
       ...InputProps.style,
+      Platform.OS === 'web' && {outline: 'none', fontFamily: 'Inter'},
       {
         paddingLeft: 0,
         paddingRight: 0,
@@ -214,7 +220,7 @@ const TextInputCard = ({
 
   return (
     <KeyboardAvoidingView
-      style={{ ...viewStyle }}
+      style={{...viewStyle}}
       keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
@@ -232,8 +238,20 @@ const TextInputCard = ({
           },
         ]}
       />
-      <Text style={[styles.label, { ...font }]}>{label}</Text>
-      <View style={[styles.row]}>
+      <Text
+        style={[
+          styles.label,
+          {...font},
+          Platform.OS === 'web' && {
+            minWidth: 0,
+            position: 'absolute',
+            top: 28,
+          },
+        ]}
+      >
+        {label}
+      </Text>
+      <View style={[styles.row, Platform.OS === 'web' && {paddingTop: 24}]}>
         <NativeTextInput {...CardNumber} />
 
         <View
