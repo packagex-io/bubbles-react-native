@@ -211,7 +211,7 @@ class Menu extends React.Component<Props, State> {
     // Menu is rendered in Portal, which updates items asynchronously
     // We need to do the same here so that the ref is up-to-date
     // await Promise.resolve();
-    console.log(this.props.visible);
+    console.log('updateVisibility', this.props.visible);
     if (this.props.visible) {
       this.show();
     } else {
@@ -310,7 +310,7 @@ class Menu extends React.Component<Props, State> {
       }),
       () => {
         this.attachListeners();
-
+        console.log('show animation');
         const { animation } = this.props.theme;
         Animated.parallel([
           Animated.timing(this.state.scaleAnimation, {
@@ -342,7 +342,7 @@ class Menu extends React.Component<Props, State> {
       toValue: 0,
       duration: ANIMATION_DURATION * animation.scale,
       easing: EASING,
-      useNativeDriver: true,
+      useNativeDriver: false,
     }).start(({ finished }) => {
       if (finished) {
         this.setState({ menuLayout: { width: 0, height: 0 }, rendered: false });
@@ -386,13 +386,13 @@ class Menu extends React.Component<Props, State> {
       {
         scaleX: scaleAnimation.x.interpolate({
           inputRange: [0, menuLayout.width],
-          outputRange: [0, 1],
+          outputRange: [1, 1],
         }),
       },
       {
         scaleY: scaleAnimation.y.interpolate({
           inputRange: [0, menuLayout.height],
-          outputRange: [0, 1],
+          outputRange: [1, 1],
         }),
       },
     ];
@@ -565,6 +565,7 @@ class Menu extends React.Component<Props, State> {
             </TouchableWithoutFeedback>
             <View
               ref={(ref) => {
+                console.log('assign ref');
                 this.menu = ref;
               }}
               collapsable={false}
@@ -581,7 +582,7 @@ class Menu extends React.Component<Props, State> {
                       shadowMenuContainerStyle,
 
                       contentStyle,
-                      { backgroundColor: 'red', opacity: 1 },
+                      { opacity: 1 },
                     ] as StyleProp<ViewStyle>
                   }
                 >
