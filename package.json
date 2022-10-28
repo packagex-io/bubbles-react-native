@@ -1,6 +1,6 @@
 {
-  "name": "projectx",
-  "version": "0.0.1",
+  "name": "react-native-bubbles",
+  "version": "0.1.0",
   "description": "Bubbles for React Native",
   "private": true,
   "main": "lib/commonjs/index.js",
