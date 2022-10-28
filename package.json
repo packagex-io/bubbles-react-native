@@ -1,6 +1,6 @@
 {
   "name": "react-native-bubbles",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Bubbles for React Native",
   "private": false,
   "main": "lib/commonjs/index.js",
@@ -23,7 +23,7 @@
     "dev-android": "concurrently \"npm run storybook\" \"npm run start\" \"npm run android\"",
     "dev-ios": "concurrently \"npm run storybook\" \"npm run start\" \"npm run ios\"",
     "release": "release-it",
-    "prepare": "bob build && node ./scripts/generate-mappings.js"
+    "prepare": "bob build "
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"

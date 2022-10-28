@@ -11,7 +11,13 @@ const output = path.join(root, 'lib/mappings.json');
 const source = fs.readFileSync(path.resolve(root, 'src', 'index.tsx'), 'utf8');
 const ast = parser.parse(source, {
   sourceType: 'module',
-  plugins: ['jsx', 'objectRestSpread', 'classProperties', 'asyncGenerators'],
+  plugins: [
+    'jsx',
+    'typescript',
+    'objectRestSpread',
+    'classProperties',
+    'asyncGenerators',
+  ],
 });
 
 const index = packageJson.module;
