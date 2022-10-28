@@ -21,6 +21,7 @@ const MyComponent = () => {
         label="Full Name"
         value={text}
         onChangeText={(text) => setText(text)}
+        validation={{ required: true, min: 3 }}
       />
       <TextInput
         label="Textarea Input"

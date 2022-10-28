@@ -5,7 +5,7 @@ import {
   ADORNMENT_SIZE,
   FLAT_INPUT_OFFSET,
 } from './constants';
-import type { TextInputLabelProp } from './types';
+import type { TextInputLabelProp, ValidationType } from './types';
 
 type PaddingProps = {
   height: number | null;
@@ -262,3 +262,122 @@ export function calculateOutlinedIconAndAffixTopPosition({
 }): number {
   return (height - affixHeight + labelYOffset) / 2;
 }
+
+const _getSize = (value: any[] | number | string | undefined | null) => {
+  if (value instanceof Array) {
+    return value.length;
+  }
+
+  if (typeof value === 'number') {
+    return value;
+  }
+
+  if (!value) {
+    return 0;
+  }
+
+  return value.length;
+};
+
+export const isInputValid = (value: any, obj?: Partial<ValidationType>) => {
+  if (!obj) return true;
+  const booleans = Object.keys(obj).map((f) => {
+    switch (f.toLowerCase()) {
+      case 'required':
+        if (obj['required'] === false) break;
+        if (value === undefined || value === null) {
+          return false;
+        }
+
+        const str = String(value).replace(/\s/g, '');
+        return str.length > 0 ? true : false;
+
+      case 'boolean':
+        if (obj['boolean'] === false) break;
+        return value in [true, false, 0, 1, '0', '1', 'true', 'false'];
+
+      case 'string':
+        if (obj['string'] === false) break;
+        return obj['string'] === true && typeof value === 'string';
+
+      case 'numeric':
+        if (obj['numeric'] === false) break;
+        const num = Number(value);
+
+        if (
+          typeof num === 'number' &&
+          !isNaN(num) &&
+          typeof value !== 'boolean'
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+
+      case 'min':
+        if (typeof obj['min'] !== 'number') break;
+        return _getSize(value) >= obj['min'];
+
+      case 'max':
+        if (typeof obj['max'] !== 'number') break;
+        return _getSize(value) >= obj['max'];
+
+      case 'email':
+        var re =
+          /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (!re.test(value)) {
+          re =
+            /^((?:[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]|[^\u0000-\u007F])+@(?:[a-zA-Z0-9]|[^\u0000-\u007F])(?:(?:[a-zA-Z0-9-]|[^\u0000-\u007F]){0,61}(?:[a-zA-Z0-9]|[^\u0000-\u007F]))?(?:\.(?:[a-zA-Z0-9]|[^\u0000-\u007F])(?:(?:[a-zA-Z0-9-]|[^\u0000-\u007F]){0,61}(?:[a-zA-Z0-9]|[^\u0000-\u007F]))?)+)*$/;
+        }
+        return re.test(value);
+
+      case 'regex':
+        if (!obj['regex']) break;
+        return !!obj['regex'].test(value);
+
+      case 'array':
+        if (!obj['regex']) break;
+        return value instanceof Array;
+
+      case 'url':
+        if (!obj['url']) break;
+        return /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-z]{2,63}\b([-a-zA-Z0-9@:%_\+.~#?&/=]*)/i.test(
+          value
+        );
+
+      case 'integer':
+        if (!obj['integer']) break;
+        return String(parseInt(value, 10)) === String(value);
+
+      case 'alpha':
+        if (!obj['alpha']) break;
+        return /^[a-zA-Z]+$/.test(value);
+
+      case 'alpha_dash':
+        if (!obj['alpha_dash']) break;
+        return /^[a-zA-Z0-9_\-]+$/.test(value);
+
+      case 'alpha_dash':
+        if (!obj['alpha_num']) break;
+        return /^[a-zA-Z0-9]+$/.test(value);
+
+      case 'accepted':
+        if (!obj['accepted']) break;
+        if (value in ['on', 'yes', 1, '1', true, 'true', 'checked']) {
+          return true;
+        }
+        return false;
+
+      default:
+        return true;
+    }
+  });
+
+  const filtered = booleans.filter(Boolean);
+
+  if (booleans.length === filtered.length) {
+    return true;
+  } else {
+    return false;
+  }
+};

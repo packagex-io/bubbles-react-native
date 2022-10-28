@@ -1,6 +1,6 @@
 {
   "name": "react-native-bubbles",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Bubbles for React Native",
   "private": false,
   "main": "lib/commonjs/index.js",

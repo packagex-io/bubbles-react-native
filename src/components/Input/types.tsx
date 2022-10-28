@@ -26,7 +26,7 @@ export type RenderProps = {
   value?: string;
   adjustsFontSizeToFit?: boolean;
 };
-type TextInputTypesWithoutMode = $Omit<TextInputProps, 'mode'>;
+type TextInputTypesWithoutMode = $Omit<TextInputProps, 'mode' | 'error'>;
 export type State = {
   labeled: Animated.Value;
   error: Animated.Value;
@@ -47,6 +47,8 @@ export type ChildTextInputProps = {
   onLayoutAnimatedText: (args: any) => void;
   onLeftAffixLayoutChange: (event: LayoutChangeEvent) => void;
   onRightAffixLayoutChange: (event: LayoutChangeEvent) => void;
+  error: boolean;
+  errorMessage: string;
 } & TextInputTypesWithoutMode;
 export type LabelProps = {
   mode?: 'flat' | 'outlined';
@@ -68,10 +70,11 @@ export type LabelProps = {
   hasActiveOutline?: boolean | null;
   activeColor: string;
   errorColor?: string;
-  error?: boolean | null;
+  error?: string | boolean | null;
   onLayoutAnimatedText: (args: any) => void;
   roundness: number;
   maxFontSizeMultiplier?: number | undefined | null;
+  errorMessage: string;
 };
 export type InputLabelProps = {
   parentState: State;
@@ -85,4 +88,23 @@ export type LabelBackgroundProps = {
   labelStyle: any;
   parentState: State;
   maxFontSizeMultiplier?: number | undefined | null;
+};
+
+export type ValidationType = {
+  required: boolean;
+  boolean: boolean;
+  string: boolean;
+  min: number;
+  max: number;
+  email: boolean;
+  numeric: boolean;
+  array: boolean;
+  url: boolean;
+  alpha: boolean;
+  alpha_dash: boolean;
+  alpha_num: boolean;
+  accepted: boolean;
+  integer: boolean;
+  regex: RegExp;
+  date: Date | string;
 };

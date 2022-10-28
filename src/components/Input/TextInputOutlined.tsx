@@ -11,7 +11,7 @@ import {
 import color from 'color';
 
 import InputLabel from './Label/InputLabel';
-import type {RenderProps, ChildTextInputProps} from './types';
+import type { RenderProps, ChildTextInputProps } from './types';
 
 import {
   MAXIMIZED_LABEL_FONT_SIZE,
@@ -41,7 +41,7 @@ const TextInputOutlined = ({
   disabled = false,
   editable = true,
   label,
-  error = false,
+  error,
   selectionColor,
   underlineColor: _underlineColor,
   outlineColor: customOutlineColor,
@@ -63,9 +63,10 @@ const TextInputOutlined = ({
   left,
   right,
   placeholderTextColor,
+  errorMessage,
   ...rest
 }: ChildTextInputProps) => {
-  const {colors, fonts} = theme;
+  const { colors, fonts } = theme;
   const font = fonts.semiBold;
   const hasActiveOutline = parentState.focused || error;
 
@@ -93,11 +94,11 @@ const TextInputOutlined = ({
   } else {
     inputTextColor = colors.text;
     activeColor = error
-      ? colors.error
+      ? colors.error.default
       : activeOutlineColor || colors.primary.default;
     placeholderColor = colors.placeholder;
     outlineColor = customOutlineColor || colors.placeholder;
-    errorColor = colors.error;
+    errorColor = colors.error.default;
   }
 
   const labelScale = MINIMIZED_LABEL_FONT_SIZE / fontSize;
@@ -143,13 +144,13 @@ const TextInputOutlined = ({
     scale: fontScale,
     isAndroid: Platform.OS === 'android',
     styles: StyleSheet.flatten(
-      dense ? styles.inputOutlinedDense : styles.inputOutlined,
+      dense ? styles.inputOutlinedDense : styles.inputOutlined
     ) as Padding,
   };
 
   const pad = calculatePadding(paddingSettings);
 
-  const paddingOut = adjustPaddingOut({...paddingSettings, pad});
+  const paddingOut = adjustPaddingOut({ ...paddingSettings, pad });
 
   const baseLabelTranslateY =
     -labelHalfHeight - (topPosition + OUTLINE_MINIMIZED_LABEL_Y_OFFSET) + 24;
@@ -182,12 +183,13 @@ const TextInputOutlined = ({
     labelTranslationXOffset,
     roundness: theme.roundness,
     maxFontSizeMultiplier: rest.maxFontSizeMultiplier,
+    errorMessage,
   };
 
   const minHeight = (height ||
     (dense ? MIN_DENSE_HEIGHT : MIN_HEIGHT)) as number;
 
-  const {leftLayout, rightLayout} = parentState;
+  const { leftLayout, rightLayout } = parentState;
 
   return (
     <View style={viewStyle}>
@@ -237,9 +239,11 @@ const TextInputOutlined = ({
             multiline,
             style: [
               styles.input,
-              !multiline || (multiline && height) ? {height: inputHeight} : {},
+              !multiline || (multiline && height)
+                ? { height: inputHeight }
+                : {},
               paddingOut,
-              multiline ? {...fonts.regular} : {...font},
+              multiline ? { ...fonts.regular } : { ...font },
               {
                 fontSize: 14,
                 top: multiline ? 28 : 8,

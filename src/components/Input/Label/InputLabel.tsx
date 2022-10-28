@@ -1,11 +1,11 @@
 import React from 'react';
-import {Animated, StyleSheet} from 'react-native';
+import { Animated, StyleSheet } from 'react-native';
 import AnimatedText from '../../Typography/AnimatedText';
 
-import type {InputLabelProps} from '../types';
+import type { InputLabelProps } from '../types';
 
 const InputLabel = (props: InputLabelProps) => {
-  const {parentState} = props;
+  const { parentState } = props;
 
   const {
     label,
@@ -28,6 +28,7 @@ const InputLabel = (props: InputLabelProps) => {
     errorColor,
     labelTranslationXOffset,
     maxFontSizeMultiplier,
+    errorMessage,
   } = props.labelProps;
 
   const labelTranslationX = {
@@ -99,7 +100,7 @@ const InputLabel = (props: InputLabelProps) => {
             top: topPosition,
           },
           labelStyle,
-          {textTransform: 'uppercase', fontFamily: 'Inter'},
+          { textTransform: 'uppercase', fontFamily: 'Inter' },
           paddingOffset || {},
           {
             color: activeColor,
@@ -112,7 +113,7 @@ const InputLabel = (props: InputLabelProps) => {
         numberOfLines={1}
         maxFontSizeMultiplier={maxFontSizeMultiplier}
       >
-        {label}
+        {error ? errorMessage : label}
       </AnimatedText>
       <AnimatedText
         style={[
@@ -121,7 +122,7 @@ const InputLabel = (props: InputLabelProps) => {
             top: topPosition,
           },
           labelStyle,
-          {textTransform: 'uppercase', fontFamily: 'Inter'},
+          { textTransform: 'uppercase', fontFamily: 'Inter' },
           paddingOffset,
           {
             color: error && errorColor ? errorColor : placeholderColor,
@@ -131,7 +132,7 @@ const InputLabel = (props: InputLabelProps) => {
         numberOfLines={1}
         maxFontSizeMultiplier={maxFontSizeMultiplier}
       >
-        {label}
+        {error ? errorMessage : label}
       </AnimatedText>
     </Animated.View>
   ) : null;

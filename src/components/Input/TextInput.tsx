@@ -7,11 +7,12 @@ import {
   TextStyle,
 } from 'react-native';
 import TextInputOutlined from './TextInputOutlined';
-import {withTheme} from '../../core/theming';
-import type {RenderProps, TextInputLabelProp} from './types';
+import { withTheme } from '../../core/theming';
+import type { RenderProps, TextInputLabelProp, ValidationType } from './types';
 import color from 'color';
 import TextInputCard from './TextInputCard';
-import {LABEL_PADDING_HORIZONTAL} from './constants';
+import { LABEL_PADDING_HORIZONTAL } from './constants';
+import { isInputValid } from './helpers';
 
 const BLUR_ANIMATION_DURATION = 180;
 const FOCUS_ANIMATION_DURATION = 150;
@@ -38,9 +39,9 @@ export type TextInputProps = React.ComponentPropsWithRef<
    */
   placeholder?: string;
   /**
-   * Whether to style the TextInput with error style.
+   * Error message to be displayed if input is not valid.
    */
-  error?: boolean;
+  error?: string;
   /**
    * Callback that is called when the text input's text changes. Changed text is passed as an argument to the callback handler.
    */
@@ -89,6 +90,14 @@ export type TextInputProps = React.ComponentPropsWithRef<
    * Callback that is called when the text input is blurred.
    */
   onBlur?: (args: any) => void;
+  /**
+   * If true, runs the validation checks when focus is lost from the input.
+   */
+  validateOnBlur?: boolean;
+  /**
+   * The validation string you want to use for this form. You can pass multiple options by separating with a pipe character.
+   */
+  validation?: ValidationType;
   /**
    *
    * Callback to render a custom input component such as `react-native-text-input-mask`
@@ -163,29 +172,34 @@ const TextInput = React.forwardRef<TextInputHandles, TextInputProps>(
     {
       dense = false,
       disabled = false,
-      error: errorProp = false,
+      error: errorMessage = 'Invalid Input',
       multiline = false,
       editable = true,
       render = (props: RenderProps) => <NativeTextInput {...props} />,
       type = 'text',
+      validateOnBlur = true,
+      validation,
       ...rest
     }: TextInputProps,
-    ref,
+    ref
   ) => {
     const isControlled = rest.value !== undefined;
     const validInputValue = isControlled ? rest.value : rest.defaultValue;
+    const [isInvalid, setIsInvalid] = React.useState<boolean>(false);
 
-    const {current: labeled} = React.useRef<Animated.Value>(
-      new Animated.Value(validInputValue ? 0 : 1),
+    const { current: labeled } = React.useRef<Animated.Value>(
+      new Animated.Value(validInputValue ? 0 : 1)
     );
-    const {current: error} = React.useRef<Animated.Value>(
-      new Animated.Value(errorProp ? 1 : 0),
+    const { current: error } = React.useRef<Animated.Value>(
+      new Animated.Value(isInvalid ? 1 : 0)
     );
     const [focused, setFocused] = React.useState<boolean>(false);
-    const [placeholder, setPlaceholder] =
-      React.useState<string | undefined>('');
-    const [uncontrolledValue, setUncontrolledValue] =
-      React.useState<string | undefined>(validInputValue);
+    const [placeholder, setPlaceholder] = React.useState<string | undefined>(
+      ''
+    );
+    const [uncontrolledValue, setUncontrolledValue] = React.useState<
+      string | undefined
+    >(validInputValue);
     // Use value from props instead of local state when input is controlled
     const value = isControlled ? rest.value : uncontrolledValue;
 
@@ -217,7 +231,7 @@ const TextInput = React.forwardRef<TextInputHandles, TextInputProps>(
 
     const root = React.useRef<NativeTextInput | undefined | null>();
 
-    const {scale} = rest.theme.animation;
+    const { scale } = rest.theme.animation;
 
     React.useImperativeHandle(ref, () => ({
       focus: () => root.current?.focus(),
@@ -230,7 +244,8 @@ const TextInput = React.forwardRef<TextInputHandles, TextInputProps>(
 
     React.useEffect(() => {
       // When the input has an error, we wiggle the label and apply error styles
-      if (errorProp) {
+      if (isInvalid) {
+        console.log('error');
         // show error
         Animated.timing(error, {
           toValue: 1,
@@ -249,7 +264,7 @@ const TextInput = React.forwardRef<TextInputHandles, TextInputProps>(
           }).start();
         }
       }
-    }, [errorProp, scale, error]);
+    }, [isInvalid, scale, error]);
 
     React.useEffect(() => {
       // Show placeholder text only if the input is focused, or there's no label
@@ -260,7 +275,7 @@ const TextInput = React.forwardRef<TextInputHandles, TextInputProps>(
         // If we show it immediately, they'll overlap and look ugly
         timer.current = setTimeout(
           () => setPlaceholder(rest.placeholder),
-          50,
+          50
         ) as unknown as NodeJS.Timeout;
       } else {
         // hidePlaceholder
@@ -321,6 +336,7 @@ const TextInput = React.forwardRef<TextInputHandles, TextInputProps>(
       }
 
       setFocused(true);
+      setIsInvalid(false);
 
       rest.onFocus?.(args);
     };
@@ -329,7 +345,10 @@ const TextInput = React.forwardRef<TextInputHandles, TextInputProps>(
       if (!editable) {
         return;
       }
-
+      if (validateOnBlur) {
+        const isValid = isInputValid(value, validation);
+        setIsInvalid(!isValid);
+      }
       setFocused(false);
       rest.onBlur?.(args);
     };
@@ -355,7 +374,7 @@ const TextInput = React.forwardRef<TextInputHandles, TextInputProps>(
     };
     const forceFocus = () => root.current?.focus();
 
-    const {maxFontSizeMultiplier = 1.5} = rest;
+    const { maxFontSizeMultiplier = 1.5 } = rest;
 
     if (type === 'stripe-card') {
       return (
@@ -363,7 +382,8 @@ const TextInput = React.forwardRef<TextInputHandles, TextInputProps>(
           outlineColor={color('#000').alpha(0).rgb().string()}
           dense={dense}
           disabled={disabled}
-          error={errorProp}
+          error={isInvalid}
+          errorMessage={errorMessage}
           editable={editable}
           {...rest}
           value={value}
@@ -377,7 +397,7 @@ const TextInput = React.forwardRef<TextInputHandles, TextInputProps>(
             leftLayout,
             rightLayout,
           }}
-          innerRef={ref => {
+          innerRef={(ref) => {
             root.current = ref;
           }}
           onFocus={handleFocus}
@@ -397,7 +417,8 @@ const TextInput = React.forwardRef<TextInputHandles, TextInputProps>(
         outlineColor={color('#000').alpha(0).rgb().string()}
         dense={dense}
         disabled={disabled}
-        error={errorProp}
+        error={isInvalid}
+        errorMessage={errorMessage}
         multiline={multiline}
         editable={editable}
         render={render}
@@ -413,7 +434,7 @@ const TextInput = React.forwardRef<TextInputHandles, TextInputProps>(
           leftLayout,
           rightLayout,
         }}
-        innerRef={ref => {
+        innerRef={(ref) => {
           root.current = ref;
         }}
         onFocus={handleFocus}
@@ -424,10 +445,10 @@ const TextInput = React.forwardRef<TextInputHandles, TextInputProps>(
         onLeftAffixLayoutChange={onLeftAffixLayoutChange}
         onRightAffixLayoutChange={onRightAffixLayoutChange}
         maxFontSizeMultiplier={maxFontSizeMultiplier}
-        style={{fontWeight: '600'}}
+        style={{ fontWeight: '600' }}
       />
     );
-  },
+  }
 );
 
 export default withTheme(TextInput);
