@@ -16,7 +16,7 @@ import {
 import Modal from '../../../src/components/Modal/Modal';
 import Button from '../../../src/components/Button';
 
-const ModalExample = ({}: {}) => {
+const ModalExample = () => {
   const theme = useTheme();
   const [visible, setVisible] = React.useState(false);
   const showModal = () => setVisible(true);
