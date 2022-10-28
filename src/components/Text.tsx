@@ -80,8 +80,8 @@ const Text: React.ForwardRefRenderFunction<{}, Props> = (
         ref={root}
         style={[
           {
-            ...theme.fonts?.regular,
-            color: theme.colors.text,
+            ...(theme.fonts?.regular as any),
+            color: theme.colors.text as string,
           },
           styles.text,
           style,

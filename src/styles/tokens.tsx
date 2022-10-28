@@ -91,21 +91,23 @@ export const colors = {
   white: '#ffffff',
 };
 
-export const fontSizes: fontSize = { base: 16, scale: 1.15 };
-fontSizes.sm = Math.round(fontSizes.base / fontSizes.scale);
-fontSizes.xs = Math.round(fontSizes.sm / fontSizes.scale);
-fontSizes.xxs = Math.round(fontSizes.xs / fontSizes.scale);
-fontSizes.lg = Math.round(fontSizes.base * fontSizes.scale);
-fontSizes.xl = Math.round(fontSizes.lg * fontSizes.scale);
-fontSizes['2xl'] = Math.round(fontSizes.xl * fontSizes.scale);
-fontSizes['3xl'] = Math.round(fontSizes['2xl'] * fontSizes.scale);
-fontSizes['4xl'] = Math.round(fontSizes['3xl'] * fontSizes.scale);
-fontSizes['5xl'] = Math.round(fontSizes['4xl'] * fontSizes.scale);
-fontSizes['6xl'] = Math.round(fontSizes['5xl'] * fontSizes.scale);
-fontSizes['7xl'] = Math.round(fontSizes['6xl'] * fontSizes.scale);
-fontSizes['8xl'] = Math.round(fontSizes['7xl'] * fontSizes.scale);
-fontSizes['9xl'] = Math.round(fontSizes['8xl'] * fontSizes.scale);
-fontSizes['10xl'] = Math.round(fontSizes['9xl'] * fontSizes.scale);
+const baseFontSizes: any = { base: 16, scale: 1.15 };
+baseFontSizes.sm = Math.round(baseFontSizes.base / baseFontSizes.scale);
+baseFontSizes.xs = Math.round(baseFontSizes.sm / baseFontSizes.scale);
+baseFontSizes.xxs = Math.round(baseFontSizes.xs / baseFontSizes.scale);
+baseFontSizes.lg = Math.round(baseFontSizes.base * baseFontSizes.scale);
+baseFontSizes.xl = Math.round(baseFontSizes.lg * baseFontSizes.scale);
+baseFontSizes['2xl'] = Math.round(baseFontSizes.xl * baseFontSizes.scale);
+baseFontSizes['3xl'] = Math.round(baseFontSizes['2xl'] * baseFontSizes.scale);
+baseFontSizes['4xl'] = Math.round(baseFontSizes['3xl'] * baseFontSizes.scale);
+baseFontSizes['5xl'] = Math.round(baseFontSizes['4xl'] * baseFontSizes.scale);
+baseFontSizes['6xl'] = Math.round(baseFontSizes['5xl'] * baseFontSizes.scale);
+baseFontSizes['7xl'] = Math.round(baseFontSizes['6xl'] * baseFontSizes.scale);
+baseFontSizes['8xl'] = Math.round(baseFontSizes['7xl'] * baseFontSizes.scale);
+baseFontSizes['9xl'] = Math.round(baseFontSizes['8xl'] * baseFontSizes.scale);
+baseFontSizes['10xl'] = Math.round(baseFontSizes['9xl'] * baseFontSizes.scale);
+
+export const fontSizes: fontSize = baseFontSizes;
 
 const ref = {
   fontFamilies: { headlines: 'Inter', body: 'Inter' },

@@ -1,12 +1,11 @@
 {
   "name": "react-native-bubbles",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Bubbles for React Native",
   "private": false,
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
   "react-native": "src/index.tsx",
-  "types": "lib/typescript/index.d.ts",
   "files": [
     "src",
     "lib",
@@ -121,13 +120,7 @@
     "output": "lib",
     "targets": [
       "commonjs",
-      "module",
-      [
-        "typescript",
-        {
-          "project": "tsconfig.json"
-        }
-      ]
+      "module"
     ],
     "files": [
       "src/"

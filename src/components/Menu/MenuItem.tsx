@@ -116,16 +116,15 @@ const MenuItem = ({
     theme,
     disabled,
   });
-  const { isV3 } = theme;
 
-  const containerPadding = isV3 ? 12 : 8;
+  const containerPadding = 8;
 
-  const iconWidth = isV3 ? 24 : 40;
+  const iconWidth = 40;
 
-  const minWidth = MIN_WIDTH - (isV3 ? 12 : 16);
+  const minWidth = MIN_WIDTH - 16;
 
   const maxWidth = getContentMaxWidth({
-    isV3,
+    isV3: false,
     iconWidth,
     leadingIcon,
     trailingIcon,
@@ -133,7 +132,6 @@ const MenuItem = ({
 
   const titleTextStyle = {
     color: titleColor,
-    ...(isV3 ? theme.fonts.bodyLarge : {}),
   };
 
   return (
@@ -155,7 +153,7 @@ const MenuItem = ({
       <View style={styles.row}>
         {leadingIcon ? (
           <View
-            style={[!isV3 && styles.item, { width: iconWidth }]}
+            style={[styles.item, { width: iconWidth }]}
             pointerEvents="box-none"
           >
             <Icon source={leadingIcon} size={24} color={iconColor} />
@@ -163,29 +161,26 @@ const MenuItem = ({
         ) : null}
         <View
           style={[
-            !isV3 && styles.item,
+            styles.item,
             styles.content,
             { minWidth, maxWidth },
-            isV3 &&
-              (leadingIcon
-                ? styles.md3LeadingIcon
-                : styles.md3WithoutLeadingIcon),
+
+            leadingIcon ? styles.md3LeadingIcon : styles.md3WithoutLeadingIcon,
             contentStyle,
           ]}
           pointerEvents="none"
         >
           <Text
-            variant="bodyLarge"
             selectable={false}
             numberOfLines={1}
-            style={[!isV3 && styles.title, titleTextStyle, titleStyle]}
+            style={[styles.title, titleTextStyle, titleStyle]}
           >
             {title}
           </Text>
         </View>
-        {isV3 && trailingIcon ? (
+        {trailingIcon ? (
           <View
-            style={[!isV3 && styles.item, { width: iconWidth }]}
+            style={[styles.item, { width: iconWidth }]}
             pointerEvents="box-none"
           >
             <Icon source={trailingIcon} size={24} color={iconColor} />
