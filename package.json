@@ -1,6 +1,6 @@
 {
   "name": "react-native-bubbles",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Bubbles for React Native",
   "private": false,
   "main": "lib/commonjs/index.js",
@@ -125,7 +125,7 @@
       [
         "typescript",
         {
-          "project": "tsconfig.build.json"
+          "project": "tsconfig.json"
         }
       ]
     ],
