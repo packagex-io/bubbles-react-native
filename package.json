@@ -2,7 +2,7 @@
   "name": "react-native-bubbles",
   "version": "0.2.0",
   "description": "Bubbles for React Native",
-  "private": true,
+  "private": false,
   "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
   "react-native": "src/index.tsx",
