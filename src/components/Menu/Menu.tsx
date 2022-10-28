@@ -210,8 +210,8 @@ class Menu extends React.Component<Props, State> {
   private updateVisibility = async () => {
     // Menu is rendered in Portal, which updates items asynchronously
     // We need to do the same here so that the ref is up-to-date
-    await Promise.resolve();
-    console.log('updateVisibility', this.props.visible);
+    // await Promise.resolve();
+    console.log('updateVisibility', this.props.visible, !!this.menu);
     if (this.props.visible) {
       this.show();
     } else {
@@ -386,13 +386,13 @@ class Menu extends React.Component<Props, State> {
       {
         scaleX: scaleAnimation.x.interpolate({
           inputRange: [0, menuLayout.width],
-          outputRange: [1, 1],
+          outputRange: [0, 1],
         }),
       },
       {
         scaleY: scaleAnimation.y.interpolate({
           inputRange: [0, menuLayout.height],
-          outputRange: [1, 1],
+          outputRange: [0, 1],
         }),
       },
     ];
@@ -565,7 +565,6 @@ class Menu extends React.Component<Props, State> {
             </TouchableWithoutFeedback>
             <View
               ref={(ref) => {
-                console.log('assign ref');
                 this.menu = ref;
               }}
               collapsable={false}
