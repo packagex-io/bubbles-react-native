@@ -386,13 +386,13 @@ class Menu extends React.Component<Props, State> {
       {
         scaleX: scaleAnimation.x.interpolate({
           inputRange: [0, menuLayout.width],
-          outputRange: [0, 1],
+          outputRange: [1, 1],
         }),
       },
       {
         scaleY: scaleAnimation.y.interpolate({
           inputRange: [0, menuLayout.height],
-          outputRange: [0, 1],
+          outputRange: [1, 1],
         }),
       },
     ];
