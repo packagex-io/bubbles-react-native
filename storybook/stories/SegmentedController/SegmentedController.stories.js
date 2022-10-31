@@ -8,8 +8,11 @@ import CenterView from '../CenterView';
 import { Provider as ThemeProvider, useTheme, withTheme } from '../../../src/';
 
 const SegmentedControllerExample = ({ mode }) => {
+  const theme = useTheme();
   return (
-    <View style={{ flex: 1, backgroundColor: 'white', padding: 8 }}>
+    <View
+      style={{ flex: 1, backgroundColor: theme.colors.bg.surface, padding: 8 }}
+    >
       <SegmentedController
         mode={mode}
         segments={[

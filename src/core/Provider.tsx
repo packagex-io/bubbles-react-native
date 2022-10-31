@@ -5,13 +5,13 @@ import {
   ColorSchemeName,
   NativeEventSubscription,
 } from 'react-native';
-import {ThemeProvider} from './theming';
-import {Provider as SettingsProvider, Settings} from './settings';
+import { ThemeProvider } from './theming';
+import { Provider as SettingsProvider, Settings } from './settings';
 // import MaterialCommunityIcon from '../components/MaterialCommunityIcon';
 import PortalHost from '../components/Portal/PortalHost';
 import DefaultTheme from '../styles/DefaultTheme';
 import DarkTheme from '../styles/DarkTheme';
-import {addEventListener} from '../utils/addEventListener';
+import { addEventListener } from '../utils/addEventListener';
 
 type Props = {
   children: React.ReactNode;
@@ -19,7 +19,7 @@ type Props = {
   settings?: Settings;
 };
 
-const Provider = ({...props}: Props) => {
+const Provider = ({ ...props }: Props) => {
   const colorSchemeName =
     (!props.theme && Appearance?.getColorScheme()) || 'light';
 
@@ -28,9 +28,9 @@ const Provider = ({...props}: Props) => {
   const [colorScheme, setColorScheme] = React.useState<ColorSchemeName>('dark');
 
   const handleAppearanceChange = (
-    preferences: Appearance.AppearancePreferences,
+    preferences: Appearance.AppearancePreferences
   ) => {
-    const {colorScheme} = preferences;
+    const { colorScheme } = preferences;
     setColorScheme(colorScheme);
   };
 
@@ -41,7 +41,7 @@ const Provider = ({...props}: Props) => {
       subscription = addEventListener(
         AccessibilityInfo,
         'reduceMotionChanged',
-        setReduceMotionEnabled,
+        setReduceMotionEnabled
       );
     }
     return () => {
@@ -55,7 +55,7 @@ const Provider = ({...props}: Props) => {
     let appearanceSubscription: NativeEventSubscription | undefined;
     if (!props.theme) {
       appearanceSubscription = Appearance?.addChangeListener(
-        handleAppearanceChange,
+        handleAppearanceChange
       ) as NativeEventSubscription | undefined;
     }
     return () => {
@@ -70,7 +70,7 @@ const Provider = ({...props}: Props) => {
   }, [props.theme]);
 
   const getTheme = () => {
-    const {theme: providedTheme} = props;
+    const { theme: providedTheme } = props;
 
     if (providedTheme) {
       return providedTheme;
@@ -89,7 +89,7 @@ const Provider = ({...props}: Props) => {
     }
   };
 
-  const {children, settings} = props;
+  const { children, settings } = props;
   return (
     <PortalHost>
       {/* // add to settings provider later - || { icon: MaterialCommunityIcon } */}

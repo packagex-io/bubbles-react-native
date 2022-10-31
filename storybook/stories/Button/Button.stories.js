@@ -3,6 +3,7 @@ import { text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react-native';
 import React from 'react';
 import { Text, View } from 'react-native';
+import { DarkTheme } from '../../../src';
 import Button from '../../../src/components/Button';
 import CenterView from '../CenterView';
 

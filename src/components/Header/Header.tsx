@@ -1,10 +1,10 @@
 import * as React from 'react';
-import {View, ViewStyle, Platform, StyleSheet, StyleProp} from 'react-native';
+import { View, ViewStyle, Platform, StyleSheet, StyleProp } from 'react-native';
 import color from 'color';
 
 import Surface from '../Surface';
-import {withTheme} from '../../core/theming';
-import {colors as Colors} from '../../styles/tokens';
+import { withTheme } from '../../core/theming';
+import { colors, colors as Colors } from '../../styles/tokens';
 import overlay from '../../styles/overlay';
 import Text from '../Typography/Text';
 import HeaderBackIcon from './BackIcon';
@@ -43,17 +43,17 @@ export const DEFAULT_APPBAR_HEIGHT = 56;
 
 const Header = ({
   children,
-  dark,
+  dark = true,
   style,
   theme,
-  color: titleColor = Colors.black,
+  color: titleColor,
   centerText = false,
   title,
   breadcrumbs,
   breadcrumb_labels,
   ...rest
 }: Props) => {
-  const {colors, dark: isDarkTheme, mode, fonts} = theme;
+  const { dark: isDarkTheme, fonts } = theme;
   const {
     backgroundColor: customBackground,
     elevation = 0,
@@ -64,9 +64,10 @@ const Header = ({
 
   const backgroundColor = customBackground
     ? customBackground
-    : isDarkTheme && mode === 'adaptive'
-    ? overlay(elevation, colors.surface)
+    : isDarkTheme && dark === true
+    ? theme.colors.bg.subtle
     : 'transparent';
+
   if (typeof dark === 'boolean') {
     isDark = dark;
   } else {
@@ -79,30 +80,33 @@ const Header = ({
   }
 
   return (
-    <View style={{width: '100%'}}>
+    <View style={{ width: '100%' }}>
       <Surface
-        style={[{backgroundColor}, styles.appbar, {elevation}, restStyle]}
+        style={[{ backgroundColor }, styles.appbar, { elevation }, restStyle]}
         {...rest}
       >
         <View style={[styles.container, style]} {...rest}>
           {React.Children.toArray(children)
-            .filter(child => child != null && typeof child !== 'boolean')
-            .filter(child => [HeaderBackIcon].includes(child.type))
+            .filter((child) => child != null && typeof child !== 'boolean')
+            .filter((child) => [HeaderBackIcon].includes(child.type))
             .map((child, i) => {
-              return child;
+              return (
+                child !== undefined &&
+                React.cloneElement(child, { color: theme.colors.fg.default })
+              );
             })}
 
           <Text
             variant="Display"
             style={[
               {
-                color: titleColor,
+                color: titleColor ? titleColor : theme.colors.fg.default,
                 ...fonts.bold,
                 marginLeft: 32,
                 textAlign: centerText ? 'center' : 'left',
               },
               styles.title,
-              Platform.OS === 'web' && {fontFamily: 'Inter', fontWeight: 700},
+              Platform.OS === 'web' && { fontFamily: 'Inter', fontWeight: 700 },
             ]}
             numberOfLines={1}
             accessible
@@ -112,14 +116,17 @@ const Header = ({
             {title}
           </Text>
           {React.Children.toArray(children)
-            .filter(child => child != null && typeof child !== 'boolean')
-            .filter(child => [HeaderCloseIcon].includes(child.type))
+            .filter((child) => child != null && typeof child !== 'boolean')
+            .filter((child) => [HeaderCloseIcon].includes(child.type))
             .map((child, i) => {
-              return child;
+              return (
+                child !== undefined &&
+                React.cloneElement(child, { color: theme.colors.fg.default })
+              );
             })}
         </View>
       </Surface>
-      <View style={{paddingLeft: 78}}>
+      <View style={{ paddingLeft: 78 }}>
         <Breadcrumbs
           breadcrumbs={breadcrumbs}
           breadcrumb_labels={breadcrumb_labels}
@@ -158,4 +165,4 @@ export default withTheme(Header);
 // @component-docs ignore-next-line
 const HeaderWithTheme = withTheme(Header);
 // @component-docs ignore-next-line
-export {HeaderWithTheme as Header};
+export { HeaderWithTheme as Header };

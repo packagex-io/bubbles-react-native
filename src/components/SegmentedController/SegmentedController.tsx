@@ -91,11 +91,12 @@ const SegmentedController = ({
     selectedIndex > prevSelectedIndex ? prevSelectedIndex : selectedIndex;
 
   const highlightMask = {
-    backgroundColor: mode === 'default' ? colors.white : 'transparent',
+    backgroundColor:
+      mode === 'default' ? theme.colors.bg.surface : 'transparent',
   };
 
   const highlightText = {
-    color: colors.black,
+    color: theme.colors.fg.default,
   };
 
   const inactiveText = {
@@ -103,7 +104,11 @@ const SegmentedController = ({
   };
 
   const inactiveBackground = {
-    backgroundColor: 'transparent',
+    backgroundColor: theme.dark
+      ? mode === 'line'
+        ? theme.colors.bg.surface
+        : theme.colors.bg.subtle
+      : 'transparent',
   };
 
   /**

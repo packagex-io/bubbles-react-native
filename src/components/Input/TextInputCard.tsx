@@ -8,7 +8,6 @@ import {
   Platform,
   TextStyle,
   ColorValue,
-  Text,
 } from 'react-native';
 import color from 'color';
 import { Masks, useMaskedInputProps } from 'react-native-mask-input';
@@ -32,6 +31,7 @@ import {
   interpolatePlaceholder,
   calculateOutlinedIconAndAffixTopPosition,
 } from './helpers';
+import Text from '../Typography/Text';
 
 const OUTLINE_MINIMIZED_LABEL_Y_OFFSET = -6;
 const LABEL_PADDING_TOP = 8;
@@ -97,7 +97,7 @@ const TextInputCard = ({
     fontWeight,
     lineHeight,
     height,
-    backgroundColor = colors.surface,
+    backgroundColor = colors.bg.subtle,
     textAlign,
     ...viewStyle
   } = (StyleSheet.flatten(style) || {}) as TextStyle;
@@ -118,7 +118,7 @@ const TextInputCard = ({
     activeColor = error
       ? colors.error.default
       : activeOutlineColor || colors.primary.default;
-    placeholderColor = colors.placeholder;
+    placeholderColor = colors.fg.subtle;
     outlineColor = customOutlineColor || colors.placeholder;
     errorColor = colors.error;
   }
@@ -249,6 +249,7 @@ const TextInputCard = ({
             position: 'absolute',
             top: 28,
           },
+          { color: theme.colors.fg.subtle },
         ]}
       >
         {label}

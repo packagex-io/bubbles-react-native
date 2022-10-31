@@ -1,11 +1,11 @@
 import * as React from 'react';
-import {View, ViewStyle, StyleSheet, StyleProp, Platform} from 'react-native';
+import { View, ViewStyle, StyleSheet, StyleProp, Platform } from 'react-native';
 import DefaultTheme from '../../styles/DefaultTheme';
 import Text from '../Typography/Text';
-import type {Theme} from '../../types';
+import type { Theme } from '../../types';
 import Modal from './Modal';
-import {colors} from '../../styles/tokens';
-import {withTheme} from '../../core/theming';
+import { colors } from '../../styles/tokens';
+import { withTheme } from '../../core/theming';
 import IconButton from '../IconButton/IconButton';
 import Button from '../Button';
 
@@ -74,13 +74,13 @@ const MessageModal = ({
         style,
       ]}
     >
-      <View style={{flexDirection: 'column'}}>
+      <View style={{ flexDirection: 'column' }}>
         <View style={[styles.modalHeader]}>
           <Text
             style={[
-              {...theme.fonts.bold},
-              Platform.OS === 'web' && {fontFamily: 'Inter'},
-              {color: theme.colors.fg.default},
+              { ...theme.fonts.bold },
+              Platform.OS === 'web' && { fontFamily: 'Inter' },
+              { color: theme.colors.fg.default },
             ]}
             variant="Body"
           >
@@ -120,11 +120,11 @@ const styles = StyleSheet.create({
      * dialog (44 pixel from the top and bottom) it won't be dismissed.
      */
     marginVertical: Platform.OS === 'android' ? 44 : 0,
-    marginHorizontal: 26,
+    // marginHorizontal: 26,
     elevation: 24,
     justifyContent: 'flex-start',
     padding: 24,
-    width: 420,
+    width: '100%',
   },
   innerContainer: {},
   modalHeader: {
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
 
     paddingBottom: 16,
   },
-  footer: {paddingVertical: 16},
+  footer: { paddingVertical: 16 },
 });
 
 export default withTheme(MessageModal);

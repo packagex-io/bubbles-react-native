@@ -8,26 +8,15 @@ import Icon from 'react-native-vector-icons/Feather';
 import Header from '../../../src/components/Header/Header';
 import HeaderBackIcon from '../../../src/components/Header/BackIcon';
 import HeaderCloseIcon from '../../../src/components/Header/CloseIcon';
+import { Provider } from '../../../src';
 
 storiesOf('Header', module)
-  .addDecorator((getStory) => (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 16,
-        backgroundColor: '#E5E5E5',
-      }}
-    >
-      {getStory()}
-    </View>
-  ))
+  .addDecorator((getStory) => <>{getStory()}</>)
   .add('default', () => (
-    <>
+    <Provider>
       <Header title="Header">
         <HeaderBackIcon size={24} />
         <HeaderCloseIcon size={18} />
       </Header>
-    </>
+    </Provider>
   ));

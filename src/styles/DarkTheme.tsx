@@ -1,10 +1,10 @@
 import color from 'color';
 import configureFonts from './fonts';
-import type {Theme} from '../types';
-import {colors, tokens, typescale} from './tokens';
+import type { Theme } from '../types';
+import { colors, tokens, typescale } from './tokens';
 
 const DarkTheme: Theme = {
-  dark: false,
+  dark: true,
   roundness: 16,
   colors: {
     fg: {
@@ -67,8 +67,8 @@ const DarkTheme: Theme = {
       background: colors.white,
       text: colors.gray800,
       placeholder: colors.gray500,
-      border: {default: colors.gray300, disabled: colors.gray200},
-      fg: {disabled: colors.gray300},
+      border: { default: colors.gray300, disabled: colors.gray200 },
+      fg: { disabled: colors.gray300 },
     },
     overlay: colors.black,
     border: colors.gray900,
@@ -76,7 +76,7 @@ const DarkTheme: Theme = {
     accent: '#03dac4',
     background: '#f6f6f6',
     surface: colors.white,
-    text: colors.black,
+    text: colors.white,
     onSurface: '#000000',
     disabled: color(colors.black).alpha(0.26).rgb().string(),
     placeholder: color(colors.black).alpha(0.54).rgb().string(),

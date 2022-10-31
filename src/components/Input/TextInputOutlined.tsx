@@ -75,7 +75,7 @@ const TextInputOutlined = ({
     fontWeight,
     lineHeight,
     height,
-    backgroundColor = colors.surface,
+    backgroundColor = colors.bg.subtle,
     textAlign,
     ...viewStyle
   } = (StyleSheet.flatten(style) || {}) as TextStyle;
@@ -85,7 +85,7 @@ const TextInputOutlined = ({
 
   if (disabled) {
     const isTransparent = color(customOutlineColor).alpha() === 0;
-    inputTextColor = activeColor = color(colors.text)
+    inputTextColor = activeColor = color(colors.fg.default)
       .alpha(0.54)
       .rgb()
       .string();
@@ -96,7 +96,7 @@ const TextInputOutlined = ({
     activeColor = error
       ? colors.error.default
       : activeOutlineColor || colors.primary.default;
-    placeholderColor = colors.placeholder;
+    placeholderColor = colors.fg.subtle;
     outlineColor = customOutlineColor || colors.placeholder;
     errorColor = colors.error.default;
   }

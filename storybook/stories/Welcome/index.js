@@ -20,6 +20,7 @@ class Welcome extends React.Component {
       fontSize: 12,
       marginBottom: 10,
       lineHeight: 18,
+      color: 'black',
     },
   };
 

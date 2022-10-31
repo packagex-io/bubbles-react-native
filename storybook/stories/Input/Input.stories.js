@@ -3,6 +3,7 @@ import { text } from '@storybook/addon-knobs';
 import { storiesOf } from '@storybook/react-native';
 import React from 'react';
 import { KeyboardAvoidingView, Text, View } from 'react-native';
+import { Provider } from '../../../src';
 import TextInput from '../../../src/components/Input/TextInput';
 import CenterView from '../CenterView';
 
@@ -36,7 +37,7 @@ const MyComponent = () => {
 };
 
 storiesOf('Input', module)
-  .addDecorator((getStory) => <CenterView>{getStory()}</CenterView>)
+  .addDecorator((getStory) => <Provider>{getStory()}</Provider>)
   .add('Default', () => (
     <>
       <MyComponent />

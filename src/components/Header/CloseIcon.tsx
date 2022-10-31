@@ -37,7 +37,7 @@ const HeaderCloseIcon = ({
       onPress={onPress}
       accessibilityLabel={accessibilityLabel}
       style={styles.touchable}
-      rippleColor={'#F9F9F9'}
+      rippleColor={color ? color : '#F9F9F9'}
       // @ts-expect-error We keep old a11y props for backwards compat with old RN versions
       accessibilityTraits={'button'}
       accessibilityComponentType="button"
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   wrapper: {
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#F9F9F9',
+    // backgroundColor: '#F9F9F9',
     borderRadius: 8,
   },
   icon: {
