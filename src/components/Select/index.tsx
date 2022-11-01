@@ -100,7 +100,6 @@ const Select: FC<Props> = ({ label, theme, onSelect, data }: Props) => {
     return (
       data &&
       data.map((item, i) => {
-        console.log(item.value);
         return (
           <View key={i}>
             <Menu.Item
