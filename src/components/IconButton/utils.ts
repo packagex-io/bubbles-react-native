@@ -17,14 +17,6 @@ const getBorderColor = ({
   theme: Theme;
   disabled?: boolean;
 }) => {
-  if (theme.isV3) {
-    if (disabled) {
-      return theme.colors.surfaceDisabled;
-    }
-
-    return theme.colors.outline;
-  }
-
   return undefined;
 };
 
@@ -35,43 +27,11 @@ const getBackgroundColor = ({
   selected,
   customContainerColor,
 }: BaseProps & { customContainerColor?: string }) => {
-  if (theme.isV3) {
-    if (disabled) {
-      if (isMode('contained') || isMode('contained-tonal')) {
-        return theme.colors.surfaceDisabled;
-      }
-    }
-
-    if (typeof customContainerColor !== 'undefined') {
-      return customContainerColor;
-    }
-
-    if (isMode('contained')) {
-      if (selected) {
-        return theme.colors.primary;
-      }
-      return theme.colors.surfaceVariant;
-    }
-
-    if (isMode('contained-tonal')) {
-      if (selected) {
-        return theme.colors.secondaryContainer;
-      }
-      return theme.colors.surfaceVariant;
-    }
-
-    if (isMode('outlined')) {
-      if (selected) {
-        return theme.colors.inverseSurface;
-      }
-    }
-  }
-
   if (typeof customContainerColor !== 'undefined') {
     return customContainerColor;
   }
 
-  return undefined;
+  return theme.colors.bg.canvas;
 };
 
 const getIconColor = ({
@@ -81,47 +41,11 @@ const getIconColor = ({
   selected,
   customIconColor,
 }: BaseProps & { customIconColor?: string }) => {
-  if (theme.isV3) {
-    if (disabled) {
-      return theme.colors.onSurfaceDisabled;
-    }
-
-    if (typeof customIconColor !== 'undefined') {
-      return customIconColor;
-    }
-
-    if (isMode('contained')) {
-      if (selected) {
-        return theme.colors.onPrimary;
-      }
-      return theme.colors.primary;
-    }
-
-    if (isMode('contained-tonal')) {
-      if (selected) {
-        return theme.colors.onSecondaryContainer;
-      }
-      return theme.colors.onSurfaceVariant;
-    }
-
-    if (isMode('outlined')) {
-      if (selected) {
-        return theme.colors.inverseOnSurface;
-      }
-      return theme.colors.onSurfaceVariant;
-    }
-
-    if (selected) {
-      return theme.colors.primary;
-    }
-    return theme.colors.onSurfaceVariant;
-  }
-
   if (typeof customIconColor !== 'undefined') {
     return customIconColor;
   }
 
-  return theme.colors.text;
+  return theme.colors.fg.default;
 };
 
 const getRippleColor = ({
@@ -131,9 +55,6 @@ const getRippleColor = ({
   theme: Theme;
   iconColor: string;
 }) => {
-  if (theme.isV3) {
-    return color(iconColor).alpha(0.12).rgb().string();
-  }
   return color(iconColor).alpha(0.32).rgb().string();
 };
 

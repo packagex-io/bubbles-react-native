@@ -28,10 +28,11 @@ const SelectComponent = () => {
           flex: 1,
           width: '100%',
           alignItems: 'center',
-          paddingVertical: 16,
+
           justifyContent: 'center',
-          paddingHorizontal: 16,
+
           position: 'relative',
+          paddingTop: 180,
         }}
       >
         <Select

@@ -25,7 +25,8 @@ const Provider = ({ ...props }: Props) => {
 
   const [reduceMotionEnabled, setReduceMotionEnabled] =
     React.useState<boolean>(false);
-  const [colorScheme, setColorScheme] = React.useState<ColorSchemeName>('dark');
+  const [colorScheme, setColorScheme] =
+    React.useState<ColorSchemeName>('light');
 
   const handleAppearanceChange = (
     preferences: Appearance.AppearancePreferences

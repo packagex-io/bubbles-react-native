@@ -83,6 +83,8 @@ const SCREEN_INDENT = 8;
 const ANIMATION_DURATION = 250;
 // From the 'Standard easing' section of https://material.io/design/motion/speed.html#easing
 const EASING = Easing.bezier(0.4, 0, 0.2, 1);
+// Padding between the menu and the anchor
+const SPACING_FROM_ANCHOR = 8;
 
 const Menu = ({
   visible,
@@ -127,7 +129,6 @@ const Menu = ({
   }
 
   React.useEffect(() => {
-    console.log(visible, rendered);
     if (!visible && rendered) {
       setRendered(false);
     }
@@ -136,8 +137,11 @@ const Menu = ({
   React.useEffect(() => {
     let left = anchorMeasurements.x;
     let top = anchorMeasurements.y;
+    console.log('Called', menuMeasurements.x);
     if (left === 0 || top === 0) return;
-    if (menuMeasurements.x !== 0 || menuMeasurements.y !== 0) return;
+    if (menuMeasurements.x !== 0 || menuMeasurements.y !== 0 || !rendered)
+      return;
+
     // Check if menu fits horizontally and if not align it to right.
     if (left <= windowLayout.width - menuMeasurements.width - SCREEN_INDENT) {
       // Check if menu position has enough space from left side
@@ -154,8 +158,7 @@ const Menu = ({
       }
     }
 
-    // If the menu is larger than available vertical space,
-    // calculate the height of scrollable view
+    // If the menu is larger than available vertical space, calculate the height of scrollable view
     let scrollableMenuHeight = 0;
 
     // Check if the menu should be scrollable
@@ -236,6 +239,7 @@ const Menu = ({
 
       // Check if menu position has enough space from bottom side
       if (bottom > windowLayout.height - SCREEN_INDENT) {
+        console.log('bottom side');
         top =
           scrollableMenuHeight === windowLayout.height - 2 * SCREEN_INDENT
             ? -SCREEN_INDENT * 2
@@ -245,14 +249,14 @@ const Menu = ({
               additionalVerticalValue;
       }
     }
-    console.log('menu updated');
+    console.log('menu updated', menuMeasurements.x);
     setMenuMeasurements((state) => ({
       ...state,
       x: left,
       y: top,
     }));
     setScrollableMenuHeight(scrollableMenuHeight);
-  }, [anchorMeasurements, menuMeasurements]);
+  }, [anchorMeasurements, menuMeasurements.width, menuMeasurements.height]);
 
   const isCoordinate = (anchor: any): anchor is { x: number; y: number } =>
     !React.isValidElement(anchor) &&
@@ -281,6 +285,7 @@ const Menu = ({
       }}
       ref={anchorRef}
       collapsable={false}
+      style={{ width: '100%' }}
     >
       {isCoordinate(anchor) ? null : anchor}
       {rendered ? (
@@ -300,7 +305,16 @@ const Menu = ({
             pointerEvents={visible ? 'box-none' : 'none'}
             onAccessibilityEscape={onDismiss}
             onLayout={(e) => {
-              setMenuMeasurements({ ...e.nativeEvent.layout, x: 0, y: 0 });
+              if (menuMeasurements.x === 0 && menuMeasurements.y === 0) {
+                setMenuMeasurements({
+                  ...e.nativeEvent.layout,
+                  x: 0,
+                  y: 0,
+                });
+              } else
+                setMenuMeasurements({
+                  ...e.nativeEvent.layout,
+                });
             }}
           >
             <Animated.View>

@@ -7,50 +7,53 @@ import { withTheme } from '../../core/theming';
 import { colors, colors as Colors } from '../../styles/tokens';
 import overlay from '../../styles/overlay';
 import Text from '../Typography/Text';
-import HeaderBackIcon from './BackIcon';
+import HeaderBackIcon, { HeaderAction } from './HeaderAction';
 import HeaderCloseIcon from './CloseIcon';
 import Breadcrumbs from '../Breadcrumbs/Breadcrumbs';
-type Props = Partial<React.ComponentPropsWithRef<typeof View>> &
-  React.ComponentProps<typeof Breadcrumbs> & {
-    /**
-     * Whether the background color is a dark color. A dark appbar will render light text and vice-versa.
-     */
-    dark?: boolean;
-    /**
-     * Icons of the `Appbar`.
-     */
-    children: React.ReactNode;
-    /**
-     * @optional
-     */
-    theme: PackageX.Theme;
-    style?: StyleProp<ViewStyle>;
-    /**
-     * Text for the title.
-     */
-    title: React.ReactNode;
-    /**
-     * Custom color for the text.
-     */
-    color?: string;
-    /**
-     * Center title text in the Header
-     */
-    centerText?: boolean;
-  };
+import HeaderBackAction from './HeaderBackAction';
+type Props = Partial<React.ComponentPropsWithRef<typeof View>> & {
+  /**
+   * Whether the background color is a dark color. A dark appbar will render light text and vice-versa.//WIP - instead set darkmode in ThemeProvider
+   */
+  dark?: boolean;
+  /**
+   * Icons of the `Appbar`.
+   */
+  children: React.ReactNode;
+  /**
+   * @optional
+   */
+  theme: PackageX.Theme;
+  style?: StyleProp<ViewStyle>;
+  /**
+   * Text for the title.
+   */
+  title: React.ReactNode;
+  /**
+   * You can add a subtitle underneath the title to the Header.
+   */
+  subtitle: React.ReactNode;
+  /**
+   * Custom color for the text.
+   */
+  color?: string;
+  /**
+   * Center title text in the Header
+   */
+  centerText?: boolean;
+};
 
 export const DEFAULT_APPBAR_HEIGHT = 56;
 
 const Header = ({
   children,
-  dark = true,
+  dark = false,
   style,
   theme,
   color: titleColor,
-  centerText = false,
+  centerText = true,
   title,
-  breadcrumbs,
-  breadcrumb_labels,
+  subtitle,
   ...rest
 }: Props) => {
   const { dark: isDarkTheme, fonts } = theme;
@@ -88,50 +91,72 @@ const Header = ({
         <View style={[styles.container, style]} {...rest}>
           {React.Children.toArray(children)
             .filter((child) => child != null && typeof child !== 'boolean')
-            .filter((child) => [HeaderBackIcon].includes(child.type))
+            .filter((child) => [HeaderBackAction].includes(child.type))
             .map((child, i) => {
               return (
                 child !== undefined &&
                 React.cloneElement(child, { color: theme.colors.fg.default })
               );
             })}
+          <View style={[styles.titleWrapper]}>
+            <Text
+              variant="Small"
+              style={[
+                {
+                  color: titleColor ? titleColor : theme.colors.fg.default,
+                  ...fonts.bold,
+                  // marginLeft: 32,
+                  textAlign: centerText ? 'center' : 'left',
+                },
 
-          <Text
-            variant="Display"
-            style={[
-              {
-                color: titleColor ? titleColor : theme.colors.fg.default,
-                ...fonts.bold,
-                marginLeft: 32,
-                textAlign: centerText ? 'center' : 'left',
-              },
-              styles.title,
-              Platform.OS === 'web' && { fontFamily: 'Inter', fontWeight: 700 },
-            ]}
-            numberOfLines={1}
-            accessible
-            accessibilityTraits="header"
-            accessibilityRole={'header'}
-          >
-            {title}
-          </Text>
+                Platform.OS === 'web' && {
+                  fontFamily: 'Inter',
+                  fontWeight: '700',
+                },
+              ]}
+              numberOfLines={1}
+              accessible
+              accessibilityTraits="header"
+              accessibilityRole={'header'}
+            >
+              {title}
+            </Text>
+            <Text
+              variant="Tiny"
+              style={[
+                {
+                  color: theme.colors.fg.subtle,
+
+                  // marginLeft: 32,
+                  textAlign: centerText ? 'center' : 'left',
+                },
+
+                Platform.OS === 'web' && {
+                  fontFamily: 'Inter',
+                  fontWeight: '700',
+                },
+              ]}
+              numberOfLines={1}
+              accessible
+              accessibilityTraits="header"
+              accessibilityRole={'header'}
+            >
+              {subtitle}
+            </Text>
+          </View>
           {React.Children.toArray(children)
             .filter((child) => child != null && typeof child !== 'boolean')
-            .filter((child) => [HeaderCloseIcon].includes(child.type))
+            .filter((child) => [HeaderAction].includes(child.type))
             .map((child, i) => {
               return (
                 child !== undefined &&
-                React.cloneElement(child, { color: theme.colors.fg.default })
+                React.cloneElement(child, {
+                  color: theme.colors.fg.default,
+                })
               );
             })}
         </View>
       </Surface>
-      <View style={{ paddingLeft: 78 }}>
-        <Breadcrumbs
-          breadcrumbs={breadcrumbs}
-          breadcrumb_labels={breadcrumb_labels}
-        />
-      </View>
     </View>
   );
 };
@@ -155,8 +180,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  title: {
+  titleWrapper: {
     flex: 1,
+    flexDirection: 'column',
   },
 });
 

@@ -14,7 +14,7 @@ import type { $RemoveChildren, Theme } from '../../types';
 import { getIconButtonColor } from './utils';
 import Surface from '../Surface';
 
-const PADDING = 8;
+const PADDING = 12;
 
 type IconButtonMode = 'outlined' | 'contained' | 'contained-tonal';
 
@@ -98,7 +98,8 @@ const IconButton = ({
   const buttonSize = size + 2 * PADDING;
 
   const borderStyles = {
-    borderRadius: buttonSize / 2,
+    // borderRadius: buttonSize / 2,
+    borderRadius: 12,
     borderColor,
   };
 
