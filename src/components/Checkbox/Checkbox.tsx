@@ -1,18 +1,18 @@
-import * as React from 'react';
-import { Platform, Text } from 'react-native';
-import { withTheme } from '../../core/theming';
-import { Animated, View, StyleSheet } from 'react-native';
-import color from 'color';
-import type { $RemoveChildren } from '../../types';
-import TouchableRippleNative from '../TouchableRipple/TouchableRipple.native';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { colors } from '../../styles/tokens';
+import * as React from "react";
+import { Platform, Text } from "react-native";
+import { withTheme } from "../../core/theming";
+import { Animated, View, StyleSheet } from "react-native";
+import color from "color";
+import type { $RemoveChildren } from "../../types";
+import TouchableRippleNative from "../TouchableRipple/TouchableRipple.native";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { colors } from "../../styles/tokens";
 
 type Props = {
   /**
    * Status of checkbox.
    */
-  status: 'checked' | 'unchecked' | 'indeterminate';
+  status: "checked" | "unchecked" | "indeterminate";
   /**
    * Whether checkbox is disabled.
    */
@@ -82,7 +82,7 @@ const Checkbox = ({
       return;
     }
 
-    const checked = status === 'checked';
+    const checked = status === "checked";
 
     Animated.sequence([
       Animated.timing(scaleAnim, {
@@ -100,8 +100,8 @@ const Checkbox = ({
     ]).start();
   }, [status, scaleAnim, scale]);
 
-  const checked = status === 'checked';
-  const indeterminate = status === 'indeterminate';
+  const checked = status === "checked";
+  const indeterminate = status === "indeterminate";
   const checkedColor = rest.color || theme.colors.primary.default;
   const uncheckedColor =
     rest.uncheckedColor ||
@@ -126,10 +126,10 @@ const Checkbox = ({
   });
 
   const icon = indeterminate
-    ? 'minus-box'
+    ? "minus-box"
     : checked
-    ? 'checkbox-marked'
-    : 'checkbox-blank-outline';
+    ? "checkbox-marked"
+    : "checkbox-blank-outline";
 
   return (
     <TouchableRippleNative
@@ -139,7 +139,7 @@ const Checkbox = ({
       onPress={onPress}
       disabled={disabled}
       // @ts-expect-error We keep old a11y props for backwards compat with old RN versions
-      accessibilityTraits={disabled ? ['button', 'disabled'] : 'button'}
+      accessibilityTraits={disabled ? ["button", "disabled"] : "button"}
       accessibilityComponentType="button"
       accessibilityRole="checkbox"
       accessibilityState={{ disabled, checked }}
@@ -147,7 +147,13 @@ const Checkbox = ({
       style={styles.container}
       testID={testID}
     >
-      <Animated.View style={{ transform: [{ scale: scaleAnim }] }}>
+      <Animated.View
+        style={{
+          transform: [{ scale: scaleAnim }],
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         {/* <MaterialCommunityIcon
           allowFontScaling={false}
           name={icon}
@@ -176,18 +182,20 @@ const Checkbox = ({
   );
 };
 
-Checkbox.displayName = 'Checkbox';
+Checkbox.displayName = "Checkbox";
 
 const styles = StyleSheet.create({
   container: {
     borderRadius: 18,
-    width: 36,
-    height: 36,
-    padding: 6,
+    // width: 36,
+    // height: 36,
+    alignItems: "center",
+    justifyContent: "center",
+    // padding: 6,
   },
   fillContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   fill: {
     height: 14,

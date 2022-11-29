@@ -95,6 +95,13 @@ const FormComponent = () => {
             ],
           },
           {
+            type: "checkbox",
+            name: "terms",
+            label: "Terms and conditions",
+
+            desc: "By submitting this form you agree to our terms. ",
+          },
+          {
             type: "submit", //The form must have a submit button
             label: "Submit Form", //The label for the submit button,
             onSubmit: (data, _e) => {

@@ -4,12 +4,8 @@ import {
   UseFormReturn,
   useForm,
   FormProvider,
-  useController,
   useFormContext,
   Controller,
-  SubmitHandler,
-  FieldValues,
-  SubmitErrorHandler,
 } from "react-hook-form";
 import {
   StyleSheet,
@@ -18,6 +14,7 @@ import {
   ViewStyle,
   GestureResponderEvent,
   ScrollView,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { withTheme } from "../../core/theming";
 import { Theme } from "../../types";
@@ -30,6 +27,7 @@ import RadioButton from "../Radio";
 import RadioButtonGroup from "../Radio/RadioButtonGroup";
 import Select from "../Select";
 import Switch from "../Switch/Switch";
+import TouchableRippleNative from "../TouchableRipple/TouchableRipple.native";
 import Text from "../Typography/Text";
 
 interface InputTypeProps extends Omit<TextInputProps, "type"> {
@@ -49,6 +47,7 @@ type SwitchTypeProps = React.ComponentPropsWithoutRef<typeof Switch> & {
   type: "switch";
   label: string;
   desc?: string;
+  defaultValue?: boolean;
 };
 
 type SelectTypeProps = React.ComponentPropsWithoutRef<typeof Select> & {
@@ -64,7 +63,10 @@ type RadioTypeProps = React.ComponentPropsWithRef<typeof RadioButtonGroup> & {
 
 type CheckboxTypeProps = React.ComponentPropsWithRef<typeof Checkbox> & {
   type: "checkbox";
-}; //TODO labelled checkbox and checkbox group. Also divider,button
+  label: string;
+  desc?: string;
+  defaultValue?: boolean;
+}; //TODO labelled checkbox and checkbox group,divider
 
 type ButtonTypeProps = React.ComponentPropsWithRef<typeof Button> & {
   type: "submit";
@@ -90,6 +92,7 @@ type InputProps = (
   | SelectTypeProps
   | RadioTypeProps
   | ButtonTypeProps
+  | CheckboxTypeProps
 ) &
   CommonProps;
 
@@ -189,8 +192,11 @@ const ControlledRadio = (props: RadioTypeProps & CommonProps) => {
             </Text>
           )}
           <RadioButton.Group onValueChange={onChange} value={value}>
-            {props.options.map((option) => (
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
+            {props.options.map((option, i) => (
+              <View
+                key={i}
+                style={{ flexDirection: "row", alignItems: "center" }}
+              >
                 <RadioButton value={option.value} />
                 <Text>{option.label}</Text>
               </View>
@@ -255,6 +261,64 @@ const ControlledSwitch = (props: SwitchTypeProps & CommonProps) => {
   );
 };
 
+const ControlledCheckbox = (props: CheckboxTypeProps & CommonProps) => {
+  const { control } = useFormContext();
+
+  return (
+    <Controller
+      control={control}
+      defaultValue={props.defaultValue ?? false}
+      render={({ field: { onChange, onBlur, value } }) => (
+        // TODO: move to Labeled Checkbox component
+        <TouchableWithoutFeedback
+          style={{ width: "100%", marginVertical: 8 }}
+          onPress={() => onChange(!value)}
+        >
+          <View
+            style={{
+              flexDirection: "column",
+              justifyContent: "space-between",
+              backgroundColor: props.theme.colors.bg.canvas,
+              width: "100%",
+              borderRadius: 12,
+
+              paddingVertical: 16,
+              paddingHorizontal: 16,
+            }}
+          >
+            <Text
+              style={{ fontWeight: "bold", marginBottom: 4 }}
+              variant="Caption"
+            >
+              {props.label}
+            </Text>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Checkbox
+                onPress={() => onChange(!value)}
+                status={value ? "checked" : "unchecked"}
+              />
+              {typeof props.desc === "string" ? (
+                <Text
+                  style={{
+                    marginLeft: 4,
+                    color: props.theme.colors.fg.subtle,
+                  }}
+                  variant="XSmall"
+                >
+                  {props.desc}
+                </Text>
+              ) : (
+                props.desc && props.desc
+              )}
+            </View>
+          </View>
+        </TouchableWithoutFeedback>
+      )}
+      name={props.name}
+    />
+  );
+};
+
 const Form = ({
   containerStyle,
   useFormMethods,
@@ -302,6 +366,12 @@ const Form = ({
                 return (
                   <View key={index} style={[{ width: input.width ?? "100%" }]}>
                     <ControlledRadio theme={theme} {...input} />
+                  </View>
+                );
+              case "checkbox":
+                return (
+                  <View key={index} style={[{ width: input.width ?? "100%" }]}>
+                    <ControlledCheckbox theme={theme} {...input} />
                   </View>
                 );
               case "submit":
