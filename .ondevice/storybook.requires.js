@@ -30,7 +30,11 @@ try {
 } catch {}
 
 const getStories = () => {
-  return [require("../stories/MyButton.stories.js")];
+  return [
+    require("../stories/Button.stories.js"),
+    require("../stories/Form.stories.js"),
+    require("../stories/Select.stories.js"),
+  ];
 };
 
 configure(getStories, module, false);
