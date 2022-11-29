@@ -33,6 +33,7 @@ const getStories = () => {
   return [
     require("../stories/Button.stories.js"),
     require("../stories/Form.stories.js"),
+    require("../stories/Radio.stories.js"),
     require("../stories/Select.stories.js"),
   ];
 };
