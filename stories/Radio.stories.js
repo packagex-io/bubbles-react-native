@@ -1,6 +1,8 @@
 import React from "react";
 import { Provider } from "../src";
 import RadioButton from "../src/components/Radio";
+import { View } from "react-native";
+import Text from "../src/components/Typography/Text";
 
 export default {
   title: "components/Radio",

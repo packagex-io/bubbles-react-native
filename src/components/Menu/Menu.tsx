@@ -134,9 +134,8 @@ const Menu = ({
   React.useEffect(() => {
     let left = anchorMeasurements.x;
     let top = anchorMeasurements.y;
-
     if (left === 0 && top === 0) return;
-    if (menuMeasurements.x !== 0 || menuMeasurements.y !== 0 || !rendered)
+    if (!rendered)
       //don't run if the menu has already been positioned
       return;
     additionalVerticalValue = anchorMeasurements.height;
@@ -239,14 +238,19 @@ const Menu = ({
               additionalVerticalValue;
       }
     }
-
+    console.log("menu top", top);
     setMenuMeasurements((state) => ({
       ...state,
       x: left,
       y: top,
     }));
     setScrollableMenuHeight(scrollableMenuHeight);
-  }, [anchorMeasurements, menuMeasurements.width, menuMeasurements.height]);
+  }, [
+    anchorMeasurements.x,
+    anchorMeasurements.y,
+    menuMeasurements.width,
+    menuMeasurements.height,
+  ]);
 
   const isCoordinate = (anchor: any): anchor is { x: number; y: number } =>
     !React.isValidElement(anchor) &&
@@ -269,7 +273,6 @@ const Menu = ({
   return (
     <View
       onLayout={(e) => {
-        // setAnchorMeasurements(e.nativeEvent.layout);
         anchorRef.current.measureInWindow((x, y, width, height) => {
           setAnchorMeasurements({ x, y, width, height });
         });
@@ -296,6 +299,20 @@ const Menu = ({
             pointerEvents={visible ? "box-none" : "none"}
             onAccessibilityEscape={onDismiss}
             onLayout={(e) => {
+              console.log("menu onlayout");
+
+              if (anchorRef) {
+                anchorRef.current.measureInWindow((x, y, width, height) => {
+                  if (
+                    anchorMeasurements.x !== x ||
+                    anchorMeasurements.y !== y ||
+                    anchorMeasurements.width !== width ||
+                    anchorMeasurements.height !== height
+                  ) {
+                    setAnchorMeasurements({ x, y, width, height });
+                  }
+                });
+              }
               if (
                 e.nativeEvent.layout.width !== menuMeasurements.width ||
                 e.nativeEvent.layout.height !== menuMeasurements.height

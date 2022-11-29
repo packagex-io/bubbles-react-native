@@ -106,7 +106,6 @@ const FormComponent = () => {
             label: "Submit Form", //The label for the submit button,
             onSubmit: (data, _e) => {
               console.log(data);
-              //   console.log(error);
             },
             onError: (error, _e) => {
               console.log(error);

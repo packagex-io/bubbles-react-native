@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   Animated,
   BackHandler,
@@ -16,17 +16,18 @@ import {
   TouchableWithoutFeedback,
   View,
   ViewStyle,
-} from 'react-native';
+} from "react-native";
 
-import color from 'color';
+import color from "color";
 
-import { APPROX_STATUSBAR_HEIGHT } from '../../constants';
-import { withTheme } from '../../core/theming';
-import type { $Omit, Theme } from '../../types';
-import { addEventListener } from '../../utils/addEventListener';
-import Portal from '../Portal/Portal';
-import Surface from '../Surface';
-import MenuItem from './MenuItem';
+import { APPROX_STATUSBAR_HEIGHT } from "../../constants";
+
+import type { $Omit, Theme } from "../../types";
+import { addEventListener } from "../../utils/addEventListener";
+import Portal from "../Portal/Portal";
+import Surface from "../Surface";
+import MenuItem from "./MenuItem";
+import { withTheme } from "../../core/theming";
 
 export type Props = {
   /**
@@ -68,10 +69,10 @@ export type Props = {
   /**
    * Inner ScrollView prop
    */
-  keyboardShouldPersistTaps?: ScrollViewProps['keyboardShouldPersistTaps'];
+  keyboardShouldPersistTaps?: ScrollViewProps["keyboardShouldPersistTaps"];
 };
 
-type Layout = $Omit<$Omit<LayoutRectangle, 'x'>, 'y'>;
+type Layout = $Omit<$Omit<LayoutRectangle, "x">, "y">;
 
 type State = {
   rendered: boolean;
@@ -142,7 +143,7 @@ class Menu extends React.Component<Props, State> {
 
   static defaultProps = {
     statusBarHeight: APPROX_STATUSBAR_HEIGHT,
-    overlayAccessibilityLabel: 'Close menu',
+    overlayAccessibilityLabel: "Close menu",
   };
 
   static getDerivedStateFromProps(nextProps: Props, prevState: State) {
@@ -180,8 +181,8 @@ class Menu extends React.Component<Props, State> {
 
   private isCoordinate = (anchor: any): anchor is { x: number; y: number } =>
     !React.isValidElement(anchor) &&
-    typeof anchor?.x === 'number' &&
-    typeof anchor?.y === 'number';
+    typeof anchor?.x === "number" &&
+    typeof anchor?.y === "number";
 
   private measureMenuLayout = () =>
     new Promise<LayoutRectangle>((resolve) => {
@@ -202,6 +203,7 @@ class Menu extends React.Component<Props, State> {
 
       if (this.anchor) {
         this.anchor.measureInWindow((x, y, width, height) => {
+          console.log(x, y);
           resolve({ x, y, width, height });
         });
       }
@@ -210,8 +212,8 @@ class Menu extends React.Component<Props, State> {
   private updateVisibility = async () => {
     // Menu is rendered in Portal, which updates items asynchronously
     // We need to do the same here so that the ref is up-to-date
-    // await Promise.resolve();
-    console.log('updateVisibility', this.props.visible, !!this.menu);
+    await Promise.resolve();
+
     if (this.props.visible) {
       this.show();
     } else {
@@ -219,7 +221,7 @@ class Menu extends React.Component<Props, State> {
     }
   };
 
-  private isBrowser = () => Platform.OS === 'web' && 'document' in global;
+  private isBrowser = () => Platform.OS === "web" && "document" in global;
 
   private focusFirstDOMNode = (el: View | null | undefined) => {
     if (el && this.isBrowser()) {
@@ -244,7 +246,7 @@ class Menu extends React.Component<Props, State> {
   };
 
   private handleKeypress = (e: KeyboardEvent) => {
-    if (e.key === 'Escape') {
+    if (e.key === "Escape") {
       this.props.onDismiss?.();
     }
   };
@@ -252,26 +254,26 @@ class Menu extends React.Component<Props, State> {
   private attachListeners = () => {
     this.backHandlerSubscription = addEventListener(
       BackHandler,
-      'hardwareBackPress',
+      "hardwareBackPress",
       this.handleDismiss
     );
     this.dimensionsSubscription = addEventListener(
       Dimensions,
-      'change',
+      "change",
       this.handleDismiss
     );
-    this.isBrowser() && document.addEventListener('keyup', this.handleKeypress);
+    this.isBrowser() && document.addEventListener("keyup", this.handleKeypress);
   };
 
   private removeListeners = () => {
     this.backHandlerSubscription?.remove();
     this.dimensionsSubscription?.remove();
     this.isBrowser() &&
-      document.removeEventListener('keyup', this.handleKeypress);
+      document.removeEventListener("keyup", this.handleKeypress);
   };
 
   private show = async () => {
-    const windowLayout = Dimensions.get('window');
+    const windowLayout = Dimensions.get("window");
     const [menuLayout, anchorLayout] = await Promise.all([
       this.measureMenuLayout(),
       this.measureAnchorLayout(),
@@ -310,7 +312,7 @@ class Menu extends React.Component<Props, State> {
       }),
       () => {
         this.attachListeners();
-        console.log('show animation');
+
         const { animation } = this.props.theme;
         Animated.parallel([
           Animated.timing(this.state.scaleAnimation, {
@@ -342,7 +344,7 @@ class Menu extends React.Component<Props, State> {
       toValue: 0,
       duration: ANIMATION_DURATION * animation.scale,
       easing: EASING,
-      useNativeDriver: false,
+      useNativeDriver: true,
     }).start(({ finished }) => {
       if (finished) {
         this.setState({ menuLayout: { width: 0, height: 0 }, rendered: false });
@@ -378,7 +380,7 @@ class Menu extends React.Component<Props, State> {
 
     // I don't know why but on Android measure function is wrong by 24
     const additionalVerticalValue = Platform.select({
-      android: statusBarHeight,
+      android: 0,
       default: 0,
     });
 
@@ -386,18 +388,18 @@ class Menu extends React.Component<Props, State> {
       {
         scaleX: scaleAnimation.x.interpolate({
           inputRange: [0, menuLayout.width],
-          outputRange: [1, 1],
+          outputRange: [0, 1],
         }),
       },
       {
         scaleY: scaleAnimation.y.interpolate({
           inputRange: [0, menuLayout.height],
-          outputRange: [1, 1],
+          outputRange: [0, 1],
         }),
       },
     ];
 
-    const windowLayout = Dimensions.get('window');
+    const windowLayout = Dimensions.get("window");
 
     // We need to translate menu while animating scale to imitate transform origin for scale animation
     const positionTransforms = [];
@@ -537,7 +539,7 @@ class Menu extends React.Component<Props, State> {
       opacity: opacityAnimation,
       transform: scaleTransforms,
       borderRadius: theme.roundness,
-
+      ...{ elevation: 8 },
       ...(scrollableMenuHeight ? { height: scrollableMenuHeight } : {}),
     };
 
@@ -561,7 +563,7 @@ class Menu extends React.Component<Props, State> {
               accessibilityRole="button"
               onPress={onDismiss}
             >
-              <View style={[StyleSheet.absoluteFill]} />
+              <View style={StyleSheet.absoluteFill} />
             </TouchableWithoutFeedback>
             <View
               ref={(ref) => {
@@ -570,7 +572,7 @@ class Menu extends React.Component<Props, State> {
               collapsable={false}
               accessibilityViewIsModal={visible}
               style={[styles.wrapper, positionStyle, style]}
-              pointerEvents={visible ? 'box-none' : 'none'}
+              pointerEvents={visible ? "box-none" : "none"}
               onAccessibilityEscape={onDismiss}
             >
               <Animated.View style={{ transform: positionTransforms }}>
@@ -581,7 +583,6 @@ class Menu extends React.Component<Props, State> {
                       shadowMenuContainerStyle,
 
                       contentStyle,
-                      { opacity: 1 },
                     ] as StyleProp<ViewStyle>
                   }
                 >
@@ -604,7 +605,7 @@ class Menu extends React.Component<Props, State> {
 
 const styles = StyleSheet.create({
   wrapper: {
-    position: 'absolute',
+    position: "absolute",
   },
   shadowMenuContainer: {
     opacity: 0,
