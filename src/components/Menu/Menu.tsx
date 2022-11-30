@@ -134,6 +134,7 @@ const Menu = ({
   React.useEffect(() => {
     let left = anchorMeasurements.x;
     let top = anchorMeasurements.y;
+
     if (left === 0 && top === 0) return;
     if (!rendered)
       //don't run if the menu has already been positioned
@@ -238,7 +239,7 @@ const Menu = ({
               additionalVerticalValue;
       }
     }
-    console.log("menu top", top);
+
     setMenuMeasurements((state) => ({
       ...state,
       x: left,
@@ -249,7 +250,7 @@ const Menu = ({
     anchorMeasurements.x,
     anchorMeasurements.y,
     menuMeasurements.width,
-    menuMeasurements.height,
+    // menuMeasurements.height,
   ]);
 
   const isCoordinate = (anchor: any): anchor is { x: number; y: number } =>
@@ -299,8 +300,6 @@ const Menu = ({
             pointerEvents={visible ? "box-none" : "none"}
             onAccessibilityEscape={onDismiss}
             onLayout={(e) => {
-              console.log("menu onlayout");
-
               if (anchorRef) {
                 anchorRef.current.measureInWindow((x, y, width, height) => {
                   if (

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   Animated,
   SafeAreaView,
@@ -7,15 +7,16 @@ import {
   ViewStyle,
   View,
   Easing,
-} from 'react-native';
+} from "react-native";
 
-import Button from '../Button';
-import Surface from '../Surface';
-import Text from '../Typography/Text';
-import { withTheme } from '../../core/theming';
-import type { Theme } from '../../types';
-import { colors } from '../../styles/tokens';
-import IconButton from '../IconButton/IconButton';
+import Button from "../Button";
+import Surface from "../Surface";
+import Text from "../Typography/Text";
+import { withTheme } from "../../core/theming";
+import type { Theme } from "../../types";
+import { colors } from "../../styles/tokens";
+import IconButton from "../IconButton/IconButton";
+import color from "color";
 
 export type ToastProps = React.ComponentProps<typeof Surface> & {
   /**
@@ -41,10 +42,20 @@ export type ToastProps = React.ComponentProps<typeof Surface> & {
   /**
    * Style for the wrapper of the snackbar
    */
-
   wrapperStyle?: StyleProp<ViewStyle>;
   style?: StyleProp<ViewStyle>;
-  ref?: React.RefObject<View>;
+  /**
+   * Background color of the toast
+   */
+  color?:
+    | "primary"
+    | "secondary"
+    | "success"
+    | "warning"
+    | "error"
+    | "info"
+    | "light"
+    | "dark";
   /**
    * @optional
    */
@@ -124,6 +135,29 @@ const Toast = ({
   const marginRight = 16;
   const textColor = colors.white;
 
+  const getColorForToast = () => {
+    switch (rest.color) {
+      case "primary":
+        return theme.colors.primary.default;
+      case "secondary":
+        return theme.colors.secondary.default;
+      case "success":
+        return theme.colors.success.default;
+      case "warning":
+        return theme.colors.warning.default;
+      case "error":
+        return theme.colors.error.default;
+      case "info":
+        return theme.colors.info.default;
+      case "light":
+        return colors.gray100;
+      case "dark":
+        return colors.gray800;
+
+      default:
+        return theme.colors.primary.default;
+    }
+  };
   return (
     <SafeAreaView
       pointerEvents="box-none"
@@ -150,7 +184,7 @@ const Toast = ({
                 },
               ],
             },
-            { backgroundColor: theme.colors.primary.default },
+            { backgroundColor: getColorForToast() },
             style,
           ] as StyleProp<ViewStyle>
         }
@@ -162,11 +196,12 @@ const Toast = ({
         </Text>
         <IconButton
           icon="close"
-          iconColor={colors.black}
+          iconColor={color(getColorForToast()).isDark() ? "white" : "black"}
           size={20}
-          onPress={() => console.log('Pressed')}
+          onPress={onDismiss}
+          containerColor="transparent"
         />
-        {typeof onPressAction === 'function' ? (
+        {typeof onPressAction === "function" ? (
           <Button
             // onPress={() => {
             //   onPressAction?.();
@@ -202,21 +237,21 @@ Toast.DURATION_LONG = DURATION_LONG;
 
 const styles = StyleSheet.create({
   wrapper: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
-    width: '100%',
+    width: "100%",
   },
   container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     margin: 8,
     borderRadius: 4,
   },
   content: {
     marginLeft: 16,
     marginVertical: 14,
-    flexWrap: 'wrap',
+    flexWrap: "wrap",
     flex: 1,
   },
   button: {

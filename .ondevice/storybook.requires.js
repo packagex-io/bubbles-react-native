@@ -33,9 +33,15 @@ const getStories = () => {
   return [
     require("../stories/Button.stories.js"),
     require("../stories/Checkbox.stories.js"),
+    require("../stories/Chip.stories.js"),
+    require("../stories/Divider.stories.js"),
     require("../stories/Form.stories.js"),
+    require("../stories/Header.stories.js"),
+    require("../stories/Input.stories.js"),
     require("../stories/Radio.stories.js"),
     require("../stories/Select.stories.js"),
+    require("../stories/Table.stories.js"),
+    require("../stories/Toast.stories.js"),
   ];
 };
 

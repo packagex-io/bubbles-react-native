@@ -1,5 +1,6 @@
 import React from "react";
-import { View } from "react-native";
+import { View, SafeAreaView } from "react-native";
+
 import { Provider } from "../src";
 import Form from "../src/components/Form/Form";
 
@@ -13,7 +14,13 @@ export default {
 
 const FormComponent = () => {
   return (
-    <View style={{ flex: 1, paddingHorizontal: 8, paddingBottom: 8 }}>
+    <SafeAreaView
+      style={{
+        flex: 1,
+        paddingBottom: 8,
+        marginHorizontal: 8,
+      }}
+    >
       <Form
         inputs={[
           {
@@ -113,7 +120,7 @@ const FormComponent = () => {
           },
         ]}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 

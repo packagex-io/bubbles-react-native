@@ -1,21 +1,20 @@
 import React from "react";
-import { DefaultTheme, Provider } from "../src";
-import Button from "../src/components/Button";
+import { View } from "react-native";
+
 import { colors } from "../src/styles/tokens";
 
-export default {
-  title: "components/Button",
-  component: Button,
+import { DefaultTheme } from "../src";
+import Chip from "../src/components/Chip/Chip";
 
+export default {
+  title: "components/Chip",
+  component: Chip,
   argTypes: {
     mode: {
       control: {
         type: "select",
       },
-      options: ["contained", "outlined"],
-    },
-    onClick: {
-      action: "clicked",
+      options: ["flat", "outlined"],
     },
     color: {
       control: {
@@ -35,15 +34,15 @@ export default {
   },
 };
 
-export const Large = (args) => (
-  <Provider>
-    <Button {...args}>{args.text}</Button>
-  </Provider>
+export const Basic = (args) => (
+  <View style={{ alignItems: "flex-start" }}>
+    <Chip textStyle={{ fontFamily: "Inter", fontWeight: "700" }} {...args}>
+      {args.text}
+    </Chip>
+  </View>
 );
 
-Large.args = {
-  loading: false,
-  mode: "contained",
-  text: "Hello",
-  disabled: false,
+Basic.args = {
+  mode: "flat",
+  text: "Primary",
 };

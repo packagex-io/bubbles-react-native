@@ -113,6 +113,24 @@ const ControlledTextInput = (props: InputTypeProps & CommonProps) => {
   const { validation, ...rest } = props;
   const { control } = useFormContext();
 
+  const getKeyboardTypeFromType = (type: string) => {
+    switch (type) {
+      case "email":
+        return "email-address";
+      case "number":
+        return "numeric";
+      case "tel":
+      case "phone":
+        return "phone-pad";
+      case "date":
+        return "default";
+      case "time":
+        return "default";
+      default:
+        return "default";
+    }
+  };
+
   return (
     <Controller
       control={control}
@@ -129,6 +147,7 @@ const ControlledTextInput = (props: InputTypeProps & CommonProps) => {
           onBlur={onBlur}
           value={value}
           isInvalid={!!errors[props.name]}
+          keyboardType={getKeyboardTypeFromType(props.type)}
           {...rest}
         />
       )}
@@ -154,7 +173,7 @@ const ControlledSelect = (props: SelectTypeProps & CommonProps) => {
   );
 };
 
-//TODO: Move styling to RadioButtonGroup
+//TODO: Move styling to RadioButtonGroup - make label clickable too
 const ControlledRadio = (props: RadioTypeProps & CommonProps) => {
   const { theme } = props;
   const { control } = useFormContext();
@@ -405,7 +424,6 @@ const Form = ({
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 8,

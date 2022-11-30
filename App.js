@@ -2,6 +2,8 @@ import React from "react";
 import StorybookUIRoot from "./.ondevice/Storybook";
 import { Platform, StatusBar, View } from "react-native";
 import { useFonts } from "expo-font";
+import { Provider } from "./src";
+import { FormComponent } from "./stories/Form.stories";
 
 export default () => {
   const [fontsLoaded] = useFonts({

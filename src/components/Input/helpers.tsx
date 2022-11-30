@@ -1,11 +1,11 @@
-import type { Animated } from 'react-native';
+import type { Animated } from "react-native";
 import {
   LABEL_PADDING_HORIZONTAL,
   ADORNMENT_OFFSET,
   ADORNMENT_SIZE,
   FLAT_INPUT_OFFSET,
-} from './constants';
-import type { TextInputLabelProp, ValidationType } from './types';
+} from "./constants";
+import type { TextInputLabelProp, ValidationType } from "./types";
 
 type PaddingProps = {
   height: number | null;
@@ -136,7 +136,10 @@ export const adjustPaddingOut = ({
     }
     result = Math.floor(result);
   }
-  return { paddingTop: result, paddingBottom: result };
+  return {
+    paddingTop: !isAndroid && multiline ? 4 : result,
+    paddingBottom: 2 * result,
+  };
 };
 
 export const adjustPaddingFlat = ({
@@ -268,7 +271,7 @@ const _getSize = (value: any[] | number | string | undefined | null) => {
     return value.length;
   }
 
-  if (typeof value === 'number') {
+  if (typeof value === "number") {
     return value;
   }
 
@@ -283,46 +286,46 @@ export const isInputValid = (value: any, obj?: Partial<ValidationType>) => {
   if (!obj) return true;
   const booleans = Object.keys(obj).map((f) => {
     switch (f.toLowerCase()) {
-      case 'required':
-        if (obj['required'] === false) break;
+      case "required":
+        if (obj["required"] === false) break;
         if (value === undefined || value === null) {
           return false;
         }
 
-        const str = String(value).replace(/\s/g, '');
+        const str = String(value).replace(/\s/g, "");
         return str.length > 0 ? true : false;
 
-      case 'boolean':
-        if (obj['boolean'] === false) break;
-        return value in [true, false, 0, 1, '0', '1', 'true', 'false'];
+      case "boolean":
+        if (obj["boolean"] === false) break;
+        return value in [true, false, 0, 1, "0", "1", "true", "false"];
 
-      case 'string':
-        if (obj['string'] === false) break;
-        return obj['string'] === true && typeof value === 'string';
+      case "string":
+        if (obj["string"] === false) break;
+        return obj["string"] === true && typeof value === "string";
 
-      case 'numeric':
-        if (obj['numeric'] === false) break;
+      case "numeric":
+        if (obj["numeric"] === false) break;
         const num = Number(value);
 
         if (
-          typeof num === 'number' &&
+          typeof num === "number" &&
           !isNaN(num) &&
-          typeof value !== 'boolean'
+          typeof value !== "boolean"
         ) {
           return true;
         } else {
           return false;
         }
 
-      case 'min':
-        if (typeof obj['min'] !== 'number') break;
-        return _getSize(value) >= obj['min'];
+      case "min":
+        if (typeof obj["min"] !== "number") break;
+        return _getSize(value) >= obj["min"];
 
-      case 'max':
-        if (typeof obj['max'] !== 'number') break;
-        return _getSize(value) <= obj['max'];
+      case "max":
+        if (typeof obj["max"] !== "number") break;
+        return _getSize(value) <= obj["max"];
 
-      case 'email':
+      case "email":
         var re =
           /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (!re.test(value)) {
@@ -331,39 +334,39 @@ export const isInputValid = (value: any, obj?: Partial<ValidationType>) => {
         }
         return re.test(value);
 
-      case 'regex':
-        if (!obj['regex']) break;
-        return !!obj['regex'].test(value);
+      case "regex":
+        if (!obj["regex"]) break;
+        return !!obj["regex"].test(value);
 
-      case 'array':
-        if (!obj['regex']) break;
+      case "array":
+        if (!obj["regex"]) break;
         return value instanceof Array;
 
-      case 'url':
-        if (!obj['url']) break;
+      case "url":
+        if (!obj["url"]) break;
         return /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-z]{2,63}\b([-a-zA-Z0-9@:%_\+.~#?&/=]*)/i.test(
           value
         );
 
-      case 'integer':
-        if (!obj['integer']) break;
+      case "integer":
+        if (!obj["integer"]) break;
         return String(parseInt(value, 10)) === String(value);
 
-      case 'alpha':
-        if (!obj['alpha']) break;
+      case "alpha":
+        if (!obj["alpha"]) break;
         return /^[a-zA-Z]+$/.test(value);
 
-      case 'alpha_dash':
-        if (!obj['alpha_dash']) break;
+      case "alpha_dash":
+        if (!obj["alpha_dash"]) break;
         return /^[a-zA-Z0-9_\-]+$/.test(value);
 
-      case 'alpha_dash':
-        if (!obj['alpha_num']) break;
+      case "alpha_dash":
+        if (!obj["alpha_num"]) break;
         return /^[a-zA-Z0-9]+$/.test(value);
 
-      case 'accepted':
-        if (!obj['accepted']) break;
-        if (value in ['on', 'yes', 1, '1', true, 'true', 'checked']) {
+      case "accepted":
+        if (!obj["accepted"]) break;
+        if (value in ["on", "yes", 1, "1", true, "true", "checked"]) {
           return true;
         }
         return false;

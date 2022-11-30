@@ -187,8 +187,8 @@ Checkbox.displayName = "Checkbox";
 const styles = StyleSheet.create({
   container: {
     borderRadius: 18,
-    // width: 36,
-    // height: 36,
+    maxWidth: 36,
+    maxHeight: 36,
     alignItems: "center",
     justifyContent: "center",
     // padding: 6,
