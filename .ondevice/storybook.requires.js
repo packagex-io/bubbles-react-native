@@ -42,6 +42,7 @@ const getStories = () => {
     require("../stories/Radio.stories.js"),
     require("../stories/Select.stories.js"),
     require("../stories/Spinner.stories.js"),
+    require("../stories/Switch.stories.js"),
     require("../stories/Table.stories.js"),
     require("../stories/Toast.stories.js"),
   ];
