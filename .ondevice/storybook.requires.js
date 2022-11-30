@@ -38,8 +38,10 @@ const getStories = () => {
     require("../stories/Form.stories.js"),
     require("../stories/Header.stories.js"),
     require("../stories/Input.stories.js"),
+    require("../stories/Modal.stories.js"),
     require("../stories/Radio.stories.js"),
     require("../stories/Select.stories.js"),
+    require("../stories/Spinner.stories.js"),
     require("../stories/Table.stories.js"),
     require("../stories/Toast.stories.js"),
   ];
