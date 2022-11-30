@@ -1,6 +1,6 @@
 # Getting started
 
-To get all the dependencies run
+To get all the dependencies run. Make sure you install the peer dependencies mentioned in the package.json separately with `yarn add <dependencies>`.
 
 ```
 yarn install
