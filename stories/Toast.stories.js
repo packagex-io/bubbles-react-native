@@ -1,6 +1,6 @@
 import { useArgs } from "@storybook/client-api";
 import React from "react";
-import { View } from "react-native";
+import { View, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "../src/components/Button";
 import Toast from "../src/components/Toast/Toast";
@@ -9,7 +9,21 @@ export default {
   title: "components/Toast",
   component: Toast,
 
-  argTypes: {},
+  argTypes: {
+    color: {
+      control: "select",
+      options: [
+        "primary",
+        "secondary",
+        "success",
+        "warning",
+        "error",
+        "info",
+        "gray",
+        "black",
+      ],
+    },
+  },
 };
 
 const Template = (args) => {
@@ -27,8 +41,15 @@ const Template = (args) => {
     setVisible(false);
   };
 
+  const Wrapper = ({ children }) =>
+    Platform.OS === "web" ? (
+      <View>{children}</View>
+    ) : (
+      <SafeAreaView>{children}</SafeAreaView>
+    );
+
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <Wrapper style={{ flex: 1 }}>
       <Button onPress={() => setVisible(true)}>Show Toast</Button>
       <View style={{ width: "100%", maxWidth: 420, alignItems: "flex-end" }}>
         <Toast
@@ -39,7 +60,7 @@ const Template = (args) => {
           {args.text}
         </Toast>
       </View>
-    </SafeAreaView>
+    </Wrapper>
   );
 };
 
