@@ -103,6 +103,22 @@ const DataTableComponent = () => {
         name: "nidoran-f",
         url: "https://pokeapi.co/api/v2/pokemon/29/",
       },
+      {
+        name: "nidorina",
+        url: "https://pokeapi.co/api/v2/pokemon/30/",
+      },
+      {
+        name: "nidoqueen",
+        url: "https://pokeapi.co/api/v2/pokemon/31/",
+      },
+      {
+        name: "nidoran-m",
+        url: "https://pokeapi.co/api/v2/pokemon/32/",
+      },
+      {
+        name: "nidorino",
+        url: "https://pokeapi.co/api/v2/pokemon/33/",
+      },
     ],
   });
 
@@ -188,65 +204,50 @@ const DataTableComponent = () => {
         selectable={selectable}
         data={data.results}
         renderItem={renderItem}
-        onEndReached={(e) => {
-          console.log(e);
-          setRefreshing(true);
-          setData({
-            ...data,
-            results: [
-              ...data.results,
-              {
-                name: "nidorina",
-                url: "https://pokeapi.co/api/v2/pokemon/30/",
-              },
-              {
-                name: "nidoqueen",
-                url: "https://pokeapi.co/api/v2/pokemon/31/",
-              },
-              {
-                name: "nidoran-m",
-                url: "https://pokeapi.co/api/v2/pokemon/32/",
-              },
-              {
-                name: "nidorino",
-                url: "https://pokeapi.co/api/v2/pokemon/33/",
-              },
-              {
-                name: "nidoking",
-                url: "https://pokeapi.co/api/v2/pokemon/34/",
-              },
-              {
-                name: "clefairy",
-                url: "https://pokeapi.co/api/v2/pokemon/35/",
-              },
-              {
-                name: "clefable",
-                url: "https://pokeapi.co/api/v2/pokemon/36/",
-              },
-              {
-                name: "vulpix",
-                url: "https://pokeapi.co/api/v2/pokemon/37/",
-              },
-              {
-                name: "ninetales",
-                url: "https://pokeapi.co/api/v2/pokemon/38/",
-              },
-              {
-                name: "jigglypuff",
-                url: "https://pokeapi.co/api/v2/pokemon/39/",
-              },
-              {
-                name: "wigglytuff",
-                url: "https://pokeapi.co/api/v2/pokemon/40/",
-              },
-            ],
-          });
+        // onEndReached={(e) => {
+        //   console.log(e);
+        //   setRefreshing(true);
+        //   setData({
+        //     ...data,
+        //     results: [
+        //       ...data.results,
 
-          setTimeout(function () {
-            setRefreshing(false);
-          }, 2000);
-          console.log("load more");
-        }}
+        //       {
+        //         name: "nidoking",
+        //         url: "https://pokeapi.co/api/v2/pokemon/34/",
+        //       },
+        //       {
+        //         name: "clefairy",
+        //         url: "https://pokeapi.co/api/v2/pokemon/35/",
+        //       },
+        //       {
+        //         name: "clefable",
+        //         url: "https://pokeapi.co/api/v2/pokemon/36/",
+        //       },
+        //       {
+        //         name: "vulpix",
+        //         url: "https://pokeapi.co/api/v2/pokemon/37/",
+        //       },
+        //       {
+        //         name: "ninetales",
+        //         url: "https://pokeapi.co/api/v2/pokemon/38/",
+        //       },
+        //       {
+        //         name: "jigglypuff",
+        //         url: "https://pokeapi.co/api/v2/pokemon/39/",
+        //       },
+        //       {
+        //         name: "wigglytuff",
+        //         url: "https://pokeapi.co/api/v2/pokemon/40/",
+        //       },
+        //     ],
+        //   });
+
+        //   setTimeout(function () {
+        //     setRefreshing(false);
+        //   }, 2000);
+        //   console.log("load more");
+        // }}
         onEndReachedThreshold={0.1}
         searchbarOptions={{
           value: search,

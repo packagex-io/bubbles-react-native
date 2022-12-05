@@ -1,17 +1,18 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   AccessibilityInfo,
   Appearance,
   ColorSchemeName,
   NativeEventSubscription,
-} from 'react-native';
-import { ThemeProvider } from './theming';
-import { Provider as SettingsProvider, Settings } from './settings';
+} from "react-native";
+import { ThemeProvider } from "./theming";
+import { Provider as SettingsProvider, Settings } from "./settings";
 // import MaterialCommunityIcon from '../components/MaterialCommunityIcon';
-import PortalHost from '../components/Portal/PortalHost';
-import DefaultTheme from '../styles/DefaultTheme';
-import DarkTheme from '../styles/DarkTheme';
-import { addEventListener } from '../utils/addEventListener';
+import PortalHost from "../components/Portal/PortalHost";
+import DefaultTheme from "../styles/DefaultTheme";
+import DarkTheme from "../styles/DarkTheme";
+import { addEventListener } from "../utils/addEventListener";
+import { HeaderProvider } from "../components/Header/HeaderContext";
 
 type Props = {
   children: React.ReactNode;
@@ -21,12 +22,12 @@ type Props = {
 
 const Provider = ({ ...props }: Props) => {
   const colorSchemeName =
-    (!props.theme && Appearance?.getColorScheme()) || 'light';
+    (!props.theme && Appearance?.getColorScheme()) || "light";
 
   const [reduceMotionEnabled, setReduceMotionEnabled] =
     React.useState<boolean>(false);
   const [colorScheme, setColorScheme] =
-    React.useState<ColorSchemeName>('light');
+    React.useState<ColorSchemeName>("light");
 
   const handleAppearanceChange = (
     preferences: Appearance.AppearancePreferences
@@ -41,7 +42,7 @@ const Provider = ({ ...props }: Props) => {
     if (!props.theme) {
       subscription = addEventListener(
         AccessibilityInfo,
-        'reduceMotionChanged',
+        "reduceMotionChanged",
         setReduceMotionEnabled
       );
     }
@@ -77,7 +78,7 @@ const Provider = ({ ...props }: Props) => {
       return providedTheme;
     } else {
       const theme = (
-        colorScheme === 'dark' ? DarkTheme : DefaultTheme
+        colorScheme === "dark" ? DarkTheme : DefaultTheme
       ) as PackageX.Theme;
 
       return {
@@ -94,9 +95,11 @@ const Provider = ({ ...props }: Props) => {
   return (
     <PortalHost>
       {/* // add to settings provider later - || { icon: MaterialCommunityIcon } */}
-      <SettingsProvider value={settings || {}}>
-        <ThemeProvider theme={getTheme()}>{children}</ThemeProvider>
-      </SettingsProvider>
+      <HeaderProvider>
+        <SettingsProvider value={settings || {}}>
+          <ThemeProvider theme={getTheme()}>{children}</ThemeProvider>
+        </SettingsProvider>
+      </HeaderProvider>
     </PortalHost>
   );
 };

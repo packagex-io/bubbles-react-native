@@ -1,16 +1,25 @@
-import * as React from 'react';
-import { Platform, StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
+import * as React from "react";
+import {
+  Animated,
+  Platform,
+  StyleProp,
+  StyleSheet,
+  View,
+  ViewStyle,
+} from "react-native";
 
-import color from 'color';
+import color from "color";
 
-import Surface from '../Surface';
-import HeaderAction from './HeaderAction';
-import HeaderBackAction from './HeaderBackAction';
-import HeaderContent from './HeaderContent';
+import Surface from "../Surface";
+import HeaderAction from "./HeaderAction";
+import HeaderBackAction from "./HeaderBackAction";
+import HeaderContent from "./HeaderContent";
 
-import { withTheme } from '../../core/theming';
-import { Theme } from '../../types';
-import { colors } from '../../styles/tokens';
+import { withTheme } from "../../core/theming";
+import { Theme } from "../../types";
+import { colors } from "../../styles/tokens";
+import Searchbar from "../Searchbar";
+import { useHeader } from "./HeaderContext";
 
 export const DEFAULT_APPBAR_HEIGHT = 56;
 
@@ -29,7 +38,6 @@ export type Props = Partial<React.ComponentPropsWithRef<typeof View>> & {
    */
   elevated?: boolean;
   /**
-   * @supported Available in v5.x
    * Safe area insets for the Appbar. This can be used to avoid elements like the navigation bar on Android and bottom safe area on iOS.
    */
   safeAreaInsets?: {
@@ -39,9 +47,13 @@ export type Props = Partial<React.ComponentPropsWithRef<typeof View>> & {
     right?: number;
   };
   /**
+   * Searchbar props
+   */
+  searchbarOptions: React.ComponentPropsWithoutRef<typeof Searchbar>;
+  /**
    * Align title left or center
    */
-  align?: 'left' | 'center';
+  align?: "left" | "center";
   /**
    * @optional
    */
@@ -59,20 +71,21 @@ const Header = ({
   align,
   ...rest
 }: Props) => {
+  const { options, setOptions } = useHeader();
   const { backgroundColor: customBackground, ...restStyle }: ViewStyle =
     StyleSheet.flatten(style) || {};
 
   const { dark: isDarkTheme } = theme;
   let isDark: boolean;
-  const backgroundColor = customBackground ? customBackground : 'transparent';
+  const backgroundColor = customBackground ? customBackground : "transparent";
 
-  if (typeof dark === 'boolean') {
+  if (typeof dark === "boolean") {
     isDark = dark;
   } else {
     isDark =
-      backgroundColor === 'transparent'
+      backgroundColor === "transparent"
         ? false
-        : typeof backgroundColor === 'string'
+        : typeof backgroundColor === "string"
         ? !color(backgroundColor).isLight()
         : true;
   }
@@ -80,7 +93,7 @@ const Header = ({
   let shouldCenterContent = false;
   let shouldAddLeftSpacing = false;
   let shouldAddRightSpacing = false;
-  if (Platform.OS === 'ios' || align === 'center') {
+  if (Platform.OS === "ios" || align === "center") {
     let hasAppbarContent = false;
     let leftItemsCount = 0;
     let rightItemsCount = 0;
@@ -119,7 +132,7 @@ const Header = ({
     renderExcept,
   }: RenderAppbarContentProps) => {
     const content = React.Children.toArray(children)
-      .filter((child) => child != null && typeof child !== 'boolean')
+      .filter((child) => child != null && typeof child !== "boolean")
       .filter((child) =>
         // @ts-expect-error: TypeScript complains about the type of type but it doesn't matter
         renderExcept ? !renderExcept.includes(child.type) : child
@@ -146,7 +159,7 @@ const Header = ({
           style?: StyleProp<ViewStyle>;
         } = {
           color:
-            typeof child.props.color !== 'undefined'
+            typeof child.props.color !== "undefined"
               ? child.props.color
               : isDark
               ? colors.white
@@ -178,43 +191,84 @@ const Header = ({
     paddingRight: safeAreaInsets?.right,
   };
 
+  const headerTranslateY = options.scrollY.interpolate({
+    inputRange: [0, 56],
+    outputRange: [0, -56],
+    extrapolate: "clamp",
+  });
+
+  const searchbarStyle = {
+    transform: [
+      {
+        scaleY: options.scrollY.interpolate({
+          inputRange: [0, 56],
+          outputRange: [1, 0],
+          extrapolate: "clamp",
+        }),
+      },
+    ],
+  };
+
+  const animatedHeaderHeight = options.scrollY.interpolate({
+    inputRange: [0, 16],
+    outputRange: [56, 8],
+    extrapolate: "clamp",
+  });
+
   return (
-    <Surface
-      style={[
-        { backgroundColor },
-        styles.appbar,
-        {
-          height: DEFAULT_APPBAR_HEIGHT,
-        },
-        insets,
-        restStyle,
-      ]}
-      {...rest}
-    >
-      {shouldAddLeftSpacing ? <View style={spacingStyle} /> : null}
+    <>
+      <Surface
+        style={[
+          { backgroundColor },
+          styles.appbar,
+          {
+            height: DEFAULT_APPBAR_HEIGHT,
+          },
+          insets,
+          restStyle,
+        ]}
+        {...rest}
+      >
+        {shouldAddLeftSpacing ? <View style={spacingStyle} /> : null}
 
-      {renderAppbarContent({
-        children,
-        isDark,
+        {renderAppbarContent({
+          children,
+          isDark,
 
-        shouldCenterContent: align === 'center' || shouldCenterContent,
-      })}
+          shouldCenterContent: align === "center" || shouldCenterContent,
+        })}
 
-      {shouldAddRightSpacing ? <View style={spacingStyle} /> : null}
-    </Surface>
+        {shouldAddRightSpacing ? <View style={spacingStyle} /> : null}
+      </Surface>
+
+      <Animated.View
+        style={[
+          styles.searchbarWrapper,
+          { transform: [{ translateY: headerTranslateY }] },
+          searchbarStyle,
+        ]}
+        pointerEvents="none"
+      >
+        <Searchbar
+          placeholder="Search"
+          {...rest.searchbarOptions}
+          style={{ marginVertical: 8 }}
+        />
+      </Animated.View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   appbar: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingHorizontal: 4,
-    width: '100%',
+    width: "100%",
     marginVertical: 8,
   },
   centerAlignedContent: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   spacing: {
     width: 48,
@@ -224,22 +278,33 @@ const styles = StyleSheet.create({
   },
   controlsRow: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   rightActionControls: {
-    flexDirection: 'row',
+    flexDirection: "row",
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
   },
   columnContainer: {
-    flexDirection: 'column',
+    flexDirection: "column",
     flex: 1,
     paddingTop: 8,
   },
   centerAlignedContainer: {
     paddingTop: 0,
+  },
+  searchbarWrapper: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 1,
+    paddingHorizontal: 8,
+    height: 56 + 40 + 24,
+    justifyContent: "flex-end",
+    pointerEvents: "none",
   },
 });
 

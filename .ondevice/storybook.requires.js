@@ -31,6 +31,7 @@ try {
 
 const getStories = () => {
   return [
+    require("../stories/BottomNavigation.stories.js"),
     require("../stories/Button.stories.js"),
     require("../stories/Checkbox.stories.js"),
     require("../stories/Chip.stories.js"),
