@@ -16,11 +16,13 @@ type Props = React.ComponentPropsWithRef<typeof View> & {
   theme: PackageX.Theme;
 };
 
-const Surface = ({ style, theme, ...rest }: Props) => {
+const Surface = React.forwardRef<any, Props>((props, ref) => {
+  const { style, theme, ...rest } = props;
   const { elevation = 0 } = (StyleSheet.flatten(style) || {}) as ViewStyle;
   const { dark: isDarkTheme, mode, colors } = theme;
   return (
     <Animated.View
+      ref={ref}
       {...rest}
       style={[
         {
@@ -34,6 +36,6 @@ const Surface = ({ style, theme, ...rest }: Props) => {
       ]}
     />
   );
-};
+});
 
 export default withTheme(Surface);

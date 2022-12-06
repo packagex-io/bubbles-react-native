@@ -1,12 +1,15 @@
 import React, { FC, useState } from "react";
 import {
+  Animated,
   FlatList,
   Modal,
   Platform,
+  StyleProp,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
+  ViewStyle,
 } from "react-native";
 import { withTheme } from "../../core/theming";
 import { colors, colors as Colors, typescale } from "../../styles/tokens";
@@ -47,9 +50,10 @@ type Props = React.ComponentProps<typeof Surface> & {
    * @optional
    */
   theme: PackageX.Theme;
+  style?: Animated.WithAnimatedValue<StyleProp<ViewStyle>>;
 };
 
-const Select: FC<Props> = ({ label, theme, onSelect, data }: Props) => {
+const Select: FC<Props> = ({ label, theme, onSelect, data, style }: Props) => {
   const [visible, setVisible] = useState(false);
   const openMenu = () => setVisible(true);
   const closeMenu = () => setVisible(false);
@@ -65,9 +69,20 @@ const Select: FC<Props> = ({ label, theme, onSelect, data }: Props) => {
     return (
       <Surface
         style={[
-          { width: "100%", borderRadius: 16, ...styles.outline },
-          visible ? { borderColor: theme.colors.primary.default } : {},
+          {
+            width: "100%",
+            borderRadius: 16,
+            ...styles.outline,
+            backgroundColor: theme.colors.bg.subtle,
+          },
+          visible
+            ? {
+                borderColor: theme.colors.primary.default,
+                backgroundColor: theme.colors.bg.surface,
+              }
+            : {},
           Platform.OS === "web" && { elevation: 0 },
+          style,
         ]}
         onLayout={(event) => {
           setSelectButtonWidth(event.nativeEvent.layout.width);

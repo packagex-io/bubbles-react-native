@@ -1,4 +1,5 @@
 import React from "react";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Provider } from "../src";
 import BottomNavigation from "../src/components/BottomNavigation/BottomNavigation";
 import Text from "../src/components/Typography/Text";
@@ -55,9 +56,11 @@ const NavComponent = () => {
 };
 
 const Template = (args) => (
-  <Provider>
-    <NavComponent />
-  </Provider>
+  <SafeAreaProvider>
+    <Provider>
+      <NavComponent />
+    </Provider>
+  </SafeAreaProvider>
 );
 
 export const Basic = Template.bind({});

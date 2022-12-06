@@ -26,7 +26,7 @@
     "storybook-watcher": "sb-rn-watcher --config-path .ondevice",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "chromatic": "npx chromatic --project-token 19d7b4577222 --auto-accept-changes"
+    "chromatic": "npx chromatic --project-token=e39a3c3392bc --auto-accept-changes"
   },
   "dependencies": {
     "@callstack/react-theme-provider": "^3.0.8",

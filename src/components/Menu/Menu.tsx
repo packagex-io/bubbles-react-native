@@ -292,7 +292,7 @@ const Menu = ({
           >
             <View style={[StyleSheet.absoluteFill]} />
           </TouchableWithoutFeedback>
-          <View
+          <Surface
             ref={menuRef}
             collapsable={false}
             accessibilityViewIsModal={visible}
@@ -343,7 +343,7 @@ const Menu = ({
                 )) || <React.Fragment>{children}</React.Fragment>}
               </Surface>
             </Animated.View>
-          </View>
+          </Surface>
         </Portal>
       ) : null}
     </View>
@@ -354,6 +354,8 @@ Menu.Item = MenuItem;
 const styles = StyleSheet.create({
   wrapper: {
     position: "absolute",
+    borderRadius: 12,
+    elevation: 4,
   },
   shadowMenuContainer: {
     opacity: 0,

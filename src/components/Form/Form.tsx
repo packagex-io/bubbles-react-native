@@ -167,7 +167,7 @@ const ControlledSelect = (props: SelectTypeProps & CommonProps) => {
       render={({
         field: { onChange, onBlur, value },
         formState: { errors },
-      }) => <Select onSelect={onChange} {...rest} />}
+      }) => <Select style={{ marginTop: 8 }} onSelect={onChange} {...rest} />}
       name={props.name}
     />
   );
@@ -189,7 +189,7 @@ const ControlledRadio = (props: RadioTypeProps & CommonProps) => {
         <View
           style={{
             width: "100%",
-            backgroundColor: theme.colors.bg.canvas,
+            backgroundColor: theme.colors.bg.subtle,
             paddingVertical: 16,
             paddingHorizontal: 8,
             borderRadius: 12,
@@ -217,7 +217,16 @@ const ControlledRadio = (props: RadioTypeProps & CommonProps) => {
                 style={{ flexDirection: "row", alignItems: "center" }}
               >
                 <RadioButton value={option.value} />
-                <Text>{option.label}</Text>
+                <Text
+                  variant="Input/Label"
+                  style={{
+                    textTransform: "uppercase",
+                    fontWeight: "bold",
+                    color: theme.colors.fg.subtle,
+                  }}
+                >
+                  {option.label}
+                </Text>
               </View>
             ))}
           </RadioButton.Group>
@@ -242,7 +251,7 @@ const ControlledSwitch = (props: SwitchTypeProps & CommonProps) => {
             style={{
               flexDirection: "row",
               justifyContent: "space-between",
-              backgroundColor: props.theme.colors.bg.canvas,
+              backgroundColor: props.theme.colors.bg.subtle,
               width: "100%",
               borderRadius: 12,
               height: 80,
@@ -297,7 +306,7 @@ const ControlledCheckbox = (props: CheckboxTypeProps & CommonProps) => {
             style={{
               flexDirection: "column",
               justifyContent: "space-between",
-              backgroundColor: props.theme.colors.bg.canvas,
+              backgroundColor: props.theme.colors.bg.subtle,
               width: "100%",
               borderRadius: 12,
 
