@@ -197,7 +197,8 @@ const Header = ({
     extrapolate: "clamp",
   });
 
-  const searchbarStyle = {
+  const animatedSearchbarStyle = {
+    ...styles.animatedSearchBarWrapper,
     transform: [
       {
         scaleY: options.scrollY.interpolate({
@@ -206,14 +207,14 @@ const Header = ({
           extrapolate: "clamp",
         }),
       },
+      // { translateY: headerTranslateY },
     ],
   };
 
-  const animatedHeaderHeight = options.scrollY.interpolate({
-    inputRange: [0, 16],
-    outputRange: [56, 8],
-    extrapolate: "clamp",
-  });
+  const searchbarStyle =
+    options.animate && Platform.OS !== "web"
+      ? animatedSearchbarStyle
+      : styles.searchBarWrapper;
 
   return (
     <>
@@ -241,18 +242,11 @@ const Header = ({
         {shouldAddRightSpacing ? <View style={spacingStyle} /> : null}
       </Surface>
 
-      <Animated.View
-        style={[
-          styles.searchbarWrapper,
-          { transform: [{ translateY: headerTranslateY }] },
-          searchbarStyle,
-        ]}
-        pointerEvents="none"
-      >
+      <Animated.View style={[searchbarStyle]} pointerEvents="box-none">
         <Searchbar
           placeholder="Search"
           {...rest.searchbarOptions}
-          style={{ marginVertical: 8 }}
+          style={{ marginBottom: 8 }}
         />
       </Animated.View>
     </>
@@ -295,7 +289,7 @@ const styles = StyleSheet.create({
   centerAlignedContainer: {
     paddingTop: 0,
   },
-  searchbarWrapper: {
+  animatedSearchBarWrapper: {
     position: "absolute",
     top: 0,
     left: 0,
@@ -305,6 +299,10 @@ const styles = StyleSheet.create({
     height: 56 + 40 + 24,
     justifyContent: "flex-end",
     pointerEvents: "none",
+  },
+  searchBarWrapper: {
+    width: "100%",
+    paddingHorizontal: 8,
   },
 });
 

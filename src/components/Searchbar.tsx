@@ -175,7 +175,10 @@ const Searchbar = React.forwardRef<TextInputHandles, Props>(
     const rippleColor = color(textColor).alpha(0.32).rgb().string();
 
     return (
-      <Surface style={[{ borderRadius: 12 }, styles.container, style]}>
+      <Surface
+        pointerEvents="auto"
+        style={[{ borderRadius: 12 }, styles.container, style]}
+      >
         <IconButton
           accessibilityRole="button"
           borderless

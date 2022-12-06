@@ -44,8 +44,13 @@ const DataTable = ({
   onSelect,
   ...rest
 }: Props) => {
+  const { options, setOptions } = useHeader();
   const [selected, setSelected] = React.useState([]);
   const flatListRef = React.useRef(null);
+
+  React.useEffect(() => {
+    setOptions((options) => ({ ...options, animate: true }));
+  }, []);
 
   React.useEffect(() => {
     typeof onSelect === "function" && onSelect(selected);
@@ -57,22 +62,20 @@ const DataTable = ({
     }
   }, [selectable]);
 
-  const { options, setOptions } = useHeader();
-
   const onScrollEndSnapToEdge = (event) => {
     let y = event.nativeEvent.contentOffset.y;
     console.log(y);
     y = Platform.OS === "ios" ? y + HEADER_HEIGHT : y;
     setTimeout(
       () => {
-        if (0 < y && y < 24) {
+        if (0 < y && y < HEADER_HEIGHT / 2) {
           if (flatListRef.current) {
             flatListRef.current?.scrollToOffset({
               offset: Platform.OS === "ios" ? -HEADER_HEIGHT : 0,
               animation: Platform.OS === "ios" ? true : false,
             });
           }
-        } else if (24 <= y && y < HEADER_HEIGHT) {
+        } else if (HEADER_HEIGHT / 2 <= y && y < HEADER_HEIGHT) {
           if (flatListRef.current) {
             flatListRef.current?.scrollToOffset({
               offset: Platform.OS === "ios" ? 0 : HEADER_HEIGHT,
@@ -87,13 +90,13 @@ const DataTable = ({
 
   const decelerationRate = options.scrollY.interpolate({
     inputRange: [0, HEADER_HEIGHT],
-    outputRange: [1, 1],
+    outputRange: [0, 0.98],
     extrapolate: "clamp",
   });
 
   return (
     <Animated.FlatList
-      decelerationRate="normal"
+      decelerationRate={decelerationRate}
       ref={flatListRef}
       scrollEventThrottle={16}
       contentContainerStyle={{

@@ -4,6 +4,8 @@ import { Provider } from "../src";
 import HeaderBackAction from "../src/components/Header/HeaderBackAction";
 import HeaderAction from "../src/components/Header/HeaderAction";
 import HeaderContent from "../src/components/Header/HeaderContent";
+import { View } from "react-native";
+import { colors } from "../src/styles/tokens";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
 export default {
@@ -16,32 +18,34 @@ export default {
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
 const Template = (args) => (
   <Provider>
-    <Header align="center">
-      <HeaderBackAction
-        onPress={() => {
-          console.log("back");
-        }}
-        size={24}
-      />
-      <HeaderContent
-        title="Page Title"
-        subtitle="12 Routes - Estimated Time 7h 30m"
-      />
-      <HeaderAction
-        size={18}
-        icon={"image-filter-center-focus"}
-        onPress={() => {
-          console.log("action");
-        }}
-      />
-      <HeaderAction
-        size={18}
-        icon={"close"}
-        onPress={() => {
-          console.log("action");
-        }}
-      />
-    </Header>
+    <View style={{ flex: 1, backgroundColor: colors.gray100 }}>
+      <Header align="center">
+        <HeaderBackAction
+          onPress={() => {
+            console.log("back");
+          }}
+          size={24}
+        />
+        <HeaderContent
+          title="Page Title"
+          subtitle="12 Routes - Estimated Time 7h 30m"
+        />
+        <HeaderAction
+          size={18}
+          icon={"image-filter-center-focus"}
+          onPress={() => {
+            console.log("action");
+          }}
+        />
+        <HeaderAction
+          size={18}
+          icon={"close"}
+          onPress={() => {
+            console.log("action");
+          }}
+        />
+      </Header>
+    </View>
   </Provider>
 );
 

@@ -7,7 +7,9 @@ export const HEADER_HEIGHT = 56;
 type HeaderStateType = Partial<
   React.ComponentPropsWithoutRef<typeof Header>
 > & {
-  scrollY: Animated.Value;
+  scrollY?: Animated.Value;
+  //Only animate searchbar if there's a table on the screen. Don't animate on the web.
+  animate?: boolean;
 };
 
 type HeaderContextType = {
@@ -23,6 +25,7 @@ export function HeaderProvider({ children }: HeaderProviderProps) {
   const searchbarAnimation = useRef(new Animated.Value(0)).current;
   const [options, setOptions] = useState<HeaderStateType>({
     scrollY: searchbarAnimation,
+    animate: false,
   });
 
   return (
