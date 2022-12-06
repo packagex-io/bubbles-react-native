@@ -12,7 +12,8 @@ import type { RenderProps, TextInputLabelProp, ValidationType } from "./types";
 import color from "color";
 // import TextInputCard from './TextInputCard';
 import { LABEL_PADDING_HORIZONTAL } from "./constants";
-import { isInputValid } from "./helpers";
+import { DATE_MMDDYYYY_MASK, isInputValid } from "./helpers";
+import formatWithMask from "./formatWithMask";
 
 const BLUR_ANIMATION_DURATION = 180;
 const FOCUS_ANIMATION_DURATION = 150;
@@ -366,15 +367,22 @@ const TextInput = React.forwardRef<TextInputHandles, TextInputProps>(
     };
 
     const handleChangeText = (value: string) => {
+      let filteredValue = value;
       if (!editable || disabled) {
         return;
       }
 
+      if (type === "date") {
+        filteredValue = formatWithMask({
+          text: value,
+          mask: DATE_MMDDYYYY_MASK,
+        }).masked;
+      }
       if (!isControlled) {
         // Keep track of value in local state when input is not controlled
-        setUncontrolledValue(value);
+        setUncontrolledValue(filteredValue);
       }
-      rest.onChangeText?.(value);
+      rest.onChangeText?.(filteredValue);
     };
 
     const handleLayoutAnimatedText = (e: LayoutChangeEvent) => {

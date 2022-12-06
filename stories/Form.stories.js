@@ -40,6 +40,13 @@ const FormComponent = () => {
             validation: { email: true, required: true },
           },
           {
+            type: "date",
+            name: "date",
+            label: "Date",
+            error: "Valid date is required",
+            validation: { required: true, date: true },
+          },
+          {
             type: "switch",
             name: "preferences.email",
             label: "Email Updates",
