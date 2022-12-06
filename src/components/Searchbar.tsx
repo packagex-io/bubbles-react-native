@@ -1,4 +1,4 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   Animated,
   I18nManager,
@@ -10,18 +10,18 @@ import {
   TextStyle,
   View,
   ViewStyle,
-} from "react-native";
+} from 'react-native';
 
-import color from "color";
+import color from 'color';
 
-import ActivityIndicator from "./ActivityIndicator";
-import type { IconSource } from "./Icon";
-import IconButton from "./IconButton/IconButton";
-import MaterialCommunityIcon from "./MaterialCommunityIcon";
+import ActivityIndicator from './ActivityIndicator';
+import type { IconSource } from './Icon';
+import IconButton from './IconButton/IconButton';
+import MaterialCommunityIcon from './MaterialCommunityIcon';
 
-import Surface from "./Surface";
-import { Theme } from "../types";
-import { withTheme } from "../core/theming";
+import Surface from './Surface';
+import { Theme } from '../types';
+import { withTheme } from '../core/theming';
 
 export type Props = React.ComponentPropsWithRef<typeof TextInput> & {
   /**
@@ -81,7 +81,7 @@ export type Props = React.ComponentPropsWithRef<typeof TextInput> & {
 
 type TextInputHandles = Pick<
   TextInput,
-  "setNativeProps" | "isFocused" | "clear" | "blur" | "focus"
+  'setNativeProps' | 'isFocused' | 'clear' | 'blur' | 'focus'
 >;
 
 /**
@@ -117,19 +117,19 @@ type TextInputHandles = Pick<
 const Searchbar = React.forwardRef<TextInputHandles, Props>(
   (
     {
-      clearAccessibilityLabel = "clear",
+      clearAccessibilityLabel = 'clear',
       clearIcon,
       icon,
       iconColor: customIconColor,
       inputStyle,
       onIconPress,
       placeholder,
-      searchAccessibilityLabel = "search",
+      searchAccessibilityLabel = 'search',
       style,
       theme,
       value,
       loading = false,
-      testID = "search-bar",
+      testID = 'search-bar',
       ...rest
     }: Props,
     ref
@@ -150,7 +150,7 @@ const Searchbar = React.forwardRef<TextInputHandles, Props>(
       }
 
       const noop = () => {
-        throw new Error("TextInput is not available");
+        throw new Error('TextInput is not available');
       };
 
       return {
@@ -164,7 +164,7 @@ const Searchbar = React.forwardRef<TextInputHandles, Props>(
 
     const handleClearPress = () => {
       root.current?.clear();
-      rest.onChangeText?.("");
+      rest.onChangeText?.('');
     };
 
     const { colors, roundness, dark } = theme;
@@ -192,7 +192,7 @@ const Searchbar = React.forwardRef<TextInputHandles, Props>(
                 name="magnify"
                 color={color}
                 size={size}
-                direction={I18nManager.getConstants().isRTL ? "rtl" : "ltr"}
+                direction={I18nManager.getConstants().isRTL ? 'rtl' : 'ltr'}
               />
             ))
           }
@@ -203,18 +203,18 @@ const Searchbar = React.forwardRef<TextInputHandles, Props>(
             styles.input,
             {
               color: textColor,
-              ...Platform.select({ web: { outline: "none" } }),
+              ...Platform.select({ web: { outline: 'none' } }),
             },
+            inputStyle,
             theme.typescale.XSmall,
             { ...theme.fonts.bold },
-            inputStyle,
           ]}
-          placeholder={placeholder || ""}
+          placeholder={placeholder || ''}
           placeholderTextColor={theme.colors?.placeholder}
           selectionColor={theme.colors.primary.default}
           underlineColorAndroid="transparent"
           returnKeyType="search"
-          keyboardAppearance={dark ? "dark" : "light"}
+          keyboardAppearance={dark ? 'dark' : 'light'}
           accessibilityRole="search"
           ref={root}
           value={value}
@@ -232,13 +232,13 @@ const Searchbar = React.forwardRef<TextInputHandles, Props>(
           // with the abruptly stopping ripple effect and changing bar width on web,
           // when clearing the value.
           <View
-            pointerEvents={value ? "auto" : "none"}
+            pointerEvents={value ? 'auto' : 'none'}
             testID={`${testID}-icon-wrapper`}
           >
             <IconButton
               borderless
               accessibilityLabel={clearAccessibilityLabel}
-              iconColor={value ? iconColor : "rgba(255, 255, 255, 0)"}
+              iconColor={value ? iconColor : 'rgba(255, 255, 255, 0)'}
               rippleColor={rippleColor}
               onPress={handleClearPress}
               containerColor="transparent"
@@ -249,7 +249,7 @@ const Searchbar = React.forwardRef<TextInputHandles, Props>(
                     name="close"
                     color={color}
                     size={size}
-                    direction={I18nManager.getConstants().isRTL ? "rtl" : "ltr"}
+                    direction={I18nManager.getConstants().isRTL ? 'rtl' : 'ltr'}
                   />
                 ))
               }
@@ -264,15 +264,15 @@ const Searchbar = React.forwardRef<TextInputHandles, Props>(
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     height: 40,
   },
   input: {
     flex: 1,
     fontSize: 18,
-    alignSelf: "stretch",
-    textAlign: I18nManager.getConstants().isRTL ? "right" : "left",
+    alignSelf: 'stretch',
+    textAlign: I18nManager.getConstants().isRTL ? 'right' : 'left',
     minWidth: 0,
   },
 

@@ -215,6 +215,13 @@ export type $RemoveChildren<T extends React.ComponentType<any>> = $Omit<
 
 export type EllipsizeProp = 'head' | 'middle' | 'tail' | 'clip';
 
+export type ChipMargin = {
+  mt: string | number;
+  mr: string | number;
+  ml: string | number;
+  mb: string | number;
+};
+
 declare global {
   namespace PackageX {
     interface ThemeFont {

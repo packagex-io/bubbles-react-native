@@ -1,22 +1,16 @@
-import * as React from "react";
-import {
-  StyleSheet,
-  StyleProp,
-  View,
-  ViewStyle,
-  FlatList,
-  Animated,
-  Dimensions,
-  Platform,
-} from "react-native";
-import { withTheme } from "../../core/theming";
-import { HEADER_HEIGHT, useHeader } from "../Header/HeaderContext";
-import Searchbar from "../Searchbar";
-import Table from "./Table";
-import TableCell from "./TableCell";
-import TableRow from "./TableRow";
+import * as React from 'react';
+import {StyleSheet, StyleProp, View, ViewStyle, FlatList} from 'react-native';
+import {withTheme} from '../../core/theming';
+import Searchbar from '../Searchbar';
+import Table from './Table';
+import TableCell from './TableCell';
+import TableRow from './TableRow';
 
 export type Props = React.ComponentPropsWithRef<typeof FlatList> & {
+  /**
+   * Searchbar props
+   */
+  searchbarOptions: React.ComponentPropsWithoutRef<typeof Searchbar>;
   /**
    * Puts the table in selectable mode by adding a checkbox to every row.
    */
@@ -39,16 +33,16 @@ export type Props = React.ComponentPropsWithRef<typeof FlatList> & {
 const DataTable = ({
   children,
   style,
+  searchbarOptions,
   renderItem,
   selectable,
   onSelect,
   ...rest
 }: Props) => {
   const [selected, setSelected] = React.useState([]);
-  const flatListRef = React.useRef(null);
 
   React.useEffect(() => {
-    typeof onSelect === "function" && onSelect(selected);
+    typeof onSelect === 'function' && onSelect(selected);
   }, [selected]);
 
   React.useEffect(() => {
@@ -57,92 +51,40 @@ const DataTable = ({
     }
   }, [selectable]);
 
-  const { options, setOptions } = useHeader();
-
-  const onScrollEndSnapToEdge = (event) => {
-    let y = event.nativeEvent.contentOffset.y;
-    console.log(y);
-    y = Platform.OS === "ios" ? y + HEADER_HEIGHT : y;
-    setTimeout(
-      () => {
-        if (0 < y && y < 24) {
-          if (flatListRef.current) {
-            flatListRef.current?.scrollToOffset({
-              offset: Platform.OS === "ios" ? -HEADER_HEIGHT : 0,
-              animation: Platform.OS === "ios" ? true : false,
-            });
-          }
-        } else if (24 <= y && y < HEADER_HEIGHT) {
-          if (flatListRef.current) {
-            flatListRef.current?.scrollToOffset({
-              offset: Platform.OS === "ios" ? 0 : HEADER_HEIGHT,
-              animation: Platform.OS === "ios" ? true : false,
-            });
-          }
-        }
-      },
-      Platform.OS === "ios" ? 16 : 0
-    );
+  const renderSearchbar = () => {
+    if (searchbarOptions) {
+      return (
+        <Searchbar
+          placeholder="Search"
+          {...searchbarOptions}
+          style={[{marginBottom: 8}, searchbarOptions?.style]}
+        />
+      );
+    }
   };
-
-  const decelerationRate = options.scrollY.interpolate({
-    inputRange: [0, HEADER_HEIGHT],
-    outputRange: [1, 1],
-    extrapolate: "clamp",
-  });
-
   return (
-    <Animated.FlatList
-      decelerationRate="normal"
-      ref={flatListRef}
-      scrollEventThrottle={16}
-      contentContainerStyle={{
-        paddingTop: Platform.OS === "android" ? HEADER_HEIGHT : 0,
-      }}
-      contentInset={{ top: HEADER_HEIGHT }}
-      contentOffset={{
-        y: Platform.OS === "ios" ? -HEADER_HEIGHT : 0,
-        x: 0,
-      }}
-      onScrollBeginDrag={(event) => {
-        Platform.OS === "ios" && options.scrollY.setOffset(HEADER_HEIGHT);
-      }}
-      progressViewOffset={HEADER_HEIGHT}
-      onScroll={Animated.event(
-        [
-          {
-            nativeEvent: {
-              contentOffset: {
-                y: options.scrollY,
-              },
-            },
-          },
-        ],
-        { useNativeDriver: true }
-      )}
+    <FlatList
+      ListHeaderComponent={renderSearchbar()} //! do it like this to prevent the flatlist from re rendering every time the searchbar state changes
+      contentOffset={{x: 0, y: 40}}
       style={[styles.container, style]}
       scrollToOverflowEnabled={true}
       keyExtractor={(item, index) => index.toString()}
-      onScrollEndDrag={onScrollEndSnapToEdge}
-      onMomentumScrollEnd={(e) =>
-        Platform.OS === "android" && onScrollEndSnapToEdge(e)
-      }
-      renderItem={(data) => {
+      renderItem={data => {
         return React.cloneElement(
           //TODO do this only for Table.Row elements
           renderItem(data),
           selectable && {
             onSelect: (selected: boolean) => {
               selected //@ts-ignore callbacks are allowed with state hooks idk why it errors
-                ? setSelected((prev) => [
+                ? setSelected(prev => [
                     ...prev,
-                    { ...data.item, _index: data.index },
+                    {...data.item, _index: data.index},
                   ])
-                : setSelected((prev) =>
-                    prev.filter((item) => item._index !== data.index)
+                : setSelected(prev =>
+                    prev.filter(item => item._index !== data.index),
                   );
             },
-          }
+          },
         );
       }}
       {...rest}
@@ -158,9 +100,9 @@ DataTable.Cell = TableCell;
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
+    width: '100%',
+    marginBottom: 8,
     paddingHorizontal: 8,
-    paddingBottom: 56,
   },
 });
 

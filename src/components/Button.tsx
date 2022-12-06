@@ -85,6 +85,14 @@ type Props = React.ComponentProps<typeof Surface> & {
    * The top margin in point values.
    */
   mt?: number;
+  /**
+   * The bottom margin in point values.
+   */
+  mb?: number;
+  /**
+   * The button to take the full width of it's parent container.
+   */
+  wide?: boolean;
 };
 
 const Button = ({
@@ -104,6 +112,8 @@ const Button = ({
   testID,
   accessible,
   mt = 0,
+  mb = 0,
+  wide = true,
   ...rest
 }: Props) => {
   const { current: elevation } = React.useRef<Animated.Value>(
@@ -211,7 +221,7 @@ const Button = ({
         styles.button,
         { elevation },
         buttonStyle,
-        { marginTop: mt },
+        { marginTop: mt, marginBottom: mb, width: wide ? "100%" : null },
         style,
       ]}
     >
@@ -276,7 +286,6 @@ const styles = StyleSheet.create({
   button: {
     // minWidth: 64,
     borderStyle: "solid",
-    width: "100%",
   },
 
   content: {
