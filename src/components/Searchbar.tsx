@@ -175,10 +175,7 @@ const Searchbar = React.forwardRef<TextInputHandles, Props>(
     const rippleColor = color(textColor).alpha(0.32).rgb().string();
 
     return (
-      <Surface
-        pointerEvents="auto"
-        style={[{ borderRadius: 12 }, styles.container, style]}
-      >
+      <Surface pointerEvents="auto" style={[styles.container, style]}>
         <IconButton
           accessibilityRole="button"
           borderless
@@ -187,7 +184,7 @@ const Searchbar = React.forwardRef<TextInputHandles, Props>(
           iconColor={iconColor}
           containerColor="transparent"
           size={24}
-          style={{ marginRight: 0 }}
+          style={styles.iconStyle}
           icon={
             icon ||
             (({ size, color }) => (
@@ -208,7 +205,7 @@ const Searchbar = React.forwardRef<TextInputHandles, Props>(
               color: textColor,
               ...Platform.select({ web: { outline: "none" } }),
             },
-            theme.typescale.XSmall,
+            theme.typescale.XSmall as TextStyle,
             { ...theme.fonts.bold },
             inputStyle,
           ]}
@@ -245,6 +242,7 @@ const Searchbar = React.forwardRef<TextInputHandles, Props>(
               rippleColor={rippleColor}
               onPress={handleClearPress}
               containerColor="transparent"
+              style={styles.iconStyle}
               icon={
                 clearIcon ||
                 (({ size, color }) => (
@@ -270,6 +268,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     height: 40,
+    borderRadius: 12,
+    paddingHorizontal: 16,
   },
   input: {
     flex: 1,
@@ -282,6 +282,7 @@ const styles = StyleSheet.create({
   loader: {
     margin: 10,
   },
+  iconStyle: { margin: 0, width: 24, height: 24, marginRight: 8 },
 });
 
 export default withTheme(Searchbar);

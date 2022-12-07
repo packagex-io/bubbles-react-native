@@ -1,4 +1,6 @@
-import * as React from 'react';
+//TODO: Rework this to make web compatible. Don't use masked views.
+
+import * as React from "react";
 import {
   Animated,
   View,
@@ -7,19 +9,14 @@ import {
   StyleProp,
   TextStyle,
   Platform,
-} from 'react-native';
-import color from 'color';
-
-import ActivityIndicator from '../ActivityIndicator';
-import Icon, { IconSource } from '../Icon';
-import Surface from '../Surface';
-import Text from '../Typography/Text';
-import TouchableRipple from '../TouchableRipple/TouchableRipple.native';
-import { withTheme } from '../../core/theming';
-import type { Theme } from '../../types';
-import Button from '../Button';
-import { colors } from '../../styles/tokens';
-import MaskedView from '@react-native-masked-view/masked-view';
+} from "react-native";
+import type Surface from "../Surface";
+import Text from "../Typography/Text";
+import TouchableRipple from "../TouchableRipple/TouchableRipple.native";
+import { withTheme } from "../../core/theming";
+import type { Theme } from "../../types";
+import { colors } from "../../styles/tokens";
+import MaskedView from "@react-native-masked-view/masked-view";
 
 type Segment = {
   /**
@@ -36,7 +33,7 @@ export type Props = React.ComponentProps<typeof Surface> & {
   /**
    * Mode of the group
    */
-  mode?: 'line' | 'default';
+  mode?: "line" | "default";
   /**
    * Array of properties for each segment in the controller
    */
@@ -52,7 +49,7 @@ export type Props = React.ComponentProps<typeof Surface> & {
 };
 
 const SegmentedController = ({
-  mode = 'default',
+  mode = "default",
   segments,
   theme,
   style,
@@ -92,7 +89,7 @@ const SegmentedController = ({
 
   const highlightMask = {
     backgroundColor:
-      mode === 'default' ? theme.colors.bg.surface : 'transparent',
+      mode === "default" ? theme.colors.bg.surface : "transparent",
   };
 
   const highlightText = {
@@ -105,10 +102,10 @@ const SegmentedController = ({
 
   const inactiveBackground = {
     backgroundColor: theme.dark
-      ? mode === 'line'
+      ? mode === "line"
         ? theme.colors.bg.surface
         : theme.colors.bg.subtle
-      : 'transparent',
+      : "transparent",
   };
 
   /**
@@ -117,17 +114,17 @@ const SegmentedController = ({
    * the ripple effect continues to work on Android. As such, we conditionally
    * apply the logic for Android vs iOS
    */
-  const inactiveContainerIOS = Platform.OS === 'ios' ? { zIndex: -1 } : {};
+  const inactiveContainerIOS = Platform.OS === "ios" ? { zIndex: -1 } : {};
 
   return (
     <View
       style={[
         styles.container,
-        mode === 'line' && {
+        mode === "line" && {
           ...styles.lineContainer,
           borderBottomColor: theme.colors.fg.subtle,
         },
-        mode === 'default' && {
+        mode === "default" && {
           backgroundColor: theme.colors.bg.canvas,
         },
         style,
@@ -136,11 +133,11 @@ const SegmentedController = ({
       accessibilityRole="radiogroup"
     >
       <MaskedView
-        importantForAccessibility={'no-hide-descendants'}
+        importantForAccessibility={"no-hide-descendants"}
         accessibilityElementsHidden={true}
         key={selectedIndex}
         style={styles.maskViewContainer}
-        androidRenderingMode={'software'}
+        androidRenderingMode={"software"}
         maskElement={
           <Animated.View
             style={[
@@ -152,7 +149,7 @@ const SegmentedController = ({
                   outputRange: interpolatedValuesOutput,
                 }),
               },
-              mode === 'line' && { borderRadius: 0 },
+              mode === "line" && { borderRadius: 0 },
             ]}
           />
         }
@@ -161,8 +158,8 @@ const SegmentedController = ({
           style={[
             styles.baseButtonContainer,
             highlightMask,
-            mode === 'line' && styles.lineBaseButtonContainer,
-            mode === 'line' && { borderBottomColor: theme.colors.fg.default },
+            mode === "line" && styles.lineBaseButtonContainer,
+            mode === "line" && { borderBottomColor: theme.colors.fg.default },
           ]}
         >
           {segments.map((segment, i) => (
@@ -171,7 +168,7 @@ const SegmentedController = ({
               onPress={() => {
                 setPrevSelectedIndex(selectedIndex);
                 setSelectedIndex(i);
-                if (typeof segment.onPress === 'function') segment.onPress();
+                if (typeof segment.onPress === "function") segment.onPress();
               }}
               style={styles.baseTouchableRipple}
             >
@@ -195,7 +192,7 @@ const SegmentedController = ({
           styles.baseButtonContainer,
           styles.inactiveButtonContainer,
           inactiveContainerIOS,
-          mode === 'line' && { paddingBottom: 1, left: 0 },
+          mode === "line" && { paddingBottom: 1, left: 0 },
         ]}
       >
         {segments.map((segment, i) => (
@@ -214,7 +211,7 @@ const SegmentedController = ({
             onPress={() => {
               setPrevSelectedIndex(selectedIndex);
               setSelectedIndex(i);
-              if (typeof segment.onPress === 'function') segment.onPress();
+              if (typeof segment.onPress === "function") segment.onPress();
             }}
           >
             <Text
@@ -233,7 +230,7 @@ const SegmentedController = ({
 const styles = StyleSheet.create({
   container: {
     height: 48,
-    position: 'relative',
+    position: "relative",
     padding: 4,
     borderRadius: 12,
   },
@@ -245,39 +242,39 @@ const styles = StyleSheet.create({
     borderRadius: 0,
   },
   maskViewContainer: {
-    width: '100%',
-    height: '100%',
-    position: 'relative',
+    width: "100%",
+    height: "100%",
+    position: "relative",
   },
   maskContainer: {
-    position: 'absolute',
-    backgroundColor: 'black',
+    position: "absolute",
+    backgroundColor: "black",
     borderRadius: 10,
-    height: '100%',
+    height: "100%",
     left: 0,
     top: 0,
   },
   baseButtonContainer: {
     flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'nowrap',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    flexDirection: "row",
+    flexWrap: "nowrap",
+    justifyContent: "space-around",
+    alignItems: "center",
   },
   lineBaseButtonContainer: { borderBottomWidth: 1 },
   inactiveButtonContainer: {
-    position: 'absolute',
+    position: "absolute",
     top: 4,
     left: 4,
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
   },
   baseTouchableRipple: {
-    height: '100%',
+    height: "100%",
     flex: 1,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
   },
   baseButtonText: {
     paddingHorizontal: 16,

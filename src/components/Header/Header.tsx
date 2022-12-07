@@ -33,7 +33,6 @@ export type Props = Partial<React.ComponentPropsWithRef<typeof View>> & {
    */
   children: React.ReactNode;
   /**
-   * @supported Available in v5.x with theme version 3
    * Whether Appbar background should have the elevation along with primary color pigment.
    */
   elevated?: boolean;
@@ -47,7 +46,11 @@ export type Props = Partial<React.ComponentPropsWithRef<typeof View>> & {
     right?: number;
   };
   /**
-   * Searchbar props
+   * Show a searchbar below the header
+   */
+  showSearchbar?: boolean;
+  /**
+   * Props to pass to the searchbar. They are the same as the props of the Searchbar component
    */
   searchbarOptions: React.ComponentPropsWithoutRef<typeof Searchbar>;
   /**
@@ -69,6 +72,7 @@ const Header = ({
   elevated,
   safeAreaInsets,
   align,
+  showSearchbar,
   ...rest
 }: Props) => {
   const { options, setOptions } = useHeader();
@@ -242,13 +246,15 @@ const Header = ({
         {shouldAddRightSpacing ? <View style={spacingStyle} /> : null}
       </Surface>
 
-      <Animated.View style={[searchbarStyle]} pointerEvents="box-none">
-        <Searchbar
-          placeholder="Search"
-          {...rest.searchbarOptions}
-          style={{ marginBottom: 8 }}
-        />
-      </Animated.View>
+      {showSearchbar && (
+        <Animated.View style={[searchbarStyle]} pointerEvents="box-none">
+          <Searchbar
+            placeholder="Search"
+            {...rest.searchbarOptions}
+            style={{ marginBottom: 8 }}
+          />
+        </Animated.View>
+      )}
     </>
   );
 };

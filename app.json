@@ -1,6 +1,7 @@
 {
   "expo": {
     "name": "react-native-bubbles",
+    "entryPoint": "node_modules/expo/AppEntry.js",
     "slug": "react-native-bubbles",
     "version": "1.0.0",
     "orientation": "portrait",

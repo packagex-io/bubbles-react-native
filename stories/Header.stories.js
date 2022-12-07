@@ -16,39 +16,45 @@ export default {
 };
 
 // More on component templates: https://storybook.js.org/docs/react/writing-stories/introduction#using-args
-const Template = (args) => (
-  <Provider>
-    <View style={{ flex: 1, backgroundColor: colors.gray100 }}>
-      <Header align="center">
-        <HeaderBackAction
-          onPress={() => {
-            console.log("back");
-          }}
-          size={24}
-        />
-        <HeaderContent
-          title="Page Title"
-          subtitle="12 Routes - Estimated Time 7h 30m"
-        />
-        <HeaderAction
-          size={18}
-          icon={"image-filter-center-focus"}
-          onPress={() => {
-            console.log("action");
-          }}
-        />
-        <HeaderAction
-          size={18}
-          icon={"close"}
-          onPress={() => {
-            console.log("action");
-          }}
-        />
-      </Header>
-    </View>
-  </Provider>
-);
-
+const Template = (args) => {
+  const [search, setSearch] = React.useState("");
+  return (
+    <Provider>
+      <View style={{ flex: 1, backgroundColor: colors.gray100 }}>
+        <Header
+          showSearchbar
+          searchbarOptions={{ onChangeText: setSearch, value: search }}
+          align="center"
+        >
+          <HeaderBackAction
+            onPress={() => {
+              console.log("back");
+            }}
+            size={24}
+          />
+          <HeaderContent
+            title="Page Title"
+            subtitle="12 Routes - Estimated Time 7h 30m"
+          />
+          <HeaderAction
+            size={18}
+            icon={"image-filter-center-focus"}
+            onPress={() => {
+              console.log("action");
+            }}
+          />
+          <HeaderAction
+            size={18}
+            icon={"close"}
+            onPress={() => {
+              console.log("action");
+            }}
+          />
+        </Header>
+      </View>
+    </Provider>
+  );
+};
 export const Basic = Template.bind({});
 Basic.args = {
   title: "Header",

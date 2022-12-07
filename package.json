@@ -30,7 +30,7 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "chromatic": "npx chromatic --project-token=e39a3c3392bc --auto-accept-changes",
-    "prepack": "bob build",
+    "prepare": "bob build",
     "release": "release-it"
   },
   "dependencies": {
@@ -51,6 +51,7 @@
     "@react-native-async-storage/async-storage": "~1.17.3",
     "@react-native-community/datetimepicker": "6.5.2",
     "@react-native-community/slider": "4.2.4",
+    "@react-native-masked-view/masked-view": "^0.2.8",
     "@storybook/addon-actions": "^6.5.0",
     "@storybook/addon-controls": "^6.5.0",
     "@storybook/addon-essentials": "^6.5.0",
