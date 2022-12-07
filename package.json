@@ -26,7 +26,9 @@
     "storybook-watcher": "sb-rn-watcher --config-path .ondevice",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "chromatic": "npx chromatic --project-token=e39a3c3392bc --auto-accept-changes"
+    "chromatic": "npx chromatic --project-token=e39a3c3392bc --auto-accept-changes",
+    "prepack": "bob build",
+    "release": "release-it"
   },
   "dependencies": {
     "@callstack/react-theme-provider": "^3.0.8",
@@ -67,8 +69,10 @@
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-native": "0.70.5",
+    "react-native-builder-bob": "^0.20.3",
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "~0.18.7",
+    "release-it": "^15.5.1",
     "typescript": "^4.6.3"
   },
   "bugs": {
@@ -76,5 +80,22 @@
   },
   "readme": "ERROR: No README data found!",
   "homepage": "https://github.com/packagex-io/bubbles-react-native#readme",
-  "_id": "react-native-bubbles@0.5.0"
+  "_id": "react-native-bubbles@0.5.0",
+  "react-native-builder-bob": {
+    "source": "src",
+    "output": "lib",
+    "targets": [
+      "commonjs",
+      "module",
+      [
+        "typescript",
+        {
+          "project": "tsconfig.build.json"
+        }
+      ]
+    ],
+    "files": [
+      "src/"
+    ]
+  }
 }
