@@ -1,6 +1,6 @@
 {
   "name": "react-native-bubbles",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Bubbles for React Native",
   "main": "lib\\commonjs\\index.js",
   "module": "lib\\module\\index.js",
@@ -10,9 +10,6 @@
   "files": [
     "src",
     "lib",
-    "!**/__tests__",
-    "!**/__fixtures__",
-    "!**/__mocks__",
     "babel.js"
   ],
   "private": false,
@@ -86,14 +83,12 @@
   },
   "readme": "ERROR: No README data found!",
   "homepage": "https://github.com/packagex-io/bubbles-react-native#readme",
-  "_id": "react-native-bubbles@0.5.0",
   "react-native-builder-bob": {
     "source": "src",
     "output": "lib",
     "targets": [
       "commonjs",
-      "module",
-      "typescript"
+      "module"
     ]
   },
   "eslintIgnore": [
