@@ -2,9 +2,11 @@
   "name": "react-native-bubbles",
   "version": "0.5.0",
   "description": "Bubbles for React Native",
-  "main": "node_modules/expo/AppEntry.js",
+  "main": "lib/commonjs/index.js",
   "module": "lib/module/index.js",
   "react-native": "src/index.tsx",
+  "source": "src/index.tsx",
+  "types": "lib/typescript/index.d.ts",
   "files": [
     "src",
     "lib",
@@ -13,8 +15,9 @@
   "private": false,
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/packagex-io/bubbles-react-native.git"
+    "url": "https://github.com/packagex-io/bubbles-react-native.git"
   },
+  "license": "MIT",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
