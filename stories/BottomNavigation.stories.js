@@ -47,6 +47,7 @@ const NavComponent = () => {
 
   return (
     <BottomNavigation
+      barStyle={{ backgroundColor: "#fff" }}
       safeAreaInsets={{ bottom: 16 }}
       navigationState={{ index, routes }}
       onIndexChange={setIndex}

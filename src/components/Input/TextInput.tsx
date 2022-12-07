@@ -286,7 +286,8 @@ const TextInput = React.forwardRef<TextInputHandles, TextInputProps>(
         // Set the placeholder in a delay to offset the label animation
         // If we show it immediately, they'll overlap and look ugly
         timer.current = setTimeout(
-          () => setPlaceholder(rest.placeholder),
+          () =>
+            setPlaceholder(type === "date" ? "mm-dd-yyyy" : rest.placeholder),
           50
         ) as unknown as NodeJS.Timeout;
       } else {
