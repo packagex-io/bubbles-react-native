@@ -49,10 +49,6 @@ interface SegmentedControlProps {
    */
   inactiveTextStyle?: TextStyle;
   /**
-   * Segment Container Styles
-   */
-  segmentedControlWrapper?: ViewStyle;
-  /**
    * Pressable Container Styles
    */
   pressableWrapper?: ViewStyle;
@@ -77,7 +73,7 @@ const SegmentedControl: React.FC<SegmentedControlProps> = ({
   theme,
   activeTextStyle,
   inactiveTextStyle,
-  segmentedControlWrapper,
+  style,
   pressableWrapper,
   tileStyle,
 }: SegmentedControlProps) => {
@@ -133,7 +129,7 @@ const SegmentedControl: React.FC<SegmentedControlProps> = ({
       style={[
         { backgroundColor: theme.colors.bg.subtle },
         styles.defaultSegmentedControlWrapper,
-        segmentedControlWrapper,
+        style,
       ]}
       onLayout={(event) => {
         setControllerWidth(event.nativeEvent.layout.width);
