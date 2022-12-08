@@ -1,12 +1,12 @@
 import React from "react";
-import SegmentedControl from "../src/components/SegmentedController/NewSegmentedController";
+import SegmentedController from "../src/components/SegmentedController/SegmentedController";
 
 import { DefaultTheme } from "../src";
 import { colors } from "../src/styles/tokens";
 
 export default {
   title: "components/SegmentedController",
-  //   component: SegmentedControl,
+  component: SegmentedController,
 
   argTypes: {},
 };
@@ -17,7 +17,7 @@ const Template = (args) => {
   const [tabIndex, setTabIndex] = React.useState(0);
 
   return (
-    <SegmentedControl
+    <SegmentedController
       segments={[{ label: "First" }, { label: "Second" }, { label: "Third" }]}
       onChange={(index) => setTabIndex(index)}
       currentIndex={tabIndex}
