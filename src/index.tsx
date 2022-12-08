@@ -33,7 +33,7 @@ export { default as TouchableRipple } from "./components/TouchableRipple/Touchab
 export { default as TextInput } from "./components/Input/TextInput";
 export { default as Form } from "./components/Form/Form";
 export { default as Text } from "./components/Typography/Text";
-// export { default as SegmentedController } from "./components/SegmentedController/SegmentedController";
+export { default as SegmentedController } from "./components/SegmentedController/SegmentedController";
 
 // TODO: Types
 

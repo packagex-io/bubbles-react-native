@@ -194,7 +194,7 @@ const TextInputOutlined = ({
   const { leftLayout, rightLayout } = parentState;
 
   return (
-    <View style={viewStyle}>
+    <View style={[{ flex: 1 }, viewStyle]}>
       {/*
           Render the outline separately from the container
           This is so that the label can overlap the outline

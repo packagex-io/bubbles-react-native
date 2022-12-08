@@ -23,11 +23,12 @@ const Template = (args) => (
   <KeyboardAvoidingView
     behavior={Platform.OS === "ios" ? "padding" : "height"}
     style={{
-      width: "100%",
-      padding: 16,
       flex: 1,
+      padding: 16,
+      height: 80,
       alignItems: "flex-start",
       backgroundColor: DefaultTheme.colors.bg.canvas,
+      flexDirection: "row",
     }}
   >
     <TextInput {...args} />
