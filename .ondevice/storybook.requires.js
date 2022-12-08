@@ -41,6 +41,7 @@ const getStories = () => {
     require("../stories/Input.stories.js"),
     require("../stories/Modal.stories.js"),
     require("../stories/Radio.stories.js"),
+    require("../stories/SegmentedController.stories.js"),
     require("../stories/Select.stories.js"),
     require("../stories/Spinner.stories.js"),
     require("../stories/Switch.stories.js"),

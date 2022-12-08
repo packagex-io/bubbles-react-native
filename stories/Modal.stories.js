@@ -2,11 +2,11 @@ import React from "react";
 
 import { Platform, View } from "react-native";
 
-import { Provider as ThemeProvider, useTheme } from "../src";
+import { Provider as ThemeProvider, Text, useTheme } from "../src";
 import Modal from "../src/components/Modal/Modal";
 import Portal from "../src/components/Portal/Portal";
 import MessageModal from "../src/components/Modal/MessageModal";
-import Text from "../src/components/Text";
+
 import Button from "../src/components/Button";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export

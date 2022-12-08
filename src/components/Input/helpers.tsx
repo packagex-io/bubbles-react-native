@@ -300,26 +300,7 @@ function isValidDate(dateString: string) {
     // Date is not valid
     return false;
   }
-
-  // Extract the month, day, and year from the date object
-  const month = date.getMonth() + 1; // getMonth() returns a 0-based value, so we need to add 1 to get the correct month
-  const day = date.getDate();
-  const year = date.getFullYear();
-
-  // Check if the date values are valid for the specified format
-  if (month < 1 || month > 12) {
-    // Invalid month
-    return false;
-  }
-  if (day < 1 || day > 31) {
-    // Invalid day
-    return false;
-  }
-  if (year < 1 || year > 9999) {
-    // Invalid year
-    return false;
-  }
-
+  //TODO
   // Date is valid
   return true;
 }

@@ -30,7 +30,7 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "chromatic": "npx chromatic --project-token=e39a3c3392bc --auto-accept-changes",
-    "prepare": "bob build",
+    "prepack": "bob build",
     "release": "release-it"
   },
   "dependencies": {
