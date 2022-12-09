@@ -446,3 +446,7 @@ export const DATE_MMDDYYYY_MASK: Mask = (text = "") => {
     /\d/,
   ];
 };
+
+export const TIME_MASK: Mask = () => {
+  return [/[0-1]/, /[0-1]/, ":", /[0-5]/, /[0-9]/, " ", /[AaPp]/, /[Mm]/];
+};

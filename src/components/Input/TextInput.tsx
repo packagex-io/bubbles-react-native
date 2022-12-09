@@ -12,7 +12,7 @@ import type { RenderProps, TextInputLabelProp, ValidationType } from "./types";
 import color from "color";
 // import TextInputCard from './TextInputCard';
 import { LABEL_PADDING_HORIZONTAL } from "./constants";
-import { DATE_MMDDYYYY_MASK, isInputValid } from "./helpers";
+import { DATE_MMDDYYYY_MASK, isInputValid, TIME_MASK } from "./helpers";
 import formatWithMask from "./formatWithMask";
 
 const BLUR_ANIMATION_DURATION = 180;
@@ -245,6 +245,17 @@ const TextInput = React.forwardRef<TextInputHandles, TextInputProps>(
 
     const { scale } = rest.theme.animation;
 
+    const predefinedPlaceholders = () => {
+      switch (type) {
+        case "date":
+          return "mm-dd-yyyy";
+        case "time":
+          return "hh:mm AM/PM";
+        default:
+          return rest.placeholder;
+      }
+    };
+
     React.useImperativeHandle(ref, () => ({
       focus: () => root.current?.focus(),
       clear: () => root.current?.clear(),
@@ -286,8 +297,7 @@ const TextInput = React.forwardRef<TextInputHandles, TextInputProps>(
         // Set the placeholder in a delay to offset the label animation
         // If we show it immediately, they'll overlap and look ugly
         timer.current = setTimeout(
-          () =>
-            setPlaceholder(type === "date" ? "mm-dd-yyyy" : rest.placeholder),
+          () => setPlaceholder(predefinedPlaceholders),
           50
         ) as unknown as NodeJS.Timeout;
       } else {
@@ -377,6 +387,11 @@ const TextInput = React.forwardRef<TextInputHandles, TextInputProps>(
         filteredValue = formatWithMask({
           text: value,
           mask: DATE_MMDDYYYY_MASK,
+        }).masked;
+      } else if (type === "time") {
+        filteredValue = formatWithMask({
+          text: value,
+          mask: TIME_MASK,
         }).masked;
       }
       if (!isControlled) {
