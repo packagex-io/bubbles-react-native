@@ -430,7 +430,7 @@ const TextInput = React.forwardRef<TextInputHandles, TextInputProps>(
         onLeftAffixLayoutChange={onLeftAffixLayoutChange}
         onRightAffixLayoutChange={onRightAffixLayoutChange}
         maxFontSizeMultiplier={maxFontSizeMultiplier}
-        style={[{ fontWeight: "600" }, rest.style]}
+        style={[{ fontWeight: "600", minHeight: 80 }, rest.style]}
       />
     );
   }

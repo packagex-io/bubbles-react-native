@@ -49,7 +49,11 @@ const DataTable = ({
   const flatListRef = React.useRef(null);
 
   React.useEffect(() => {
-    setOptions((options) => ({ ...options, animate: true }));
+    setOptions((options) => ({
+      ...options,
+      animate: true,
+      showSearchbar: true,
+    }));
   }, []);
 
   React.useEffect(() => {

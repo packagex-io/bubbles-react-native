@@ -1,4 +1,3 @@
-import { theme } from "@storybook/react-native/dist/preview/components/Shared/theme";
 import * as React from "react";
 import {
   UseFormReturn,
@@ -17,7 +16,7 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import { withTheme } from "../../core/theming";
-import { Theme } from "../../types";
+import type { Theme } from "../../types";
 import Button from "../Button";
 import Checkbox from "../Checkbox/Checkbox";
 import { isInputValid } from "../Input/helpers";
@@ -158,7 +157,7 @@ const ControlledTextInput = (props: InputTypeProps & CommonProps) => {
 
 // TODO : Validation for select, checkbox, switch
 const ControlledSelect = (props: SelectTypeProps & CommonProps) => {
-  const { ...rest } = props;
+  const { onSelect, ...rest } = props;
   const { control } = useFormContext();
 
   return (
@@ -374,32 +373,32 @@ const Form = ({
               case "time":
                 return (
                   <View key={index} style={[{ width: input.width ?? "100%" }]}>
-                    <ControlledTextInput theme={theme} {...input} />
+                    <ControlledTextInput {...input} theme={theme} />
                   </View>
                 );
               case "switch":
                 return (
                   <View key={index} style={[{ width: input.width ?? "100%" }]}>
-                    <ControlledSwitch theme={theme} {...input} />
+                    <ControlledSwitch {...input} theme={theme} />
                   </View>
                 );
               case "select":
                 return (
                   <View key={index} style={[{ width: input.width ?? "100%" }]}>
-                    <ControlledSelect theme={theme} {...input} />
+                    <ControlledSelect {...input} theme={theme} />
                   </View>
                 );
               case "radio":
               case "radio-group":
                 return (
                   <View key={index} style={[{ width: input.width ?? "100%" }]}>
-                    <ControlledRadio theme={theme} {...input} />
+                    <ControlledRadio {...input} theme={theme} />
                   </View>
                 );
               case "checkbox":
                 return (
                   <View key={index} style={[{ width: input.width ?? "100%" }]}>
-                    <ControlledCheckbox theme={theme} {...input} />
+                    <ControlledCheckbox {...input} theme={theme} />
                   </View>
                 );
               case "submit":

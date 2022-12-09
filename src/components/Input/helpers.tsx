@@ -5,7 +5,7 @@ import {
   ADORNMENT_SIZE,
   FLAT_INPUT_OFFSET,
 } from "./constants";
-import { Mask } from "./formatWithMask";
+import type { Mask } from "./formatWithMask";
 import type { TextInputLabelProp, ValidationType } from "./types";
 
 type PaddingProps = {

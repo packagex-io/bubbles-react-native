@@ -64,18 +64,20 @@ export type Props = Partial<React.ComponentPropsWithRef<typeof View>> & {
   style?: StyleProp<ViewStyle>;
 };
 
-const Header = ({
-  children,
-  dark,
-  style,
-  theme,
-  elevated,
-  safeAreaInsets,
-  align,
-  showSearchbar,
-  ...rest
-}: Props) => {
+const Header = (props: Props) => {
   const { options, setOptions } = useHeader();
+  const {
+    children,
+    dark,
+    style,
+    theme,
+    elevated,
+    safeAreaInsets,
+    align,
+    showSearchbar,
+    ...rest
+  } = props;
+  const mergedProps = { ...props, ...options };
   const { backgroundColor: customBackground, ...restStyle }: ViewStyle =
     StyleSheet.flatten(style) || {};
 
@@ -246,7 +248,7 @@ const Header = ({
         {shouldAddRightSpacing ? <View style={spacingStyle} /> : null}
       </Surface>
 
-      {showSearchbar && (
+      {mergedProps.showSearchbar && (
         <Animated.View style={[searchbarStyle]} pointerEvents="box-none">
           <Searchbar
             placeholder="Search"

@@ -136,10 +136,11 @@ const Menu = ({
     let top = anchorMeasurements.y;
 
     if (left === 0 && top === 0) return;
-    if (!rendered)
-      //don't run if the menu has already been positioned
-      return;
+    //don't run if the menu has already been positioned
+    if (!rendered) return;
     additionalVerticalValue = anchorMeasurements.height;
+    if (Platform.OS === "android") top = top + 18; // for whatever reason onLayout measures wrongly on android
+
     // Check if menu fits horizontally and if not align it to right.
     if (left <= windowLayout.width - menuMeasurements.width - SCREEN_INDENT) {
       // Check if menu position has enough space from left side
@@ -246,6 +247,7 @@ const Menu = ({
       y: top,
     }));
     setScrollableMenuHeight(scrollableMenuHeight);
+    console.log(anchorMeasurements.y, top);
   }, [
     anchorMeasurements.x,
     anchorMeasurements.y,
