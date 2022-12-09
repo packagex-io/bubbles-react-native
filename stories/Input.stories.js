@@ -1,7 +1,7 @@
 import React from "react";
-import { KeyboardAvoidingView, Platform } from "react-native";
+import { KeyboardAvoidingView, Platform, View } from "react-native";
 import TextInput from "../src/components/Input/TextInput";
-import { DefaultTheme, Menu, Provider } from "../src";
+import { DefaultTheme, Menu, Provider, Text } from "../src";
 import { useFuse } from "../src/components/Input/useFuse";
 
 // More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
@@ -39,16 +39,30 @@ const Template = (args) => (
 const AutocompleteExample = (args) => {
   const [value, setValue] = React.useState("");
   const [visible, setVisible] = React.useState(false);
-  const options = ["Apple", "Banana", "Orange", "Pineapple", "Strawberry"];
-  const searchResults = useFuse(value, options);
+  const items = [
+    {
+      title: "Old Man's War",
+      author: "John Scalzi",
+      tags: ["fiction"],
+    },
+    {
+      title: "The Lock Artist",
+      author: "Steve",
+      tags: ["thriller"],
+    },
+  ];
+  const searchResults = useFuse(value, items, {
+    includeScore: true,
+    // Search in `author` and in `title` fields
+    keys: ["author", "title"],
+  });
   React.useEffect(() => {
     if (searchResults && searchResults.length > 0) {
       //If input value is same as first result, hide menu
-      if (searchResults[0].item === value) setVisible(false);
+      if (searchResults[0].item.title === value) setVisible(false);
       //Show menu whenever there are results
       else setVisible(true);
     }
-    console.log(searchResults);
   }, [searchResults]);
   return (
     <Provider>
@@ -70,10 +84,17 @@ const AutocompleteExample = (args) => {
           {searchResults.map((item, i) => (
             <Menu.Item
               onPress={() => {
-                setValue(item.item);
+                setValue(item.item.title);
                 setVisible(false);
               }}
-              title={item.item}
+              title={
+                <View style={{ margin: 0 }}>
+                  <Text style={{ fontWeight: "bold" }} variant="Caption">
+                    {item.item.title}
+                  </Text>
+                  <Text variant="XSmall">by {item.item.author}</Text>
+                </View>
+              }
             />
           ))}
         </Menu>
@@ -94,4 +115,4 @@ TextArea.args = {
 };
 
 export const Autocomplete = AutocompleteExample.bind({});
-Autocomplete.args = { label: "Full Name" };
+Autocomplete.args = { label: "Book title" };
