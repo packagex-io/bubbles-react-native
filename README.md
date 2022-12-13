@@ -59,7 +59,7 @@ To run on ios or android
 yarn start
 ```
 
-Then from open the app from the terminal or from the expo ui in ios or android.
+Then open the app from the terminal or from the expo ui in ios or android.
 
 ## Updating stories on the device
 
@@ -82,7 +82,7 @@ Note that this is only necessary for when you add or remove a story file.
 # Credits
 
 I would like to give credit where due to other open source projects that helped me make this. Here are some that I can remember:
-[react-native-paper](https://github.com/callstack/react-native-paper)
-[react-native-indicators](https://github.com/n4kz/react-native-indicators)
-[react-native-mask-input](https://github.com/CaioQuirinoMedeiros/react-native-mask-input)
-And of course the svelte counterpart - [Bubbles](https://github.com/vpanyushenko/bubbles)
+- [react-native-paper](https://github.com/callstack/react-native-paper)
+- [react-native-indicators](https://github.com/n4kz/react-native-indicators)
+- [react-native-mask-input](https://github.com/CaioQuirinoMedeiros/react-native-mask-input)
+- And of course the svelte counterpart - [Bubbles](https://github.com/vpanyushenko/bubbles)
