@@ -8,7 +8,12 @@ export default {
   title: "components/SegmentedController",
   component: SegmentedController,
 
-  argTypes: {},
+  argTypes: {
+    mode: {
+      options: ["default", "line"],
+      control: { type: "radio" },
+    },
+  },
 };
 
 // Other Avatar stories
@@ -21,10 +26,11 @@ const Template = (args) => {
       segments={[{ label: "First" }, { label: "Second" }, { label: "Third" }]}
       onChange={(index) => setTabIndex(index)}
       currentIndex={tabIndex}
+      {...args}
     />
   );
 };
 
 export const Basic = Template.bind({});
 
-Basic.args = {};
+Basic.args = { mode: "line" };

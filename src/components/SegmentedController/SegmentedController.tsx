@@ -27,7 +27,7 @@ interface SegmentedControlProps {
   /**
    * Mode of the group
    */
-  mode?: "line" | "default"; //TODO line mode
+  mode?: "line" | "default";
   /**
    * Array of properties for each segment in the controller
    */
@@ -76,6 +76,7 @@ const SegmentedControl: React.FC<SegmentedControlProps> = ({
   style,
   pressableWrapper,
   tileStyle,
+  mode,
 }: SegmentedControlProps) => {
   const [controllerWidth, setControllerWidth] = React.useState(0);
   const widthSize = 100 / segments.length;
@@ -127,7 +128,14 @@ const SegmentedControl: React.FC<SegmentedControlProps> = ({
   return (
     <Animated.View
       style={[
-        { backgroundColor: theme.colors.bg.subtle },
+        {
+          backgroundColor: theme.colors.bg.subtle,
+        },
+        mode === "line" && {
+          backgroundColor: "transparent",
+          borderBottomColor: theme.colors.fg.subtle,
+          borderBottomWidth: 1,
+        },
         styles.defaultSegmentedControlWrapper,
         style,
       ]}
@@ -138,7 +146,7 @@ const SegmentedControl: React.FC<SegmentedControlProps> = ({
       <Animated.View
         style={[
           StyleSheet.absoluteFill,
-          styles.movingSegmentStyle,
+          mode === "line" ? styles.movingLineStyle : styles.movingSegmentStyle,
           tileStyle,
           {
             maxWidth: controllerWidth / segments.length - 8,
@@ -200,6 +208,13 @@ const styles = StyleSheet.create({
     height: 32,
     top: 8,
     marginLeft: 4,
+  },
+  movingLineStyle: {
+    height: "100%",
+    bottom: 0,
+    borderBottomWidth: 1,
+    borderBottomColor: "black",
+    marginLeft: 8,
   },
 });
 
