@@ -1,23 +1,23 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   StyleProp,
   StyleSheet,
   TextStyle,
   View,
   ViewStyle,
-} from 'react-native';
+} from "react-native";
 
-import { withTheme } from '../../core/theming';
-import type { Theme } from '../../types';
-import Icon, { IconSource } from '../Icon';
-import TouchableRipple from '../TouchableRipple/TouchableRipple.native';
-import Text from '../Typography/Text';
+import { withTheme } from "../../core/theming";
+import type { Theme } from "../../types";
+import Icon, { IconSource } from "../Icon";
+import TouchableRipple from "../TouchableRipple/TouchableRipple.native";
+import Text from "../Typography/Text";
 import {
   getContentMaxWidth,
   getMenuItemColor,
   MAX_WIDTH,
   MIN_WIDTH,
-} from './utils';
+} from "./utils";
 
 export type Props = {
   /**
@@ -191,20 +191,20 @@ const MenuItem = ({
   );
 };
 
-MenuItem.displayName = 'Menu.Item';
+MenuItem.displayName = "Menu.Item";
 
 const styles = StyleSheet.create({
   container: {
     minWidth: MIN_WIDTH,
     maxWidth: MAX_WIDTH,
     height: 48,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   md3DenseContainer: {
     height: 32,
   },
   row: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   title: {
     fontSize: 16,
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
   },
   content: {
-    justifyContent: 'center',
+    justifyContent: "center",
   },
   md3LeadingIcon: {
     marginLeft: 12,

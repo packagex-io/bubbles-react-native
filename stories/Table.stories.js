@@ -145,7 +145,7 @@ const DataTableComponent = () => {
       style={{
         flex: 1,
 
-        backgroundColor: colors.gray200,
+        backgroundColor: colors.gray100,
       }}
     >
       <Header align="center">

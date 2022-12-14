@@ -29,7 +29,7 @@ const FormComponent = () => {
             label: "Your Name",
             desc: "You'll be able to change this name later", //TODO
             error: "A name is required",
-            validation: { string: true, required: true, min: 3, max: 20 },
+            validation: { string:true, required: true, min: 3, max: 20 },
           },
           {
             type: "email",
@@ -38,6 +38,20 @@ const FormComponent = () => {
             desc: "You'll be able to change this name later",
             error: "Valid email is required",
             validation: { email: true, required: true },
+          },
+          {
+            type: "date",
+            name: "date",
+            label: "Date",
+            error: "Valid date is required",
+            validation: { required: true, date: true },
+          },
+          {
+            type: "time",
+            name: "time",
+            label: "time",
+            error: "This field is required",
+            validation: { required: true },
           },
           {
             type: "switch",

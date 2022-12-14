@@ -5,6 +5,7 @@ import {
   ADORNMENT_SIZE,
   FLAT_INPUT_OFFSET,
 } from "./constants";
+import type { Mask } from "./formatWithMask";
 import type { TextInputLabelProp, ValidationType } from "./types";
 
 type PaddingProps = {
@@ -282,6 +283,28 @@ const _getSize = (value: any[] | number | string | undefined | null) => {
   return value.length;
 };
 
+function isValidDate(dateString: string) {
+  // Parse the date string into a Date object
+
+  const regEx = /^\d{1,2}-\d{1,2}-\d{4}$/;
+
+  if (!dateString.match(regEx)) return false;
+  let dateParts = dateString.split("-");
+  const date = new Date(
+    parseInt(dateParts[2]),
+    parseInt(dateParts[1]) - 1,
+    parseInt(dateParts[0])
+  );
+  // Check if the date is valid
+  if (isNaN(date.getTime())) {
+    // Date is not valid
+    return false;
+  }
+  //TODO
+  // Date is valid
+  return true;
+}
+
 export const isInputValid = (value: any, obj?: Partial<ValidationType>) => {
   if (!obj) return true;
   const booleans = Object.keys(obj).map((f) => {
@@ -371,6 +394,10 @@ export const isInputValid = (value: any, obj?: Partial<ValidationType>) => {
         }
         return false;
 
+      case "date":
+        if (!obj["date"]) break;
+        return isValidDate(value);
+
       default:
         return true;
     }
@@ -383,4 +410,43 @@ export const isInputValid = (value: any, obj?: Partial<ValidationType>) => {
   } else {
     return false;
   }
+};
+
+export const DATE_MMDDYYYY_MASK: Mask = (text = "") => {
+  const cleanText = text.replace(/\D+/g, "");
+
+  let secondDigitMonthMask = /\d/;
+
+  if (cleanText.charAt(0) === "0") {
+    secondDigitMonthMask = /[1-9]/;
+  }
+  if (cleanText.charAt(0) === "1") {
+    secondDigitMonthMask = /[012]/;
+  }
+
+  let secondDigitDayMask = /\d/;
+
+  if (cleanText.charAt(2) === "0") {
+    secondDigitDayMask = /[1-9]/;
+  }
+  if (cleanText.charAt(2) === "3") {
+    secondDigitDayMask = /[01]/;
+  }
+
+  return [
+    /[0-1]/,
+    secondDigitMonthMask,
+    "-",
+    /[0-3]/,
+    secondDigitDayMask,
+    "-",
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+  ];
+};
+
+export const TIME_MASK: Mask = () => {
+  return [/[0-1]/, /[0-1]/, ":", /[0-5]/, /[0-9]/, " ", /[AaPp]/, /[Mm]/];
 };

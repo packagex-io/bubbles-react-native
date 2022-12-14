@@ -380,7 +380,7 @@ class Menu extends React.Component<Props, State> {
 
     // I don't know why but on Android measure function is wrong by 24
     const additionalVerticalValue = Platform.select({
-      android: 0,
+      android: 24,
       default: 0,
     });
 

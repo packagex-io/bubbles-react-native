@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   Platform,
   StyleProp,
@@ -7,14 +7,14 @@ import {
   TouchableWithoutFeedback,
   View,
   ViewStyle,
-} from 'react-native';
+} from "react-native";
 
-import color from 'color';
+import color from "color";
 
-import type { $RemoveChildren, Theme } from '../../types';
-import Text from '../Typography/Text';
-import { colors } from '../../styles/tokens';
-import { withTheme } from '../../core/theming';
+import type { $RemoveChildren, Theme } from "../../types";
+import Text from "../Typography/Text";
+import { colors } from "../../styles/tokens";
+import { withTheme } from "../../core/theming";
 
 export type Props = $RemoveChildren<typeof View> & {
   /**
@@ -84,9 +84,7 @@ const HeaderContent = ({
           style={[
             {
               color: titleTextColor,
-              ...(Platform.OS === 'ios'
-                ? theme.fonts.regular
-                : theme.fonts.medium),
+              ...theme.fonts.bold,
             },
 
             titleStyle,
@@ -94,7 +92,7 @@ const HeaderContent = ({
           numberOfLines={1}
           accessible
           // @ts-ignore Type '"heading"' is not assignable to type ...
-          accessibilityRole={Platform.OS === 'web' ? 'heading' : 'header'}
+          accessibilityRole={Platform.OS === "web" ? "heading" : "header"}
         >
           {title}
         </Text>
@@ -112,7 +110,7 @@ const HeaderContent = ({
   );
 };
 
-HeaderContent.displayName = 'Header.Content';
+HeaderContent.displayName = "Header.Content";
 
 const styles = StyleSheet.create({
   container: {
@@ -121,10 +119,10 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    fontSize: Platform.OS === 'ios' ? 17 : 20,
+    fontSize: Platform.OS === "ios" ? 17 : 20,
   },
   subtitle: {
-    fontSize: Platform.OS === 'ios' ? 11 : 14,
+    fontSize: Platform.OS === "ios" ? 11 : 14,
   },
 });
 

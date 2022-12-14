@@ -1,25 +1,16 @@
-import * as React from 'react';
+import React from "react";
 import {
-  Animated,
+  StyleSheet,
+  TextStyle,
   View,
   ViewStyle,
-  StyleSheet,
+  Animated,
   StyleProp,
-  TextStyle,
-  Platform,
-} from 'react-native';
-import color from 'color';
-
-import ActivityIndicator from '../ActivityIndicator';
-import Icon, { IconSource } from '../Icon';
-import Surface from '../Surface';
-import Text from '../Typography/Text';
-import TouchableRipple from '../TouchableRipple/TouchableRipple.native';
-import { withTheme } from '../../core/theming';
-import type { Theme } from '../../types';
-import Button from '../Button';
-import { colors } from '../../styles/tokens';
-import MaskedView from '@react-native-masked-view/masked-view';
+  TouchableOpacity,
+} from "react-native";
+import { withTheme } from "../../core/theming";
+import type { Theme } from "src/types";
+import Text from "../Typography/Text";
 
 type Segment = {
   /**
@@ -32,15 +23,39 @@ type Segment = {
   onPress?: () => void;
 };
 
-export type Props = React.ComponentProps<typeof Surface> & {
+interface SegmentedControlProps {
   /**
    * Mode of the group
    */
-  mode?: 'line' | 'default';
+  mode?: "line" | "default";
   /**
    * Array of properties for each segment in the controller
    */
   segments: Array<Segment>;
+  /**
+   * The Current Active Segment Index
+   */
+  currentIndex: number;
+  /**
+   * A callback onPress of a Segment
+   */
+  onChange: (index: number) => void;
+  /**
+   * Active Segment Text Style
+   */
+  activeTextStyle?: TextStyle;
+  /**
+   * InActive Segment Text Style
+   */
+  inactiveTextStyle?: TextStyle;
+  /**
+   * Pressable Container Styles
+   */
+  pressableWrapper?: ViewStyle;
+  /**
+   * The moving Tile Container Styles
+   */
+  tileStyle?: ViewStyle;
   /**
    * @optional
    */
@@ -49,21 +64,22 @@ export type Props = React.ComponentProps<typeof Surface> & {
    * Styling of the wrapping View
    */
   style?: StyleProp<ViewStyle>;
-};
+}
 
-const SegmentedController = ({
-  mode = 'default',
+const SegmentedControl: React.FC<SegmentedControlProps> = ({
   segments,
+  currentIndex,
+  onChange,
   theme,
+  activeTextStyle,
+  inactiveTextStyle,
   style,
-  ...rest
-}: Props) => {
-  const [prevSelectedIndex, setPrevSelectedIndex] = React.useState(0);
-  const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const selectedPanelLeft = React.useRef(new Animated.Value(0));
-
+  pressableWrapper,
+  tileStyle,
+  mode,
+}: SegmentedControlProps) => {
+  const [controllerWidth, setControllerWidth] = React.useState(0);
   const widthSize = 100 / segments.length;
-
   const interpolatedValuesInput = segments.map((_, i) => {
     return widthSize * i;
   });
@@ -72,219 +88,134 @@ const SegmentedController = ({
     return `${widthSize * i}%`;
   });
 
-  React.useEffect(() => {
-    const left = widthSize * selectedIndex;
+  const tabTranslateValue = React.useRef(new Animated.Value(0));
 
-    Animated.timing(selectedPanelLeft.current, {
+  // useCallBack with an empty array as input, which will call inner lambda only once and memoize the reference for future calls
+  const memoizedTabPressCallback = React.useCallback(
+    (index: any) => {
+      onChange(index);
+    },
+    [onChange]
+  );
+
+  React.useEffect(() => {
+    const left = widthSize * currentIndex;
+
+    Animated.timing(tabTranslateValue.current, {
       toValue: left,
       duration: 300,
       useNativeDriver: false,
     }).start(() => {
       //reset index after animation is done
-      setPrevSelectedIndex(selectedIndex);
+      //   setPrevSelectedIndex(selectedIndex);
     });
-  }, [widthSize, selectedPanelLeft, selectedIndex]);
+  }, [widthSize, tabTranslateValue, currentIndex]);
 
-  const maxIndex =
-    selectedIndex > prevSelectedIndex ? selectedIndex : prevSelectedIndex;
-  const minIndex =
-    selectedIndex > prevSelectedIndex ? prevSelectedIndex : selectedIndex;
-
-  const highlightMask = {
-    backgroundColor:
-      mode === 'default' ? theme.colors.bg.surface : 'transparent',
-  };
-
-  const highlightText = {
+  const finalisedActiveTextStyle: TextStyle = {
+    fontWeight: "700",
+    textAlign: "center",
     color: theme.colors.fg.default,
+    ...activeTextStyle,
   };
 
-  const inactiveText = {
+  const finalisedInActiveTextStyle: TextStyle = {
+    fontWeight: "700",
+    textAlign: "center",
     color: theme.colors.fg.disabled,
+    ...inactiveTextStyle,
   };
-
-  const inactiveBackground = {
-    backgroundColor: theme.dark
-      ? mode === 'line'
-        ? theme.colors.bg.surface
-        : theme.colors.bg.subtle
-      : 'transparent',
-  };
-
-  /**
-   * For whatever reason, the `zIndex: -1` on Text works on Android, but does not work
-   * on iOS. However, when we can get away with only removing the Text from zIndex,
-   * the ripple effect continues to work on Android. As such, we conditionally
-   * apply the logic for Android vs iOS
-   */
-  const inactiveContainerIOS = Platform.OS === 'ios' ? { zIndex: -1 } : {};
 
   return (
-    <View
+    <Animated.View
       style={[
-        styles.container,
-        mode === 'line' && {
-          ...styles.lineContainer,
+        {
+          backgroundColor: theme.colors.bg.subtle,
+        },
+        mode === "line" && {
+          backgroundColor: "transparent",
           borderBottomColor: theme.colors.fg.subtle,
+          borderBottomWidth: 1,
         },
-        mode === 'default' && {
-          backgroundColor: theme.colors.bg.canvas,
-        },
+        styles.defaultSegmentedControlWrapper,
         style,
       ]}
-      accessible
-      accessibilityRole="radiogroup"
+      onLayout={(event) => {
+        setControllerWidth(event.nativeEvent.layout.width);
+      }}
     >
-      <MaskedView
-        importantForAccessibility={'no-hide-descendants'}
-        accessibilityElementsHidden={true}
-        key={selectedIndex}
-        style={styles.maskViewContainer}
-        androidRenderingMode={'software'}
-        maskElement={
-          <Animated.View
-            style={[
-              styles.maskContainer,
-              {
-                width: `${widthSize}%`,
-                left: selectedPanelLeft.current.interpolate({
-                  inputRange: interpolatedValuesInput,
-                  outputRange: interpolatedValuesOutput,
-                }),
-              },
-              mode === 'line' && { borderRadius: 0 },
-            ]}
-          />
-        }
-      >
-        <View
-          style={[
-            styles.baseButtonContainer,
-            highlightMask,
-            mode === 'line' && styles.lineBaseButtonContainer,
-            mode === 'line' && { borderBottomColor: theme.colors.fg.default },
-          ]}
-        >
-          {segments.map((segment, i) => (
-            <TouchableRipple
-              key={i}
-              onPress={() => {
-                setPrevSelectedIndex(selectedIndex);
-                setSelectedIndex(i);
-                if (typeof segment.onPress === 'function') segment.onPress();
-              }}
-              style={styles.baseTouchableRipple}
-            >
+      <Animated.View
+        style={[
+          StyleSheet.absoluteFill,
+          mode === "line" ? styles.movingLineStyle : styles.movingSegmentStyle,
+          tileStyle,
+          {
+            maxWidth: controllerWidth / segments.length - 8,
+            left: tabTranslateValue.current.interpolate({
+              inputRange: interpolatedValuesInput,
+              outputRange: interpolatedValuesOutput,
+            }),
+          },
+        ]}
+      />
+      {segments.map((segment, index) => {
+        return (
+          <TouchableOpacity
+            onPress={() => memoizedTabPressCallback(index)}
+            key={index}
+            style={[styles.touchableContainer, pressableWrapper]}
+          >
+            <View style={styles.textWrapper}>
               <Text
+                variant="Caption"
                 style={[
-                  styles.baseButtonText,
-                  styles.highlightText,
-
-                  highlightText,
+                  currentIndex === index
+                    ? finalisedActiveTextStyle
+                    : finalisedInActiveTextStyle,
                 ]}
-                numberOfLines={1}
               >
                 {segment.label}
               </Text>
-            </TouchableRipple>
-          ))}
-        </View>
-      </MaskedView>
-      <View
-        style={[
-          styles.baseButtonContainer,
-          styles.inactiveButtonContainer,
-          inactiveContainerIOS,
-          mode === 'line' && { paddingBottom: 1, left: 0 },
-        ]}
-      >
-        {segments.map((segment, i) => (
-          <TouchableRipple
-            accessibilityRole="radio"
-            accessibilityState={{ checked: selectedIndex === i }}
-            accessibilityLiveRegion="polite"
-            key={i}
-            style={[
-              styles.baseTouchableRipple,
-              {
-                zIndex: minIndex <= i && maxIndex >= i ? -1 : 0,
-              },
-              inactiveBackground,
-            ]}
-            onPress={() => {
-              setPrevSelectedIndex(selectedIndex);
-              setSelectedIndex(i);
-              if (typeof segment.onPress === 'function') segment.onPress();
-            }}
-          >
-            <Text
-              style={[styles.baseButtonText, inactiveText]}
-              numberOfLines={1}
-            >
-              {segment.label}
-            </Text>
-          </TouchableRipple>
-        ))}
-      </View>
-    </View>
+            </View>
+          </TouchableOpacity>
+        );
+      })}
+    </Animated.View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    height: 48,
-    position: 'relative',
-    padding: 4,
-    borderRadius: 12,
-  },
-  lineContainer: {
-    borderBottomWidth: StyleSheet.hairlineWidth * 2,
-    padding: 0,
-    paddingTop: 4,
-    marginHorizontal: 4,
-    borderRadius: 0,
-  },
-  maskViewContainer: {
-    width: '100%',
-    height: '100%',
-    position: 'relative',
-  },
-  maskContainer: {
-    position: 'absolute',
-    backgroundColor: 'black',
+  defaultSegmentedControlWrapper: {
+    position: "relative",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
     borderRadius: 10,
-    height: '100%',
-    left: 0,
-    top: 0,
+    width: "100%",
+    height: 48,
   },
-  baseButtonContainer: {
+  touchableContainer: {
     flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'nowrap',
-    justifyContent: 'space-around',
-    alignItems: 'center',
+    paddingVertical: 12,
   },
-  lineBaseButtonContainer: { borderBottomWidth: 1 },
-  inactiveButtonContainer: {
-    position: 'absolute',
-    top: 4,
-    left: 4,
-    width: '100%',
-    height: '100%',
+  textWrapper: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
-  baseTouchableRipple: {
-    height: '100%',
-    flex: 1,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+  movingSegmentStyle: {
+    borderRadius: 10,
+    backgroundColor: "#FFFFFF",
+    height: 32,
+    top: 8,
+    marginLeft: 4,
   },
-  baseButtonText: {
-    paddingHorizontal: 16,
-  },
-  highlightText: {
-    zIndex: 1,
+  movingLineStyle: {
+    height: "100%",
+    bottom: 0,
+    borderBottomWidth: 1,
+    borderBottomColor: "black",
+    marginLeft: 8,
   },
 });
 
-export default withTheme(SegmentedController);
+export default withTheme(SegmentedControl);

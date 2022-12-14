@@ -83,7 +83,7 @@ const Text: React.ForwardRefRenderFunction<{}, Props> = (
           {
             ...theme.fonts?.regular,
             color: theme.colors.fg.default,
-          },
+          } as StyleProp<TextStyle>,
           styles.text,
           style,
           Platform.OS === 'web' && {fontFamily: 'Inter'},

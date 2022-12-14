@@ -1,7 +1,7 @@
-import color from 'color';
-import configureFonts from './fonts';
-import type { Theme } from '../types';
-import { colors, tokens, typescale } from './tokens';
+import color from "color";
+import configureFonts from "./fonts";
+import type { Theme } from "../types";
+import { colors, tokens, typescale } from "./tokens";
 
 const DefaultTheme: Theme = {
   dark: false,
@@ -11,20 +11,20 @@ const DefaultTheme: Theme = {
       default: colors.black,
       muted: colors.gray700,
       subtle: colors.gray500,
-      'on-accent': colors.white,
-      'on-disabled': colors.gray600,
+      "on-accent": colors.white,
+      "on-disabled": colors.gray500,
       disabled: colors.gray300,
     },
     bg: {
       surface: colors.white,
-      muted: colors.gray300,
-      subtle: colors.gray200,
-      canvas: colors.gray50,
+      muted: colors.gray200,
+      subtle: colors.gray50,
+      canvas: colors.white,
     },
     primary: {
       default: colors.purple500,
-      emphasis: colors.purple600,
-      muted: colors.purple400,
+      emphasis: colors.purple700,
+      muted: colors.purple600,
       subtle: colors.purple50,
       disabled: colors.gray300,
     },
@@ -73,11 +73,11 @@ const DefaultTheme: Theme = {
     overlay: colors.black,
     border: colors.gray200,
 
-    accent: '#03dac4',
-    background: '#f6f6f6',
+    accent: "#03dac4",
+    background: "#f6f6f6",
     surface: colors.white,
     text: colors.black,
-    onSurface: '#000000',
+    onSurface: "#000000",
     disabled: color(colors.black).alpha(0.26).rgb().string(),
     placeholder: color(colors.black).alpha(0.54).rgb().string(),
     backdrop: color(colors.black).alpha(0.5).rgb().string(),
