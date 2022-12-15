@@ -41,7 +41,7 @@ export default function App() {
 
 # Development
 
-To get all the dependencies run.
+For development we run a storybook locally. Start off by getting all the dependencies. 
 
 ```
 yarn install
@@ -59,7 +59,7 @@ To run on ios or android
 yarn start
 ```
 
-Then open the app from the terminal or from the expo ui in ios or android.
+Then open the app from the terminal or from the expo app on ios or android.
 
 ## Updating stories on the device
 
