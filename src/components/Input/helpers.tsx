@@ -139,7 +139,7 @@ export const adjustPaddingOut = ({
   }
   return {
     paddingTop: !isAndroid && multiline ? 4 : result,
-    paddingBottom: 2 * result,
+    paddingBottom: isAndroid ? 4 * result : 2 * result,
   };
 };
 

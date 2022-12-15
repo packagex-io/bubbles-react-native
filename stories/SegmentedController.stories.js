@@ -23,7 +23,11 @@ const Template = (args) => {
 
   return (
     <SegmentedController
-      segments={[{ label: "First" }, { label: "Second" }, { label: "Third" }]}
+      segments={[
+        { label: "First", onPress: () => console.log("pressed first") },
+        { label: "Second" },
+        { label: "Third" },
+      ]}
       onChange={(index) => setTabIndex(index)}
       currentIndex={tabIndex}
       {...args}

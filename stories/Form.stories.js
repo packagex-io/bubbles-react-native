@@ -29,7 +29,7 @@ const FormComponent = () => {
             label: "Your Name",
             desc: "You'll be able to change this name later", //TODO
             error: "A name is required",
-            validation: { string:true, required: true, min: 3, max: 20 },
+            validation: { string: true, required: true, min: 3, max: 20 },
           },
           {
             type: "email",

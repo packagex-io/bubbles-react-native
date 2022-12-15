@@ -1,4 +1,5 @@
 import React from "react";
+import { View } from "react-native";
 import { DefaultTheme, Provider } from "../src";
 import Button from "../src/components/Button";
 import { colors } from "../src/styles/tokens";
@@ -37,7 +38,11 @@ export default {
 
 export const Large = (args) => (
   <Provider>
-    <Button {...args}>{args.text}</Button>
+    <View style={{ margin: 8 }}>
+      <Button {...args} onPress={() => console.log("press")}>
+        {args.text}
+      </Button>
+    </View>
   </Provider>
 );
 

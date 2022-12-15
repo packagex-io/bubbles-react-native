@@ -94,6 +94,8 @@ const SegmentedControl: React.FC<SegmentedControlProps> = ({
   const memoizedTabPressCallback = React.useCallback(
     (index: any) => {
       onChange(index);
+      if (typeof segments[index].onPress === "function")
+        segments[index].onPress();
     },
     [onChange]
   );

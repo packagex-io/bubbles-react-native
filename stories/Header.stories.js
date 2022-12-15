@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "../src/components/Header/Header";
-import { Provider } from "../src";
+import { Provider, Text } from "../src";
 import HeaderBackAction from "../src/components/Header/HeaderBackAction";
 import HeaderAction from "../src/components/Header/HeaderAction";
 import HeaderContent from "../src/components/Header/HeaderContent";
