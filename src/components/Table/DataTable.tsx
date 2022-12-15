@@ -64,6 +64,14 @@ const DataTable = ({
     if (!selectable && selected.length > 0) {
       setSelected([]);
     }
+    setOptions((options) => ({
+      ...options,
+      title: selectable
+        ? selected.length > 0
+          ? `${selected.length} selected`
+          : "Select Items"
+        : undefined,
+    }));
   }, [selectable]);
 
   const onScrollEndSnapToEdge = (event) => {
@@ -149,6 +157,7 @@ const DataTable = ({
                     prev.filter((item) => item._index !== data.index)
                   );
             },
+            selected: selected.some((item) => item._index === data.index),
           }
         );
       }}

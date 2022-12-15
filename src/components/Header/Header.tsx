@@ -16,7 +16,7 @@ import HeaderBackAction from "./HeaderBackAction";
 import HeaderContent from "./HeaderContent";
 
 import { withTheme } from "../../core/theming";
-import { Theme } from "../../types";
+import type { Theme } from "../../types";
 import { colors } from "../../styles/tokens";
 import Searchbar from "../Searchbar";
 import { useHeader } from "./HeaderContext";

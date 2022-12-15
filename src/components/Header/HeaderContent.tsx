@@ -15,6 +15,7 @@ import type { $RemoveChildren, Theme } from "../../types";
 import Text from "../Typography/Text";
 import { colors } from "../../styles/tokens";
 import { withTheme } from "../../core/theming";
+import { useHeader } from "./HeaderContext";
 
 export type Props = $RemoveChildren<typeof View> & {
   /**
@@ -66,6 +67,8 @@ const HeaderContent = ({
   ...rest
 }: Props) => {
   const titleTextColor = titleColor ? titleColor : colors.white;
+  const { options } = useHeader();
+  const mergedTitle = options.title ? options.title : title;
 
   return (
     <TouchableWithoutFeedback
@@ -94,7 +97,7 @@ const HeaderContent = ({
           // @ts-ignore Type '"heading"' is not assignable to type ...
           accessibilityRole={Platform.OS === "web" ? "heading" : "header"}
         >
-          {title}
+          {mergedTitle}
         </Text>
         {subtitle ? (
           <Text

@@ -10,6 +10,7 @@ type HeaderStateType = Partial<
   scrollY?: Animated.Value;
   //Only animate searchbar if there's a table on the screen. Don't animate on the web.
   animate?: boolean;
+  title?: string;
 };
 
 type HeaderContextType = {
