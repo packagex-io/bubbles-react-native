@@ -72,11 +72,10 @@ const DataTable = ({
           : "Select Items"
         : undefined,
     }));
-  }, [selectable]);
+  }, [selectable, selected]);
 
   const onScrollEndSnapToEdge = (event) => {
     let y = event.nativeEvent.contentOffset.y;
-    console.log(y);
     y = Platform.OS === "ios" ? y + HEADER_HEIGHT : y;
     setTimeout(
       () => {
