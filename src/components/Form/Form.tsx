@@ -31,15 +31,15 @@ import Text from "../Typography/Text";
 
 interface InputTypeProps extends Omit<TextInputProps, "type"> {
   type:
-    | "text"
-    | "email"
-    | "password"
-    | "number"
-    | "date"
-    | "textarea"
-    | "tel"
-    | "phone"
-    | "time";
+  | "text"
+  | "email"
+  | "password"
+  | "number"
+  | "date"
+  | "textarea"
+  | "tel"
+  | "phone"
+  | "time";
 }
 
 type SwitchTypeProps = React.ComponentPropsWithoutRef<typeof Switch> & {
@@ -72,6 +72,8 @@ type ButtonTypeProps = React.ComponentPropsWithRef<typeof Button> & {
   /**
    *
    */
+  style: StyleProp<ViewStyle>;
+  isFixedPostion: boolean,
   onSubmit: (data: any, e?: any) => void;
   onError?: (errors: any, e?: any) => void;
   onPress?: (event: GestureResponderEvent) => void;
@@ -84,7 +86,6 @@ type CommonProps = {
   theme: Theme;
   defaultValue?: string;
 };
-
 type InputProps = (
   | InputTypeProps
   | SwitchTypeProps
@@ -104,6 +105,7 @@ export type Props = {
    * Array of inputs within the form. Each object will be passed as props to the type of input specified by the 'type' property.
    */
   inputs: Array<InputProps>;
+  submit: ButtonTypeProps;
   containerStyle?: StyleProp<ViewStyle>;
   theme: Theme;
 };
@@ -351,82 +353,81 @@ const Form = ({
   useFormMethods,
   theme,
   inputs,
-  ...rest
+  submit,
 }: Props) => {
   const internalMethods = useForm({ mode: "all" });
   const methods = useFormMethods ?? internalMethods;
-
+  const { onSubmit, onError, onPress, isFixedPostion, style } = submit;
   return (
     <FormProvider {...methods}>
-      <ScrollView>
-        <View style={[styles.container, containerStyle]}>
-          {inputs.map((input, index) => {
-            switch (input.type) {
-              case "text":
-              case "email":
-              case "password":
-              case "number":
-              case "date":
-              case "textarea":
-              case "tel":
-              case "phone":
-              case "time":
-                return (
-                  <View key={index} style={[{ width: input.width ?? "100%" }]}>
-                    <ControlledTextInput {...input} theme={theme} />
-                  </View>
-                );
-              case "switch":
-                return (
-                  <View key={index} style={[{ width: input.width ?? "100%" }]}>
-                    <ControlledSwitch {...input} theme={theme} />
-                  </View>
-                );
-              case "select":
-                return (
-                  <View key={index} style={[{ width: input.width ?? "100%" }]}>
-                    <ControlledSelect {...input} theme={theme} />
-                  </View>
-                );
-              case "radio":
-              case "radio-group":
-                return (
-                  <View key={index} style={[{ width: input.width ?? "100%" }]}>
-                    <ControlledRadio {...input} theme={theme} />
-                  </View>
-                );
-              case "checkbox":
-                return (
-                  <View key={index} style={[{ width: input.width ?? "100%" }]}>
-                    <ControlledCheckbox {...input} theme={theme} />
-                  </View>
-                );
-              case "submit":
-                const { type, onSubmit, onError, onPress, ...rest } = input;
-                return (
-                  <View
-                    key={index}
-                    style={[
-                      { width: input.width ?? "100%", marginVertical: 8 },
-                    ]}
-                  >
-                    <Button
-                      onPress={(e) => {
-                        methods.handleSubmit(onSubmit, onError)(e);
-                        typeof onPress === "function" && onPress(e);
-                      }}
-                      key={index}
-                      {...rest}
-                    >
-                      {rest.label ?? rest.children ?? "Submit"}
-                    </Button>
-                  </View>
-                );
-            }
-          })}
+      <View style={{ flex: 1 }}>
+        <ScrollView style={{ marginBottom: 100 }}>
+          <View style={[styles.container, containerStyle]}>
+            {inputs.map((input, index) => {
+              switch (input.type) {
+                case "text":
+                case "email":
+                case "password":
+                case "number":
+                case "date":
+                case "textarea":
+                case "tel":
+                case "phone":
+                case "time":
+                  return (
+                    <View key={index} style={[{ width: input.width ?? "100%" }]}>
+                      <ControlledTextInput {...input} theme={theme} />
+                    </View>
+                  );
+                case "switch":
+                  return (
+                    <View key={index} style={[{ width: input.width ?? "100%" }]}>
+                      <ControlledSwitch {...input} theme={theme} />
+                    </View>
+                  );
+                case "select":
+                  return (
+                    <View key={index} style={[{ width: input.width ?? "100%" }]}>
+                      <ControlledSelect {...input} theme={theme} />
+                    </View>
+                  );
+                case "radio":
+                case "radio-group":
+                  return (
+                    <View key={index} style={[{ width: input.width ?? "100%" }]}>
+                      <ControlledRadio {...input} theme={theme} />
+                    </View>
+                  );
+                case "checkbox":
+                  return (
+                    <View key={index} style={[{ width: input.width ?? "100%" }]}>
+                      <ControlledCheckbox {...input} theme={theme} />
+                    </View>
+                  );
+              }
+            })}
+          </View>
+
+        </ScrollView>
+        <View key={'submit'} style={[{ width: '100%' },
+        isFixedPostion && { position: 'absolute', bottom: 60, },
+        style && style
+        ]}>
+
+          <Button {...submit}
+            onPress={(e) => {
+              methods.handleSubmit(onSubmit, onError)(e);
+              typeof onPress === "function" && onPress(e);
+            }}
+          // key={index}
+          // {...rest}
+          // onPress={() => typeof onPress === "function" && onPress()}
+          >
+            {submit?.label}
+          </Button>
         </View>
-      </ScrollView>
-    </FormProvider>
+      </View>
+    </FormProvider >
   );
 };
 

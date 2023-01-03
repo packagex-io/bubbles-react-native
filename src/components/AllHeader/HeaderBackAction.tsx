@@ -1,7 +1,7 @@
 import * as React from 'react';
 import type { StyleProp, ViewStyle } from 'react-native';
 
-import type { $Omit } from './../../types';
+import type { $Omit } from '../../types';
 import HeaderAction from './HeaderAction';
 import BackIcon from './BackIcon';
 
@@ -57,8 +57,8 @@ export type Props = $Omit<
 const HeaderBackAction = ({ accessibilityLabel = 'Back', ...rest }: Props) => (
   <HeaderAction
     accessibilityLabel={accessibilityLabel}
-    icon={BackIcon}
     {...rest}
+    icon={BackIcon}
     isLeading
   />
 );

@@ -109,8 +109,8 @@ const Chip = ({
     mode === 'outlined'
       ? 'transparent'
       : dark
-      ? '#383838'
-      : theme.colors.primary.default;
+        ? '#383838'
+        : theme.colors.primary.default;
 
   const { backgroundColor = defaultBackgroundColor, borderRadius = 8 } =
     (StyleSheet.flatten(style) || {}) as ViewStyle;
@@ -125,8 +125,8 @@ const Chip = ({
   const textColor = disabled
     ? colors.disabled
     : mode === 'outlined'
-    ? chipColor || theme.colors.primary.default
-    : Colors.white;
+      ? chipColor || theme.colors.primary.default
+      : Colors.white;
 
   const backgroundColorString =
     typeof backgroundColor === 'string'
@@ -177,6 +177,7 @@ const Chip = ({
       {...rest}
     >
       <TouchableRipple
+        {...rest}
         borderless
         delayPressIn={0}
         style={[{ borderRadius }, styles.touchable]}

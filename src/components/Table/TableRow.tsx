@@ -50,19 +50,18 @@ const TableRow = ({
   ...rest
 }: Props) => {
   const rowStyle = mode === "filled" ? styles.rowFilled : styles.rowOutline;
+console.log(children);
 
   return (
     <TouchableRipple
       {...rest}
       onPress={
-        typeof onSelect === "function"
+        typeof onSelect === "function" || typeof onPress === "function"
           ? () => {
-              if (onSelect) {
-                onSelect(!selected);
-              }
-              typeof onPress === "function" && onPress();
-            }
-          : null
+            if (onSelect) { onSelect(!selected); }
+            // typeof onPress === "function" && onPress();
+          }
+          : typeof onPress === "function" && onPress()
       }
       style={[styles.row, rowStyle, style]}
     >

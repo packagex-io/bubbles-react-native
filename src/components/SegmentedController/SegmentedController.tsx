@@ -67,7 +67,7 @@ interface SegmentedControlProps {
 }
 
 const SegmentedControl: React.FC<SegmentedControlProps> = ({
-  segments,
+  segments = [],
   currentIndex,
   onChange,
   theme,
@@ -126,7 +126,9 @@ const SegmentedControl: React.FC<SegmentedControlProps> = ({
     color: theme.colors.fg.disabled,
     ...inactiveTextStyle,
   };
-
+  if (!segments?.length || segments == undefined) {
+    throw ('Please provide two segments(e.g segments = [{ label: a, onPress?: () => {}}])')
+  }
   return (
     <Animated.View
       style={[

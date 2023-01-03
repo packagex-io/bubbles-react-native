@@ -3,9 +3,6 @@ import type {
   StyleProp,
   TouchableWithoutFeedback,
   ViewStyle,
-  TextStyle,
-  View,
-  Text,
 } from 'react-native';
 
 import color from 'color';
@@ -15,7 +12,7 @@ import IconButton from '../IconButton/IconButton';
 import { colors } from '../../styles/tokens';
 import { useTheme } from '../../core/theming';
 
-export type Props = React.ComponentPropsWithoutRef<typeof IconButton> | React.ComponentPropsWithoutRef<typeof Text> & {
+export type Props = React.ComponentPropsWithoutRef<typeof IconButton> & {
   /**
    *  Custom color for action icon.
    */
@@ -40,8 +37,6 @@ export type Props = React.ComponentPropsWithoutRef<typeof IconButton> | React.Co
    * Function to execute on press.
    */
   onPress?: () => void;
-  textStyle?: StyleProp<TextStyle>
-  text?: string,
   /**
    * @supported Available in v5.x with theme version 3
    *
@@ -85,11 +80,12 @@ const HeaderAction = ({
   onPress,
   accessibilityLabel,
   isLeading,
-  text,
   ...rest
 }: Props) => {
   const theme = useTheme();
+
   const actionIconColor = iconColor ? iconColor : theme.colors.fg.default;
+
   return (
     <IconButton
       size={size}

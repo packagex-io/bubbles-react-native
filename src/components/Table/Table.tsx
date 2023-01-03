@@ -14,6 +14,14 @@ export type Props = React.ComponentPropsWithRef<typeof ScrollView> & {
    * Content of the `Table`.
    */
   children: React.ReactNode;
+  /**
+   * Function to execute on press.
+   */
+  onPress?: () => void;
+  /**
+   * Function to execute on long press.
+   */
+  onLongPress?: () => void;
   style?: StyleProp<ViewStyle>;
 };
 

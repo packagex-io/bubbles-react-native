@@ -31,13 +31,14 @@ try {
 
 const getStories = () => {
   return [
+    require("../stories/Header.stories.js"),
+    require("../stories/AllHeader.stories.js"),
     require("../stories/BottomNavigation.stories.js"),
     require("../stories/Button.stories.js"),
     require("../stories/Checkbox.stories.js"),
     require("../stories/Chip.stories.js"),
     require("../stories/Divider.stories.js"),
     require("../stories/Form.stories.js"),
-    require("../stories/Header.stories.js"),
     require("../stories/Input.stories.js"),
     require("../stories/Modal.stories.js"),
     require("../stories/Radio.stories.js"),
@@ -47,6 +48,7 @@ const getStories = () => {
     require("../stories/Switch.stories.js"),
     require("../stories/Table.stories.js"),
     require("../stories/Toast.stories.js"),
+    require("../stories/AllHeader.stories.js"),
   ];
 };
 

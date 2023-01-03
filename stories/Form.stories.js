@@ -119,20 +119,18 @@ const FormComponent = () => {
             type: "checkbox",
             name: "terms",
             label: "Terms and conditions",
-
             desc: "By submitting this form you agree to our terms. ",
           },
-          {
-            type: "submit", //The form must have a submit button
-            label: "Submit Form", //The label for the submit button,
-            onSubmit: (data, _e) => {
-              console.log(data);
-            },
-            onError: (error, _e) => {
-              console.log(error);
-            },
-          },
         ]}
+        submit={{
+          onSubmit: (data, _e) => console.log(data),
+          onError: (data, _e) => console.log(data),
+          // style: { position: 'absolute', top: 0, width: 200, alignItems: 'center', justifyContent: 'center', alignSelf: 'center' },
+          label: "sadfds", //The label for the submit button,
+          onPress: (e) => { console.log(e); },
+          isFixedPostion: true
+        }}
+
       />
     </SafeAreaView>
   );

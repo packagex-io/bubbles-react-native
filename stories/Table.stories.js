@@ -31,7 +31,9 @@ const TableComponent = () => {
     >
       <Table>
         {[...Array(10).keys()].map(() => (
-          <Table.Row>
+          <Table.Row
+            onSelect={() => console.log('table on Press')}
+          >
             <Table.Cell
               img={{
                 source: {
@@ -40,20 +42,22 @@ const TableComponent = () => {
               }}
             />
             <Table.Cell
+              onPress={() => console.log('table on Press')}
               text="Pull-on Embellished Hem Ankle Jeggings"
               caption="SKU: 196532280963"
             />
             <Table.Cell
+              onPress={() => console.log('table on Press')}
               chip={{ children: "VAS", mode: "outlined", color: colors.black }}
             />
-            <Table.Cell
+            {/* <Table.Cell
               iconButton={{
                 icon: "chevron-right",
                 onPress: () => {
                   console.log("iconButton pressed");
                 },
               }}
-            />
+            /> */}
           </Table.Row>
         ))}
       </Table>
@@ -133,7 +137,10 @@ const DataTableComponent = () => {
 
   const renderItem = ({ item }) => {
     return (
-      <Table.Row>
+      <Table.Row
+        onPress={(e) => console.log('table on Press', e)}
+        onSelect={(selected) => console.log(selected, " selected items")}
+      >
         <Table.Cell
           img={{
             source: {
@@ -160,14 +167,13 @@ const DataTableComponent = () => {
     <View
       style={{
         flex: 1,
-
         backgroundColor: colors.gray100,
       }}
     >
-      <Header align="center">
-        <HeaderBackAction />
-        <HeaderContent title="Pokemon" subtitle="Demo" />
-        <View style={{ flex: 0, flexBasis: "auto" }}>
+      <Header showSearchbar={false} align="center">
+        {/* <HeaderBackAction /> */}
+        {/* <HeaderContent title="Pokemon" subtitle="Demo" /> */}
+        {/* <View style={{ flex: 0, flexBasis: "auto" }}>
           <Menu
             visible={visible}
             onDismiss={closeMenu}
@@ -192,11 +198,11 @@ const DataTableComponent = () => {
                   }}
                   title="Edit Table"
                 />
-                <Menu.Item onPress={() => {}} title="Filter" />
+                <Menu.Item onPress={() => { }} title="Filter" />
               </>
             )}
           </Menu>
-        </View>
+        </View> */}
       </Header>
       <DataTable
         refreshing={refreshing}
@@ -249,14 +255,14 @@ const DataTableComponent = () => {
         //   console.log("load more");
         // }}
         onEndReachedThreshold={0.1}
-        searchbarOptions={{
-          value: search,
-          onChangeText: (text) => {
-            console.log(text);
-            setSearch(text);
-          },
-          onEndEditing: () => console.log("submit search"),
-        }}
+        // searchbarOptions={{
+        //   value: search,
+        //   onChangeText: (text) => {
+        //     console.log(text);
+        //     setSearch(text);
+        //   },
+        //   onEndEditing: () => console.log("submit search"),
+        // }}
         onSelect={(selected) => console.log(selected.length, " selected items")}
       />
     </View>

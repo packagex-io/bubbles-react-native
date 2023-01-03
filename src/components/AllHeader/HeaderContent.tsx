@@ -71,7 +71,7 @@ const HeaderContent = ({
   const mergedTitle = options.title ? options.title : title;
 
   return (
-    subtitle || title ? <TouchableWithoutFeedback
+    <TouchableWithoutFeedback
       accessibilityRole="button"
       onPress={onPress}
       disabled={!onPress}
@@ -81,7 +81,7 @@ const HeaderContent = ({
         style={[styles.container, style]}
         {...rest}
       >
-        {mergedTitle ? <Text
+        <Text
           ref={titleRef}
           variant="Small"
           style={[
@@ -98,7 +98,7 @@ const HeaderContent = ({
           accessibilityRole={Platform.OS === "web" ? "heading" : "header"}
         >
           {mergedTitle}
-        </Text> : null}
+        </Text>
         {subtitle ? (
           <Text
             variant="XSmall"
@@ -109,7 +109,7 @@ const HeaderContent = ({
           </Text>
         ) : null}
       </View>
-    </TouchableWithoutFeedback> : null
+    </TouchableWithoutFeedback>
   );
 };
 
