@@ -16,6 +16,15 @@ export type Font = {
     | '900';
 };
 
+
+export type ChipMargin = {
+  mt: string | number;
+  mr: string | number;
+  ml: string | number;
+  mb: string | number;
+};
+
+
 export enum HeadlinesType {
   Colossus = 'Colossus',
   Uber = 'Uber',
