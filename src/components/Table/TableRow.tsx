@@ -1,5 +1,13 @@
 import * as React from "react";
-import { StyleProp, StyleSheet, View, ViewStyle } from "react-native";
+import {
+  GestureResponderEvent,
+  PanResponderGestureState,
+  StyleProp,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  ViewStyle,
+} from "react-native";
 
 import color from "color";
 
@@ -8,6 +16,14 @@ import type { Theme } from "../../types";
 import TouchableRipple from "../TouchableRipple/TouchableRipple.native";
 import TableCell from "./TableCell";
 import Checkbox from "../Checkbox/Checkbox";
+import Swipeable from "./SwipeHandler";
+import Text from "../Typography/Text";
+
+type GestureButton = {
+  onPress?: () => void;
+  text: string;
+  style?: StyleProp<ViewStyle>;
+};
 
 export type Props = React.ComponentPropsWithRef<typeof TouchableRipple> & {
   /**
@@ -26,7 +42,7 @@ export type Props = React.ComponentPropsWithRef<typeof TouchableRipple> & {
    * @internal
    * Callback when the row is selected.
    */
-  onSelect?: () => void;
+  onSelect?: (selected: boolean) => void;
   /**
    * Whether the row is selected.
    */
@@ -37,6 +53,28 @@ export type Props = React.ComponentPropsWithRef<typeof TouchableRipple> & {
    * @optional
    */
   theme: Theme;
+  /**
+   * Actions to display when the row is swiped from right to left.
+   */
+  rightButtons?: [GestureButton, GestureButton];
+  /**
+   * Callback when the row is swiped farther than the activation threshold from right to left and then released.
+   */
+  onRightButtonsOverSwipeRelease?: (
+    e?: GestureResponderEvent,
+    gestureState?: PanResponderGestureState
+  ) => void;
+  /**
+   * Actions to display when the row is swiped from left to right.
+   */
+  leftButtons?: [GestureButton, GestureButton];
+  /**
+   * Callback when the row is swiped farther than the activation threshold from left to right and then released.
+   */
+  onLeftButtonsOverSwipeRelease?: (
+    e?: GestureResponderEvent,
+    gestureState?: PanResponderGestureState
+  ) => void;
 };
 
 const TableRow = ({
@@ -47,34 +85,94 @@ const TableRow = ({
   onPress,
   onSelect,
   selected,
+  rightButtons,
+  leftButtons,
+  onRightButtonsOverSwipeRelease,
+  onLeftButtonsOverSwipeRelease,
   ...rest
 }: Props) => {
   const rowStyle = mode === "filled" ? styles.rowFilled : styles.rowOutline;
 
+  const rightButtonsJsx = rightButtons?.map((button, i) => {
+    return (
+      <TouchableOpacity
+        onPress={button.onPress}
+        style={[
+          styles.rightSwipeItem,
+          i === 0
+            ? { backgroundColor: "pink" }
+            : { backgroundColor: "lightseagreen" },
+          button.style,
+        ]}
+      >
+        <Text>{button.text}</Text>
+      </TouchableOpacity>
+    );
+  });
+
+  const leftButtonsJsx = leftButtons?.map((button, i) => {
+    return (
+      <TouchableOpacity
+        onPress={button.onPress}
+        style={[
+          styles.leftSwipeItem,
+          i === 0
+            ? { backgroundColor: "pink" }
+            : { backgroundColor: "lightseagreen" },
+          button.style,
+        ]}
+      >
+        <Text>{button.text}</Text>
+      </TouchableOpacity>
+    );
+  });
+
   return (
-    <TouchableRipple
-      {...rest}
-      onPress={
-        typeof onSelect === "function"
-          ? () => {
-              if (onSelect) {
-                onSelect(!selected);
-              }
-              typeof onPress === "function" && onPress();
-            }
-          : null
-      }
-      style={[styles.row, rowStyle, style]}
+    <Swipeable
+      // onRightButtonsOpenComplete={() => {
+      //   console.log("OpenComplete");
+      // }}
+      // onRightButtonsOpenRelease={() => {
+      //   console.log("OpenRelease");
+      // }}
+      // onRightButtonsActivate={() => {
+      //   console.log("Activate");
+      // }}
+      rightButtons={rightButtonsJsx}
+      leftButtons={leftButtonsJsx}
+      onRightButtonsOverSwipeRelease={(e, gestureState) => {
+        onRightButtonsOverSwipeRelease &&
+          onRightButtonsOverSwipeRelease(e, gestureState);
+      }}
+      onLeftButtonsOverSwipeRelease={(e, gestureState) => {
+        onLeftButtonsOverSwipeRelease &&
+          onLeftButtonsOverSwipeRelease(e, gestureState);
+      }}
     >
-      <>
-        {onSelect && (
-          <TableCell>
-            <Checkbox status={selected ? "checked" : "unchecked"} />
-          </TableCell>
-        )}
-        {children}
-      </>
-    </TouchableRipple>
+      <TouchableRipple
+        {...rest}
+        onPress={
+          typeof onSelect === "function"
+            ? () => {
+                if (onSelect) {
+                  onSelect(!selected);
+                }
+                typeof onPress === "function" && onPress();
+              }
+            : undefined
+        }
+        style={[styles.row, rowStyle, style]}
+      >
+        <>
+          {onSelect && (
+            <TableCell>
+              <Checkbox status={selected ? "checked" : "unchecked"} />
+            </TableCell>
+          )}
+          {children}
+        </>
+      </TouchableRipple>
+    </Swipeable>
   );
 };
 
@@ -95,6 +193,19 @@ const styles = StyleSheet.create({
   rowOutline: {
     backgroundColor: "transparent",
     borderWidth: StyleSheet.hairlineWidth * 2,
+  },
+  leftSwipeItem: {
+    height: 64,
+    alignItems: "flex-end",
+    justifyContent: "center",
+    paddingRight: 20,
+    marginRight: 8,
+  },
+  rightSwipeItem: {
+    height: 64,
+    justifyContent: "center",
+    paddingLeft: 20,
+    marginLeft: 8,
   },
 });
 

@@ -23,7 +23,7 @@ import { isInputValid } from "../Input/helpers";
 import TextInput, { TextInputProps } from "../Input/TextInput";
 import { ValidationType } from "../Input/types";
 import RadioButton from "../Radio";
-import RadioButtonGroup from "../Radio/RadioButtonGroup";
+import type RadioButtonGroup from "../Radio/RadioButtonGroup";
 import Select from "../Select";
 import Switch from "../Switch/Switch";
 import TouchableRippleNative from "../TouchableRipple/TouchableRipple.native";

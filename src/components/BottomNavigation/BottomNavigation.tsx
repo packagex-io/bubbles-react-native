@@ -25,7 +25,7 @@ import Icon, { IconSource } from "../Icon";
 import Surface from "../Surface";
 import TouchableRipple from "../TouchableRipple/TouchableRipple.native";
 import Text from "../Typography/Text";
-import { Theme } from "../../types";
+import type { Theme } from "../../types";
 import { withTheme } from "../../core/theming";
 import { colors } from "../../styles/tokens";
 

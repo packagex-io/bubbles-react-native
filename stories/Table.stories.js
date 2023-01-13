@@ -31,7 +31,32 @@ const TableComponent = () => {
     >
       <Table>
         {[...Array(10).keys()].map(() => (
-          <Table.Row>
+          <Table.Row
+            rightButtons={[
+              {
+                text: "1",
+                onPress: () => {
+                  console.log("Pressed 1");
+                },
+              },
+              { text: "2" },
+            ]}
+            leftButtons={[
+              {
+                text: "3",
+                onPress: () => {
+                  console.log("Pressed 1");
+                },
+              },
+              { text: "4" },
+            ]}
+            onRightButtonsOverSwipeRelease={() => {
+              console.log("Perform onPress action of 2nd button");
+            }}
+            onLeftButtonsOverSwipeRelease={() => {
+              console.log("Perform onPress action of 4th button");
+            }}
+          >
             <Table.Cell
               img={{
                 source: {
