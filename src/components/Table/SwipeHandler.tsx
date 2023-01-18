@@ -505,9 +505,9 @@ export default class Swipeable extends React.PureComponent<Props> {
 
     if (leftButtonsActivated && !leftButtonsOpen) {
       onLeftButtonsOpenRelease(event, gestureState, this);
-      if (leftButtonsOverSwipe)
-        onLeftButtonsOverSwipeRelease(event, gestureState);
     }
+    if (leftButtonsActivated && leftButtonsOverSwipe)
+      onLeftButtonsOverSwipeRelease(event, gestureState);
 
     if (!leftButtonsActivated && leftButtonsOpen) {
       onLeftButtonsCloseRelease(event, gestureState, this);
@@ -515,9 +515,10 @@ export default class Swipeable extends React.PureComponent<Props> {
 
     if (rightButtonsActivated && !rightButtonsOpen) {
       onRightButtonsOpenRelease(event, gestureState, this);
-      if (rightButtonsOverSwipe)
-        onRightButtonsOverSwipeRelease(event, gestureState);
     }
+
+    if (rightButtonsActivated && rightButtonsOverSwipe)
+      onRightButtonsOverSwipeRelease(event, gestureState);
 
     if (!rightButtonsActivated && rightButtonsOpen) {
       onRightButtonsCloseRelease(event, gestureState, this);

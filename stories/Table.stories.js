@@ -34,7 +34,8 @@ const TableComponent = () => {
           <Table.Row
             rightButtons={[
               {
-                text: "1",
+                text: "Delete",
+                icon: "delete",
                 onPress: () => {
                   console.log("Pressed 1");
                 },

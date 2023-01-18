@@ -18,10 +18,14 @@ import TableCell from "./TableCell";
 import Checkbox from "../Checkbox/Checkbox";
 import Swipeable from "./SwipeHandler";
 import Text from "../Typography/Text";
+import type { IconSource } from "../Icon";
+import Icon from "../Icon";
 
 type GestureButton = {
   onPress?: () => void;
   text: string;
+  icon: IconSource;
+  backgroundColor?: string;
   style?: StyleProp<ViewStyle>;
 };
 
@@ -94,35 +98,51 @@ const TableRow = ({
   const rowStyle = mode === "filled" ? styles.rowFilled : styles.rowOutline;
 
   const rightButtonsJsx = rightButtons?.map((button, i) => {
+    const { backgroundColor: customBackground }: ViewStyle = StyleSheet.flatten(
+      button.style
+    ) || {
+      backgroundColor: i === 0 ? "pink" : "lightseagreen",
+    };
+
+    const iconColor = color(customBackground).isLight() ? "black" : "white";
+
     return (
       <TouchableOpacity
         onPress={button.onPress}
         style={[
           styles.rightSwipeItem,
-          i === 0
-            ? { backgroundColor: "pink" }
-            : { backgroundColor: "lightseagreen" },
           button.style,
+          { backgroundColor: customBackground },
         ]}
       >
-        <Text>{button.text}</Text>
+        <View style={[styles.actionButton]}>
+          <Icon color={iconColor} source={button.icon} size={24} />
+          <Text variant="Caption">{button.text}</Text>
+        </View>
       </TouchableOpacity>
     );
   });
 
   const leftButtonsJsx = leftButtons?.map((button, i) => {
+    const { backgroundColor: customBackground }: ViewStyle = StyleSheet.flatten(
+      button.style
+    ) || {
+      backgroundColor: i === 0 ? "pink" : "lightseagreen",
+    };
+    const iconColor = color(customBackground).isLight() ? "black" : "white";
     return (
       <TouchableOpacity
         onPress={button.onPress}
         style={[
           styles.leftSwipeItem,
-          i === 0
-            ? { backgroundColor: "pink" }
-            : { backgroundColor: "lightseagreen" },
           button.style,
+          { backgroundColor: customBackground },
         ]}
       >
-        <Text>{button.text}</Text>
+        <View style={[styles.actionButton]}>
+          <Icon color={iconColor} source={button.icon} size={24} />
+          <Text variant="Caption">{button.text}</Text>
+        </View>
       </TouchableOpacity>
     );
   });
@@ -198,14 +218,20 @@ const styles = StyleSheet.create({
     height: 64,
     alignItems: "flex-end",
     justifyContent: "center",
-    paddingRight: 20,
+    // paddingRight: 20,
     marginRight: 8,
   },
   rightSwipeItem: {
     height: 64,
-    justifyContent: "center",
-    paddingLeft: 20,
+    justifyContent: "flex-start",
+    // paddingLeft: 20,
     marginLeft: 8,
+  },
+  actionButton: {
+    alignItems: "center",
+    width: 68,
+    justifyContent: "center",
+    height: 64,
   },
 });
 
