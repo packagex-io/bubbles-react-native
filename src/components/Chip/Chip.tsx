@@ -16,7 +16,7 @@ import Text from '../Typography/Text';
 import TouchableRipple from '../TouchableRipple/TouchableRipple.native';
 import { withTheme } from '../../core/theming';
 import { colors as Colors } from '../../styles/tokens';
-import type { EllipsizeProp } from '../../types';
+import type { EllipsizeProp, ChipMargin } from '../../types';
 
 type Props = React.ComponentProps<typeof Surface> & {
   /**
@@ -83,6 +83,14 @@ type Props = React.ComponentProps<typeof Surface> & {
    * theme/color of the button
    */
   color?: string;
+  /**
+  * Will make sure the tag maintains a minimum width value
+  */
+  min_width?: number;
+  /**
+  * set margins for the tag using the css shorthand method
+  */
+  margin?: ChipMargin;
 };
 
 const Chip = ({
@@ -98,6 +106,8 @@ const Chip = ({
   selectedColor,
   ellipsizeMode,
   color: chipColor,
+  min_width = 3,
+  margin,
   ...rest
 }: Props) => {
   const { current: elevation } = React.useRef<Animated.Value>(
@@ -109,8 +119,8 @@ const Chip = ({
     mode === 'outlined'
       ? 'transparent'
       : dark
-      ? '#383838'
-      : theme.colors.primary.default;
+        ? '#383838'
+        : theme.colors.primary.default;
 
   const { backgroundColor = defaultBackgroundColor, borderRadius = 8 } =
     (StyleSheet.flatten(style) || {}) as ViewStyle;
@@ -125,8 +135,8 @@ const Chip = ({
   const textColor = disabled
     ? colors.disabled
     : mode === 'outlined'
-    ? chipColor || theme.colors.primary.default
-    : Colors.white;
+      ? chipColor || theme.colors.primary.default
+      : Colors.white;
 
   const backgroundColorString =
     typeof backgroundColor === 'string'
@@ -170,6 +180,11 @@ const Chip = ({
               : backgroundColor,
             borderColor,
             borderRadius,
+            marginTop: margin?.mt ? margin?.mt : 0,
+            marginBottom: margin?.mb ? margin?.mb : 0,
+            marginLeft: margin?.ml ? margin?.ml : 0,
+            marginRight: margin?.mr ? margin?.mr : 0,
+            minWidth: min_width
           },
           style,
         ] as StyleProp<ViewStyle>
