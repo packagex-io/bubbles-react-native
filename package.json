@@ -38,14 +38,14 @@
     "@callstack/react-theme-provider": "^3.0.8",
     "color": "^4.2.3",
     "fuse.js": "^6.6.2",
-    "react-hook-form": "^7.39.6",
-    "react-native-safe-area-context": "4.4.1"
+    "react-hook-form": "^7.39.6"
   },
   "peerDependencies": {
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-native": "0.70.5",
-    "react-native-vector-icons": "^9.2.0"
+    "react-native-vector-icons": "^9.2.0",
+    "react-native-safe-area-context": "4.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
